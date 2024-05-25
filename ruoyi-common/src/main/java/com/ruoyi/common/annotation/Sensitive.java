@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.ruoyi.common.config.serializer.SensitiveJsonSerializer;
-import com.ruoyi.common.enums.DesensitizedType;
+import com.ruoyi.common.config.enums.DesensitizedType;
 
 /**
  * 数据脱敏注解

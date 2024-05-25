@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.ContextualSerializer;
 import com.ruoyi.common.annotation.Sensitive;
 import com.ruoyi.common.core.domain.model.LoginUser;
-import com.ruoyi.common.enums.DesensitizedType;
+import com.ruoyi.common.config.enums.DesensitizedType;
 import com.ruoyi.common.utils.SecurityUtils;
 
 /**

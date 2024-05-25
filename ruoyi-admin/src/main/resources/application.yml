@@ -16,7 +16,7 @@ ruoyi:
 # 开发环境配置
 server:
   # 服务器的HTTP端口，默认为8080
-  port: 9000
+  port: 8080
   servlet:
     # 应用的访问路径
     context-path: /
@@ -53,6 +53,27 @@ spring:
     basename: i18n/messages
   profiles:
     active: druid
+
+    # 邮箱配置
+    mail:
+      host: smtp.qq.com
+      username: 1281625672@qq.com
+      #邮箱授权码
+      password: ybgbezlkdnuqiheb
+      properties:
+        mail:
+          smtp:
+            socketFactory:
+              class: javax.net.ssl.SSLSocketFactory
+              port: 465
+            ssl:
+              trust: smtp.qq.com
+            auth: true
+            starttls:
+              enable: true
+            required: true
+      form: ${spring.mail.username}
+
   # 文件上传
   servlet:
     multipart:

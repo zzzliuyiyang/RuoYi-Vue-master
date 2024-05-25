@@ -22,6 +22,11 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-common</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>5.3.33</version>
+        </dependency>
 
     </dependencies>
 
