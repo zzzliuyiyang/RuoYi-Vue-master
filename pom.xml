@@ -172,6 +172,9 @@
                 <version>${ruoyi.version}</version>
             </dependency>
 
+
+
+
             <!-- 邮件依赖 -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -188,6 +191,7 @@
         <module>ruoyi-quartz</module>
         <module>ruoyi-generator</module>
         <module>ruoyi-common</module>
+
     </modules>
     <packaging>pom</packaging>
 
