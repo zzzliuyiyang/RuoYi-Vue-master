@@ -62,6 +62,10 @@ public class Activity extends BaseEntity
     @Excel(name = "结束时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date finishTime;
 
+    /** 资源创建人名称 */
+    @Excel(name = "资源创建人名称")
+    private String resourceCreatedBy;
+
     /** 更新人 */
     private String updatedBy;
 
@@ -72,8 +76,16 @@ public class Activity extends BaseEntity
     @Excel(name = "资源ID")
     private Long resourceId;
 
+    /** 资源名 */
+    @Excel(name = "资源名")
+    private String resourceName;
+
     /** 用户和活动关联信息 */
     private List<ActivityUser> activityUserList;
+
+    /** 资源名 */
+    @Excel(name = "创建人昵称")
+    private String userName;
 
     public void setActivityId(Long activityId) 
     {
@@ -221,6 +233,33 @@ public class Activity extends BaseEntity
             .append("resourceId", getResourceId())
             .append("remark", getRemark())
             .append("activityUserList", getActivityUserList())
+            .append("resourceCreateBy", getResourceCreatedBy())
             .toString();
+    }
+
+
+
+    public String getResourceCreatedBy() {
+        return resourceCreatedBy;
+    }
+
+    public void setResourceCreatedBy(String resourceCreatedBy) {
+        this.resourceCreatedBy = resourceCreatedBy;
+    }
+
+    public String getResourceName() {
+        return resourceName;
+    }
+
+    public void setResourceName(String resourceName) {
+        this.resourceName = resourceName;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

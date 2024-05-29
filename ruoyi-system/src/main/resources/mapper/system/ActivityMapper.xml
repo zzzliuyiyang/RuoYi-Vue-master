@@ -19,6 +19,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updatedTime"    column="updated_time"    />
         <result property="resourceId"    column="resource_id"    />
         <result property="remark"    column="remark"    />
+        <result property="resourceCreatedBy"    column="resource_created_by"    />
+        <result property="resourceName"    column="resource_name"    />
+        <result property="userName"    column="user_name"    />
     </resultMap>
 
     <resultMap id="ActivityActivityUserResult" type="Activity" extends="ActivityResult">
@@ -33,7 +36,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectActivityVo">
-        select activity_id, activity_name, user_id, activity_progress, budget, expend, created_time, prepare_time, process_time, finish_time, updated_by, updated_time, resource_id, remark from activity
+        select
+               activity.* ,
+               resource.created_by as resource_created_by,
+               resource_name,
+               sys_user.nick_name as user_name
+        from
+             activity
+        inner join
+                 resource on activity.resource_id = resource.resource_id
+        inner join
+                 sys_user on activity.user_id = sys_user.user_id
+--         select activity_id, activity_name, user_id, activity_progress, budget, expend, created_time, prepare_time, process_time, finish_time, updated_by, updated_time, resource_id, remark from activity
     </sql>
 
     <select id="selectActivityList" parameterType="Activity" resultMap="ActivityResult">

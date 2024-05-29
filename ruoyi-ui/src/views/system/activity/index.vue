@@ -139,7 +139,7 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="活动ID" align="center" prop="activityId" />
       <el-table-column label="活动名称" align="center" prop="activityName" />
-      <el-table-column label="创建人ID" align="center" prop="userId" />
+      <el-table-column label="创建人ID" align="center" prop="userName" />
       <el-table-column label="活动进度" align="center" prop="activityProgress">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.activity_progress" :value="scope.row.activityProgress"/>
@@ -167,7 +167,7 @@
           <span>{{ parseTime(scope.row.finishTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="资源ID" align="center" prop="resourceId" />
+      <el-table-column label="资源名" align="center" prop="resourceName" />
       <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
@@ -350,6 +350,9 @@ export default {
         resourceId: [
           { required: true, message: "资源ID不能为空", trigger: "blur" }
         ],
+        createdTime: [
+          { required: true, message: "创建时间不能为空", trigger: "blur" }
+        ],
       }
     };
   },
@@ -412,17 +415,42 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
+      this.form.createdTime = new Date();
       this.title = "添加活动管理";
     },
     /** 修改按钮操作 */
-    handleUpdate(row) {
+    handleUpdate: function (row) {
       this.reset();
       const activityId = row.activityId || this.ids
+      // getActivity(activityId).then(response => {
+      //   this.form = response.data;
+      //   this.activityUserList = response.data.activityUserList;
+      //   this.open = true;
+      //   this.title = "修改活动管理";
       getActivity(activityId).then(response => {
         this.form = response.data;
         this.activityUserList = response.data.activityUserList;
-        this.open = true;
-        this.title = "修改活动管理";
+        console.log(this.form.userId)
+        console.log(this.$store.state.user.id)
+        if (this.form.userId === this.$store.state.user.id) {
+          // 验证表单在打开之前是否有效
+          // this.$refs["form"].validate(valid => {
+          //   if (valid) {
+          //     this.open = true;
+          //     this.title = "修改活动管理";
+          //   } else {
+          //     this.$modal.msgError("表单验证失败，请检查输入内容");
+          //   }
+          // });
+          this.open = true;
+          this.title = "修改活动管理";
+        } else {
+          this.$modal.msgError("当前用户无法修改该活动");
+        }
+      }).catch(error => {
+        // 错误处理，比如活动获取失败的情况
+        this.$modal.msgError(error.message || "获取活动信息失败");
+
       });
     },
     /** 提交按钮 */
