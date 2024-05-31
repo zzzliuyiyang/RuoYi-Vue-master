@@ -2,6 +2,11 @@ package com.ruoyi.web.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.system.domain.Resource;
+import com.ruoyi.system.domain.ResourceState;
+import com.ruoyi.system.service.IResourceService;
+import com.ruoyi.system.service.IResourceStateService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +38,12 @@ public class ActivityController extends BaseController
 {
     @Autowired
     private IActivityService activityService;
+
+    @Autowired
+    private IResourceStateService resourceStateService;
+
+    @Autowired
+    private IResourceService resourceService;
 
     /**
      * 查询活动管理列表
@@ -77,8 +88,37 @@ public class ActivityController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody Activity activity)
     {
+        Resource resource;
+        resource=resourceService.selectResourceByResourceId(activity.getResourceId());
+        if(resource==null){
+            return AjaxResult.error("资源不存在");
+        }
+
+        if(isTimeConflict(activity)){
+            return AjaxResult.error("活动时间段与已有活动发生冲突");
+        }
+
         return toAjax(activityService.insertActivity(activity));
     }
+
+    /**
+     * 新增活动查询时间冲突
+     */
+    private boolean isTimeConflict(Activity activity) {
+        ResourceState resourceState = new ResourceState();
+        resourceState.setResourceId(activity.getResourceId());
+        // 查询活动时间段是否与已有活动发生冲突
+        List<ResourceState> existingTimes = resourceStateService.selectResourceStateList(resourceState);
+        for(ResourceState existingTime : existingTimes){
+            if (activity.getProcessTime().before(existingTime.getEndDate()) && activity.getFinishTime().after(existingTime.getStartDate())) {
+                return true;
+            }
+        }
+
+
+        return false;
+    }
+
 
     /**
      * 修改活动管理
@@ -88,8 +128,47 @@ public class ActivityController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody Activity activity)
     {
+        Resource resource;
+        resource=resourceService.selectResourceByResourceId(activity.getResourceId());
+        if(resource==null){
+            return AjaxResult.error("资源不存在");
+        }
+        if(isTimeConflictUpdate(activity)){
+            return AjaxResult.error("活动时间段与已有活动发生冲突");
+        }
+        //构建一个新的资源状态
+        ResourceState resourceState = new ResourceState();
+        resourceState.setResourceId(activity.getResourceId());
+        resourceState.setActivityId(activity.getActivityId());
+        // 活动ID和资源ID查询资源状态ID（应该是唯一）！！！！！！！！！！
+        List<ResourceState> resourceStates=resourceStateService.selectResourceStateList(resourceState);
+        resourceState.setStartDate(activity.getProcessTime());
+        resourceState.setEndDate(activity.getFinishTime());
+        resourceState.setId(resourceStates.get(0).getId());
+        // 更新资源状态及预约时间
+        resourceStateService.updateResourceState(resourceState);
         return toAjax(activityService.updateActivity(activity));
     }
+
+    /**
+     * 修改活动查询时间冲突
+     */
+    private boolean isTimeConflictUpdate(Activity activity) {
+        ResourceState resourceState = new ResourceState();
+        resourceState.setResourceId(activity.getResourceId());
+        // 查询活动时间段是否与已有活动发生冲突
+        List<ResourceState> existingTimes = resourceStateService.selectResourceStateList(resourceState);
+        for(ResourceState existingTime : existingTimes){
+            if(existingTime.getActivityId()!=activity.getActivityId()){
+                if (activity.getProcessTime().before(existingTime.getEndDate()) && activity.getFinishTime().after(existingTime.getStartDate())) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
 
     /**
      * 删除活动管理

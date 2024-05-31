@@ -35,19 +35,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="userPosition"    column="sub_user_position"    />
     </resultMap>
 
+<!--    <sql id="selectActivityVo">-->
+<!--        select-->
+<!--               activity.* ,-->
+<!--               resource.created_by as resource_created_by,-->
+<!--               resource_name,-->
+<!--               sys_user.nick_name as user_name-->
+<!--        from-->
+<!--             activity-->
+<!--        inner join-->
+<!--                 resource on activity.resource_id = resource.resource_id-->
+<!--        inner join-->
+<!--                 sys_user on activity.user_id = sys_user.user_id-->
+<!--&#45;&#45;         select activity_id, activity_name, user_id, activity_progress, budget, expend, created_time, prepare_time, process_time, finish_time, updated_by, updated_time, resource_id, remark from activity-->
+<!--    </sql>-->
+
     <sql id="selectActivityVo">
         select
-               activity.* ,
-               resource.created_by as resource_created_by,
-               resource_name,
-               sys_user.nick_name as user_name
+            activity.* ,
+            resource.created_by as resource_created_by,
+            resource_name,
+            sys_user.nick_name as user_name
         from
-             activity
-        inner join
-                 resource on activity.resource_id = resource.resource_id
-        inner join
-                 sys_user on activity.user_id = sys_user.user_id
---         select activity_id, activity_name, user_id, activity_progress, budget, expend, created_time, prepare_time, process_time, finish_time, updated_by, updated_time, resource_id, remark from activity
+            activity
+                left join
+            resource on activity.resource_id = resource.resource_id
+                left join
+            sys_user on activity.user_id = sys_user.user_id
+--        select activity_id, activity_name, user_id, activity_progress, budget, expend, created_time, prepare_time, process_time, finish_time, updated_by, updated_time, resource_id, remark from activity
     </sql>
 
     <select id="selectActivityList" parameterType="Activity" resultMap="ActivityResult">
