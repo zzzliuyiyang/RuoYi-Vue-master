@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ResourceStateMapper">
+    
+    <resultMap type="ResourceState" id="ResourceStateResult">
+        <result property="id"    column="id"    />
+        <result property="activityId"    column="activity_id"    />
+        <result property="resourceId"    column="resource_id"    />
+        <result property="startDate"    column="start_date"    />
+        <result property="endDate"    column="end_date"    />
+    </resultMap>
+
+    <sql id="selectResourceStateVo">
+        select id, activity_id, resource_id, start_date, end_date from resource_state
+    </sql>
+
+    <select id="selectResourceStateList" parameterType="ResourceState" resultMap="ResourceStateResult">
+        <include refid="selectResourceStateVo"/>
+        <where>  
+            <if test="activityId != null "> and activity_id = #{activityId}</if>
+            <if test="resourceId != null "> and resource_id = #{resourceId}</if>
+            <if test="startDate != null "> and start_date = #{startDate}</if>
+            <if test="endDate != null "> and end_date = #{endDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectResourceStateById" parameterType="Long" resultMap="ResourceStateResult">
+        <include refid="selectResourceStateVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertResourceState" parameterType="ResourceState" useGeneratedKeys="true" keyProperty="id">
+        insert into resource_state
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="activityId != null">activity_id,</if>
+            <if test="resourceId != null">resource_id,</if>
+            <if test="startDate != null">start_date,</if>
+            <if test="endDate != null">end_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="activityId != null">#{activityId},</if>
+            <if test="resourceId != null">#{resourceId},</if>
+            <if test="startDate != null">#{startDate},</if>
+            <if test="endDate != null">#{endDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateResourceState" parameterType="ResourceState">
+        update resource_state
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="activityId != null">activity_id = #{activityId},</if>
+            <if test="resourceId != null">resource_id = #{resourceId},</if>
+            <if test="startDate != null">start_date = #{startDate},</if>
+            <if test="endDate != null">end_date = #{endDate},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteResourceStateById" parameterType="Long">
+        delete from resource_state where id = #{id}
+    </delete>
+
+    <delete id="deleteResourceStateByIds" parameterType="String">
+        delete from resource_state where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

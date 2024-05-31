@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ResourceMapper">
+    
+    <resultMap type="Resource" id="ResourceResult">
+        <result property="resourceId"    column="resource_id"    />
+        <result property="resourceName"    column="resource_name"    />
+        <result property="createdBy"    column="created_by"    />
+        <result property="createdTime"    column="created_time"    />
+        <result property="updatedBy"    column="updated_by"    />
+        <result property="updatedTime"    column="updated_time"    />
+    </resultMap>
+
+    <sql id="selectResourceVo">
+        select resource_id, resource_name, created_by, created_time, updated_by, updated_time from resource
+    </sql>
+
+    <select id="selectResourceList" parameterType="Resource" resultMap="ResourceResult">
+        <include refid="selectResourceVo"/>
+        <where>  
+            <if test="resourceName != null  and resourceName != ''"> and resource_name like concat('%', #{resourceName}, '%')</if>
+            <if test="createdBy != null  and createdBy != ''"> and created_by = #{createdBy}</if>
+            <if test="createdTime != null "> and created_time = #{createdTime}</if>
+            <if test="updatedBy != null  and updatedBy != ''"> and updated_by = #{updatedBy}</if>
+            <if test="updatedTime != null "> and updated_time = #{updatedTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectResourceByResourceId" parameterType="Long" resultMap="ResourceResult">
+        <include refid="selectResourceVo"/>
+        where resource_id = #{resourceId}
+    </select>
+        
+    <insert id="insertResource" parameterType="Resource" useGeneratedKeys="true" keyProperty="resourceId">
+        insert into resource
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="resourceName != null and resourceName != ''">resource_name,</if>
+            <if test="createdBy != null">created_by,</if>
+            <if test="createdTime != null">created_time,</if>
+            <if test="updatedBy != null">updated_by,</if>
+            <if test="updatedTime != null">updated_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="resourceName != null and resourceName != ''">#{resourceName},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="updatedBy != null">#{updatedBy},</if>
+            <if test="updatedTime != null">#{updatedTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateResource" parameterType="Resource">
+        update resource
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="resourceName != null and resourceName != ''">resource_name = #{resourceName},</if>
+            <if test="createdBy != null">created_by = #{createdBy},</if>
+            <if test="createdTime != null">created_time = #{createdTime},</if>
+            <if test="updatedBy != null">updated_by = #{updatedBy},</if>
+            <if test="updatedTime != null">updated_time = #{updatedTime},</if>
+        </trim>
+        where resource_id = #{resourceId}
+    </update>
+
+    <delete id="deleteResourceByResourceId" parameterType="Long">
+        delete from resource where resource_id = #{resourceId}
+    </delete>
+
+    <delete id="deleteResourceByResourceIds" parameterType="String">
+        delete from resource where resource_id in 
+        <foreach item="resourceId" collection="array" open="(" separator="," close=")">
+            #{resourceId}
+        </foreach>
+    </delete>
+</mapper>
