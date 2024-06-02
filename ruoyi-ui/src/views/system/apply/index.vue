@@ -9,29 +9,23 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="资源ID" prop="resourceId">
+      <el-form-item label="申请人ID" prop="userId">
         <el-input
-          v-model="queryParams.resourceId"
-          placeholder="请输入资源ID"
+          v-model="queryParams.userId"
+          placeholder="请输入申请人ID"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="开始时间" prop="startDate">
-        <el-date-picker clearable
-          v-model="queryParams.startDate"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="请选择开始时间">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item label="结束时间" prop="endDate">
-        <el-date-picker clearable
-          v-model="queryParams.endDate"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="请选择结束时间">
-        </el-date-picker>
+      <el-form-item label="申请状态" prop="applyState">
+        <el-select v-model="queryParams.applyState" placeholder="请选择申请状态" clearable>
+          <el-option
+            v-for="dict in dict.type.apply_state"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -47,7 +41,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['system:ResourceState:add']"
+          v-hasPermi="['system:apply:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -58,7 +52,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['system:ResourceState:edit']"
+          v-hasPermi="['system:apply:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -69,7 +63,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['system:ResourceState:remove']"
+          v-hasPermi="['system:apply:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -79,25 +73,21 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['system:ResourceState:export']"
+          v-hasPermi="['system:apply:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="ResourceStateList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="applyList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="ID" align="center" prop="id" />
-      <el-table-column label="活动ID" align="center" prop="activityId" />
-      <el-table-column label="资源ID" align="center" prop="resourceId" />
-      <el-table-column label="开始时间" align="center" prop="startDate" width="180">
+      <el-table-column label="申请ID" align="center" prop="id" />
+<!--      <el-table-column label="活动ID" align="center" prop="activityId" />-->
+      <el-table-column label="活动名" align="center" prop="activityName" />
+      <el-table-column label="申请人" align="center" prop="userName" />
+      <el-table-column label="申请状态" align="center" prop="applyState">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.startDate, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="结束时间" align="center" prop="endDate" width="180">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.endDate, '{y}-{m}-{d}') }}</span>
+          <dict-tag :options="dict.type.apply_state" :value="scope.row.applyState"/>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -107,14 +97,14 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['system:ResourceState:edit']"
+            v-hasPermi="['system:apply:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['system:ResourceState:remove']"
+            v-hasPermi="['system:apply:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
@@ -128,30 +118,24 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改资源状态及预约时间对话框 -->
+    <!-- 添加或修改申请管理对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="活动ID" prop="activityId">
           <el-input v-model="form.activityId" placeholder="请输入活动ID" />
         </el-form-item>
-        <el-form-item label="资源ID" prop="resourceId">
-          <el-input v-model="form.resourceId" placeholder="请输入资源ID" />
+        <el-form-item label="申请人ID" prop="userId">
+          <el-input v-model="form.userId" placeholder="请输入申请人ID" />
         </el-form-item>
-        <el-form-item label="开始时间" prop="startDate">
-          <el-date-picker clearable
-            v-model="form.startDate"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择开始时间">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="结束时间" prop="endDate">
-          <el-date-picker clearable
-            v-model="form.endDate"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择结束时间">
-          </el-date-picker>
+        <el-form-item label="申请状态" prop="applyState">
+          <el-select v-model="form.applyState" placeholder="请选择申请状态">
+            <el-option
+              v-for="dict in dict.type.apply_state"
+              :key="dict.value"
+              :label="dict.label"
+              :value="parseInt(dict.value)"
+            ></el-option>
+          </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -163,10 +147,11 @@
 </template>
 
 <script>
-import { listResourceState, getResourceState, delResourceState, addResourceState, updateResourceState } from "@/api/system/ResourceState";
+import { listApply, getApply, delApply, addApply, updateApply } from "@/api/system/apply";
 
 export default {
-  name: "ResourceState",
+  name: "Apply",
+  dicts: ['apply_state'],
   data() {
     return {
       // 遮罩层
@@ -181,8 +166,8 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 资源状态及预约时间表格数据
-      ResourceStateList: [],
+      // 申请管理表格数据
+      applyList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -192,9 +177,8 @@ export default {
         pageNum: 1,
         pageSize: 10,
         activityId: null,
-        resourceId: null,
-        startDate: null,
-        endDate: null
+        userId: null,
+        applyState: null
       },
       // 表单参数
       form: {},
@@ -203,14 +187,11 @@ export default {
         activityId: [
           { required: true, message: "活动ID不能为空", trigger: "blur" }
         ],
-        resourceId: [
-          { required: true, message: "资源ID不能为空", trigger: "blur" }
+        userId: [
+          { required: true, message: "申请人ID不能为空", trigger: "blur" }
         ],
-        startDate: [
-          { required: true, message: "开始时间不能为空", trigger: "blur" }
-        ],
-        endDate: [
-          { required: true, message: "结束时间不能为空", trigger: "blur" }
+        applyState: [
+          { required: true, message: "申请状态不能为空", trigger: "change" }
         ]
       }
     };
@@ -219,11 +200,11 @@ export default {
     this.getList();
   },
   methods: {
-    /** 查询资源状态及预约时间列表 */
+    /** 查询申请管理列表 */
     getList() {
       this.loading = true;
-      listResourceState(this.queryParams).then(response => {
-        this.ResourceStateList = response.rows;
+      listApply(this.queryParams).then(response => {
+        this.applyList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -238,9 +219,8 @@ export default {
       this.form = {
         id: null,
         activityId: null,
-        resourceId: null,
-        startDate: null,
-        endDate: null
+        userId: null,
+        applyState: null
       };
       this.resetForm("form");
     },
@@ -264,16 +244,16 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加资源状态及预约时间";
+      this.title = "添加申请管理";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
       const id = row.id || this.ids
-      getResourceState(id).then(response => {
+      getApply(id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改资源状态及预约时间";
+        this.title = "修改申请管理";
       });
     },
     /** 提交按钮 */
@@ -281,13 +261,13 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.id != null) {
-            updateResourceState(this.form).then(response => {
+            updateApply(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addResourceState(this.form).then(response => {
+            addApply(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -299,8 +279,8 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除资源状态及预约时间编号为"' + ids + '"的数据项？').then(function() {
-        return delResourceState(ids);
+      this.$modal.confirm('是否确认删除申请管理编号为"' + ids + '"的数据项？').then(function() {
+        return delApply(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
@@ -308,9 +288,9 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('system/ResourceState/export', {
+      this.download('system/apply/export', {
         ...this.queryParams
-      }, `ResourceState_${new Date().getTime()}.xlsx`)
+      }, `apply_${new Date().getTime()}.xlsx`)
     }
   }
 };
