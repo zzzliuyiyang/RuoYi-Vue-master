@@ -1,6 +1,8 @@
 package com.ruoyi.system.mapper;
 
 import java.util.List;
+
+import com.ruoyi.system.domain.ActivityUser;
 import com.ruoyi.system.domain.Apply;
 
 /**
@@ -58,4 +60,12 @@ public interface ApplyMapper
      * @return 结果
      */
     public int deleteApplyByIds(Long[] ids);
+
+    /**
+     * 添加活动用户关联
+     *
+     * @param activityUser 添加关联
+     * @return 结果
+     */
+    public int addUser(ActivityUser activityUser);
 }

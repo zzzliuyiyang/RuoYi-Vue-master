@@ -42,3 +42,12 @@ export function delApply(id) {
     method: 'delete'
   })
 }
+
+// 添加活动用户关联
+export function addApplyUser(data) {
+  return request({
+    url: '/system/apply/adduser',
+    method: 'put',
+    data: data
+  })
+}

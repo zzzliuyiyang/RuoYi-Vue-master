@@ -76,6 +76,26 @@
           v-hasPermi="['system:apply:export']"
         >导出</el-button>
       </el-col>
+      <el-col :span="1.5">
+        <el-button
+          type="success"
+          plain
+          icon="el-icon-consent"
+          size="mini"
+          @click="handleConsent"
+          v-hasPermi="['system:apply:remove']"
+        >同意申请</el-button>
+      </el-col>
+        <el-col :span="1.5">
+          <el-button
+            type="danger"
+            plain
+            icon="el-icon-refuse"
+            size="mini"
+            @click="handleRefuse"
+            v-hasPermi="['system:apply:remove']"
+          >拒绝申请</el-button>
+      </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
@@ -147,7 +167,7 @@
 </template>
 
 <script>
-import { listApply, getApply, delApply, addApply, updateApply } from "@/api/system/apply";
+import {listApply, getApply, delApply, addApply, updateApply, addApplyUser} from "@/api/system/apply";
 
 export default {
   name: "Apply",
@@ -158,6 +178,10 @@ export default {
       loading: true,
       // 选中数组
       ids: [],
+      // 选中活动名
+      activityName: [],
+      //选中的活动
+      selectedRows: [],
       // 非单个禁用
       single: true,
       // 非多个禁用
@@ -237,6 +261,8 @@ export default {
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.id)
+      this.activityName = selection.map(item => item.activityName)
+      this.selectedRows = selection
       this.single = selection.length!==1
       this.multiple = !selection.length
     },
@@ -256,6 +282,52 @@ export default {
         this.title = "修改申请管理";
       });
     },
+
+    /** 同意按钮操作 */
+    async handleConsent() {
+      try {
+        await this.$modal.confirm('是否确认同意申请管理编号为"' + this.activityName + '"的数据项？');
+        for (const row of this.selectedRows) {
+          const tempForm = {
+            id: row.id,
+            activityId: row.activityId,
+            userId: row.userId,
+            applyState: 0
+          };
+          await updateApply(tempForm); // Assuming updateApply is the function to update the data
+          const applyUser={
+            activityId:row.activityId,
+            userId:row.userId,
+          }
+          addApplyUser(applyUser);
+        }
+        this.getList();
+        this.$modal.msgSuccess("同意成功");
+      } catch (error) {
+        this.$modal.msgError("同意失败");
+      }
+    },
+
+    /** 拒绝按钮操作 */
+    async handleRefuse() {
+      try {
+        await this.$modal.confirm('是否确认同意申请管理编号为"' + this.activityName + '"的数据项？');
+        for (const row of this.selectedRows) {
+          const tempForm = {
+            id: row.id,
+            activityId: row.activityId,
+            userId: row.userId,
+            applyState: 0
+          };
+          await updateApply(tempForm); // Assuming updateApply is the function to update the data
+        }
+        this.getList();
+        this.$modal.msgSuccess("同意成功");
+      } catch (error) {
+        this.$modal.msgError("同意失败");
+      }
+    },
+
     /** 提交按钮 */
     submitForm() {
       this.$refs["form"].validate(valid => {

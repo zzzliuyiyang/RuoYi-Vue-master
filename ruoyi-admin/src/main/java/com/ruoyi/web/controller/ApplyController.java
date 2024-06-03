@@ -2,6 +2,8 @@ package com.ruoyi.web.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.system.domain.ActivityUser;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -100,5 +102,16 @@ public class ApplyController extends BaseController
     public AjaxResult remove(@PathVariable Long[] ids)
     {
         return toAjax(applyService.deleteApplyByIds(ids));
+    }
+
+    /**
+     * 添加活动用户关联
+     */
+    @PreAuthorize("@ss.hasPermi('system:apply:add')")
+    @Log(title = "添加用户关联", businessType = BusinessType.UPDATE)
+    @PutMapping("/adduser")
+    public AjaxResult adduser(@RequestBody ActivityUser activityUser)
+    {
+        return toAjax(applyService.addUser(activityUser));
     }
 }

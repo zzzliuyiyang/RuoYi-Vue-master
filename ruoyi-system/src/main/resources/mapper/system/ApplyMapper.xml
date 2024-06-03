@@ -21,9 +21,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             act.activity_name
         FROM
             apply a
-                JOIN
+            left   JOIN
             sys_user u ON a.user_id = u.user_id
-                JOIN
+            left   JOIN
             activity act ON a.activity_id = act.activity_id
     </sql>
 
@@ -64,6 +64,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </trim>
         where id = #{id}
     </update>
+
+    <insert id="addUser" parameterType="ActivityUser">
+        insert into activity_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="activityId != null">activity_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+            <if test="userId != null">#{userId},</if>
+            <if test="activityId != null">#{activityId},</if>
+        </trim>
+    </insert>
+
 
     <delete id="deleteApplyById" parameterType="Long">
         delete from apply where id = #{id}

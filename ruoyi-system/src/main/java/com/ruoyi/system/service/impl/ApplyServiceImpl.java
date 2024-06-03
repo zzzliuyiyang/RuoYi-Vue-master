@@ -1,6 +1,8 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.system.domain.ActivityUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.ApplyMapper;
@@ -89,5 +91,16 @@ public class ApplyServiceImpl implements IApplyService
     public int deleteApplyById(Long id)
     {
         return applyMapper.deleteApplyById(id);
+    }
+
+    /**
+     * 添加活动用户关联
+     *
+     * @param activityUser 添加关联
+     * @return 结果
+     */
+    @Override
+    public int addUser(ActivityUser activityUser) {
+        return applyMapper.addUser(activityUser);
     }
 }
