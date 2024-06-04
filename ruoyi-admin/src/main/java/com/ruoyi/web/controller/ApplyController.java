@@ -3,6 +3,7 @@ package com.ruoyi.web.controller;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.common.annotation.Anonymous;
 import com.ruoyi.system.domain.ActivityUser;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,7 +75,7 @@ public class ApplyController extends BaseController
     /**
      * 新增申请管理
      */
-    @PreAuthorize("@ss.hasPermi('system:apply:add')")
+    @PreAuthorize("@ss.hasAnyPermi('system:apply:add,system:activity:export')")
     @Log(title = "申请管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody Apply apply)

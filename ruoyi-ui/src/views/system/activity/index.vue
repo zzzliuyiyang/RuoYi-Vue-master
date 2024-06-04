@@ -140,7 +140,7 @@
           size="mini"
           :disabled="single"
           @click="handleApply"
-          v-hasPermi="['system:activity:apply']"
+          v-hasPermi="['system:activity:export']"
         >申请</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
@@ -497,7 +497,7 @@ export default {
       tempForm.activityId=activityId;
       tempForm.userId=userId;
       tempForm.applyState=2;
-      this.$modal.confirm('是否确认申请活动："' + activityName).then(()=>{
+      this.$modal.confirm('是否确认申请加入活动："' + activityName).then(()=>{
         return applyActivity(tempForm);
       }) .then(() => {
         this.$modal.msgSuccess("申请成功");

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80033
 File Encoding         : 65001
 
-Date: 2024-06-01 16:24:43
+Date: 2024-06-04 21:45:37
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -40,7 +40,6 @@ CREATE TABLE `activity` (
 -- ----------------------------
 -- Records of activity
 -- ----------------------------
-INSERT INTO `activity` VALUES ('6', '辩论', '153', null, null, null, '2024-05-28 00:00:00', null, null, null, null, null, '15', null);
 INSERT INTO `activity` VALUES ('7', 'sadas', '1', null, null, null, '2024-05-28 00:00:00', null, '2024-05-01 00:00:00', '2024-05-16 00:00:00', null, null, '1', null);
 INSERT INTO `activity` VALUES ('8', 'fsdaf', '1', null, null, null, '2024-05-01 00:00:00', '2024-06-01 00:00:00', '2024-05-01 00:00:00', '2024-06-01 00:00:00', null, null, '2', null);
 
@@ -54,12 +53,39 @@ CREATE TABLE `activity_user` (
   `user_id` bigint NOT NULL COMMENT '用户ID',
   `user_position` varchar(20) DEFAULT NULL COMMENT '用户职位',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户和活动关联表';
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户和活动关联表';
 
 -- ----------------------------
 -- Records of activity_user
 -- ----------------------------
-INSERT INTO `activity_user` VALUES ('2', '6', '15', '老师');
+INSERT INTO `activity_user` VALUES ('3', '7', '1', '老师');
+INSERT INTO `activity_user` VALUES ('4', '7', '3', '学生');
+INSERT INTO `activity_user` VALUES ('5', '7', '1', '');
+INSERT INTO `activity_user` VALUES ('8', '7', '1', null);
+INSERT INTO `activity_user` VALUES ('9', '3', '156', null);
+INSERT INTO `activity_user` VALUES ('10', '7', '23', '123');
+
+-- ----------------------------
+-- Table structure for apply
+-- ----------------------------
+DROP TABLE IF EXISTS `apply`;
+CREATE TABLE `apply` (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT '申请ID',
+  `activity_id` bigint NOT NULL COMMENT '活动ID',
+  `user_id` bigint NOT NULL COMMENT '申请人ID',
+  `apply_state` int NOT NULL COMMENT '申请状态',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='申请表';
+
+-- ----------------------------
+-- Records of apply
+-- ----------------------------
+INSERT INTO `apply` VALUES ('1', '7', '1', '0');
+INSERT INTO `apply` VALUES ('2', '7', '1', '0');
+INSERT INTO `apply` VALUES ('3', '3', '156', '0');
+INSERT INTO `apply` VALUES ('4', '1', '2', '0');
+INSERT INTO `apply` VALUES ('5', '7', '23', '0');
+INSERT INTO `apply` VALUES ('6', '7', '101', '2');
 
 -- ----------------------------
 -- Table structure for gen_table
@@ -88,7 +114,7 @@ CREATE TABLE `gen_table` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`table_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='代码生成业务表';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='代码生成业务表';
 
 -- ----------------------------
 -- Records of gen_table
@@ -97,6 +123,7 @@ INSERT INTO `gen_table` VALUES ('1', 'resource', '活动资源;活动资源', nu
 INSERT INTO `gen_table` VALUES ('2', 'activity', '活动表', 'activity_user', 'activity_id', 'Activity', 'sub', 'element-ui', 'com.ruoyi.system', 'system', 'activity', '活动管理', 'ruoyi', '0', '/', '{\"parentMenuId\":\"2008\"}', 'admin', '2024-05-27 13:38:48', '', '2024-05-27 15:27:29', null);
 INSERT INTO `gen_table` VALUES ('3', 'activity_user', '用户和活动关联表', null, null, 'ActivityUser', 'crud', '', 'com.ruoyi.system', 'system', 'user', '用户和活动关联', 'ruoyi', '0', '/', null, 'admin', '2024-05-27 14:21:09', '', null, null);
 INSERT INTO `gen_table` VALUES ('4', 'resource_state', '资源状态及预约时间', null, null, 'ResourceState', 'crud', 'element-ui', 'com.ruoyi.system', 'system', 'ResourceState', '资源状态及预约时间', 'ruoyi', '0', '/', '{}', 'admin', '2024-05-31 22:07:53', '', '2024-05-31 22:11:36', null);
+INSERT INTO `gen_table` VALUES ('5', 'apply', '申请表', null, null, 'Apply', 'crud', 'element-ui', 'com.ruoyi.system', 'system', 'apply', '申请管理', 'ruoyi', '0', '/', '{\"parentMenuId\":2008}', 'admin', '2024-06-01 17:25:05', '', '2024-06-01 17:31:08', null);
 
 -- ----------------------------
 -- Table structure for gen_table_column
@@ -126,7 +153,7 @@ CREATE TABLE `gen_table_column` (
   `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`column_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='代码生成业务表字段';
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='代码生成业务表字段';
 
 -- ----------------------------
 -- Records of gen_table_column
@@ -160,6 +187,10 @@ INSERT INTO `gen_table_column` VALUES ('27', '4', 'activity_id', '活动ID', 'bi
 INSERT INTO `gen_table_column` VALUES ('28', '4', 'resource_id', '资源ID', 'bigint', 'Long', 'resourceId', '0', '0', '1', '1', '1', '1', '1', 'EQ', 'input', '', '3', 'admin', '2024-05-31 22:07:53', '', '2024-05-31 22:11:36');
 INSERT INTO `gen_table_column` VALUES ('29', '4', 'start_date', '开始时间', 'datetime', 'Date', 'startDate', '0', '0', '1', '1', '1', '1', '1', 'EQ', 'datetime', '', '4', 'admin', '2024-05-31 22:07:53', '', '2024-05-31 22:11:36');
 INSERT INTO `gen_table_column` VALUES ('30', '4', 'end_date', '结束时间', 'datetime', 'Date', 'endDate', '0', '0', '1', '1', '1', '1', '1', 'EQ', 'datetime', '', '5', 'admin', '2024-05-31 22:07:53', '', '2024-05-31 22:11:36');
+INSERT INTO `gen_table_column` VALUES ('31', '5', 'id', '申请ID', 'int', 'Long', 'id', '1', '1', '0', '1', null, null, null, 'EQ', 'input', '', '1', 'admin', '2024-06-01 17:25:05', '', '2024-06-01 17:31:08');
+INSERT INTO `gen_table_column` VALUES ('32', '5', 'activity_id', '活动ID', 'bigint', 'Long', 'activityId', '0', '0', '1', '1', '1', '1', '1', 'EQ', 'input', '', '2', 'admin', '2024-06-01 17:25:05', '', '2024-06-01 17:31:08');
+INSERT INTO `gen_table_column` VALUES ('33', '5', 'user_id', '申请人ID', 'bigint', 'Long', 'userId', '0', '0', '1', '1', '1', '1', '1', 'EQ', 'input', '', '3', 'admin', '2024-06-01 17:25:05', '', '2024-06-01 17:31:08');
+INSERT INTO `gen_table_column` VALUES ('34', '5', 'apply_state', '申请状态', 'int', 'Long', 'applyState', '0', '0', '1', '1', '1', '1', '1', 'EQ', 'select', 'apply_state', '4', 'admin', '2024-06-01 17:25:05', '', '2024-06-01 17:31:08');
 
 -- ----------------------------
 -- Table structure for qrtz_blob_triggers
@@ -500,7 +531,7 @@ CREATE TABLE `sys_dict_data` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`dict_code`)
-) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='字典数据表';
+) ENGINE=InnoDB AUTO_INCREMENT=107 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='字典数据表';
 
 -- ----------------------------
 -- Records of sys_dict_data
@@ -538,6 +569,9 @@ INSERT INTO `sys_dict_data` VALUES ('100', '0', '活动准备', '0', 'activity_p
 INSERT INTO `sys_dict_data` VALUES ('101', '1', '活动进行中', '1', 'activity_progress', null, 'default', 'N', '0', 'admin', '2024-05-27 14:29:05', '', null, null);
 INSERT INTO `sys_dict_data` VALUES ('102', '2', '活动结束', '2', 'activity_progress', null, 'default', 'N', '0', 'admin', '2024-05-27 14:29:18', 'admin', '2024-05-27 14:29:26', null);
 INSERT INTO `sys_dict_data` VALUES ('103', '3', '审批', '3', 'activity_progress', null, 'default', 'N', '0', 'admin', '2024-05-27 14:29:43', '', null, null);
+INSERT INTO `sys_dict_data` VALUES ('104', '0', '申请通过', '0', 'apply_state', null, 'success', 'N', '0', 'admin', '2024-06-01 17:28:28', '', null, null);
+INSERT INTO `sys_dict_data` VALUES ('105', '1', '申请失败', '1', 'apply_state', null, 'danger', 'N', '0', 'admin', '2024-06-01 17:28:52', '', null, null);
+INSERT INTO `sys_dict_data` VALUES ('106', '2', '申请中', '2', 'apply_state', null, 'warning', 'N', '0', 'admin', '2024-06-01 17:29:12', 'admin', '2024-06-01 17:29:20', null);
 
 -- ----------------------------
 -- Table structure for sys_dict_type
@@ -555,7 +589,7 @@ CREATE TABLE `sys_dict_type` (
   `remark` varchar(500) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`dict_id`),
   UNIQUE KEY `dict_type` (`dict_type`)
-) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='字典类型表';
+) ENGINE=InnoDB AUTO_INCREMENT=102 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='字典类型表';
 
 -- ----------------------------
 -- Records of sys_dict_type
@@ -571,6 +605,7 @@ INSERT INTO `sys_dict_type` VALUES ('8', '通知状态', 'sys_notice_status', '0
 INSERT INTO `sys_dict_type` VALUES ('9', '操作类型', 'sys_oper_type', '0', 'admin', '2024-04-22 21:16:41', '', null, '操作类型列表');
 INSERT INTO `sys_dict_type` VALUES ('10', '系统状态', 'sys_common_status', '0', 'admin', '2024-04-22 21:16:41', '', null, '登录状态列表');
 INSERT INTO `sys_dict_type` VALUES ('100', '活动进度', 'activity_progress', '0', 'admin', '2024-05-27 14:27:20', '', null, null);
+INSERT INTO `sys_dict_type` VALUES ('101', '申请状态', 'apply_state', '0', 'admin', '2024-06-01 17:26:52', '', null, null);
 
 -- ----------------------------
 -- Table structure for sys_job
@@ -637,7 +672,7 @@ CREATE TABLE `sys_logininfor` (
   PRIMARY KEY (`info_id`),
   KEY `idx_sys_logininfor_s` (`status`),
   KEY `idx_sys_logininfor_lt` (`login_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=134 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='系统访问记录';
+) ENGINE=InnoDB AUTO_INCREMENT=170 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='系统访问记录';
 
 -- ----------------------------
 -- Records of sys_logininfor
@@ -676,6 +711,42 @@ INSERT INTO `sys_logininfor` VALUES ('130', 'admin', '127.0.0.1', '内网IP', 'C
 INSERT INTO `sys_logininfor` VALUES ('131', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-01 00:25:39');
 INSERT INTO `sys_logininfor` VALUES ('132', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-01 14:21:28');
 INSERT INTO `sys_logininfor` VALUES ('133', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-01 16:06:19');
+INSERT INTO `sys_logininfor` VALUES ('134', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-01 17:23:54');
+INSERT INTO `sys_logininfor` VALUES ('135', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-02 13:44:37');
+INSERT INTO `sys_logininfor` VALUES ('136', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-02 14:22:09');
+INSERT INTO `sys_logininfor` VALUES ('137', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-02 17:57:14');
+INSERT INTO `sys_logininfor` VALUES ('138', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '1', '验证码已失效', '2024-06-02 18:13:46');
+INSERT INTO `sys_logininfor` VALUES ('139', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-02 18:13:50');
+INSERT INTO `sys_logininfor` VALUES ('140', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '1', '验证码错误', '2024-06-02 20:17:54');
+INSERT INTO `sys_logininfor` VALUES ('141', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-02 20:17:57');
+INSERT INTO `sys_logininfor` VALUES ('142', 'admin', '10.39.57.33', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-02 21:05:14');
+INSERT INTO `sys_logininfor` VALUES ('143', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-02 22:43:15');
+INSERT INTO `sys_logininfor` VALUES ('144', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-02 23:37:42');
+INSERT INTO `sys_logininfor` VALUES ('145', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-03 13:39:00');
+INSERT INTO `sys_logininfor` VALUES ('146', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-03 14:55:17');
+INSERT INTO `sys_logininfor` VALUES ('147', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-04 00:27:55');
+INSERT INTO `sys_logininfor` VALUES ('148', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-04 01:03:12');
+INSERT INTO `sys_logininfor` VALUES ('149', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '1', '验证码已失效', '2024-06-04 20:33:05');
+INSERT INTO `sys_logininfor` VALUES ('150', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-04 20:33:09');
+INSERT INTO `sys_logininfor` VALUES ('151', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-04 20:44:19');
+INSERT INTO `sys_logininfor` VALUES ('152', 'student', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-04 20:44:31');
+INSERT INTO `sys_logininfor` VALUES ('153', 'student', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-04 20:45:32');
+INSERT INTO `sys_logininfor` VALUES ('154', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '1', '用户不存在/密码错误', '2024-06-04 20:45:43');
+INSERT INTO `sys_logininfor` VALUES ('155', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '1', '验证码错误', '2024-06-04 20:46:40');
+INSERT INTO `sys_logininfor` VALUES ('156', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-04 20:46:43');
+INSERT INTO `sys_logininfor` VALUES ('157', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-04 20:47:51');
+INSERT INTO `sys_logininfor` VALUES ('158', 'student1', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '1', '用户不存在/密码错误', '2024-06-04 20:48:03');
+INSERT INTO `sys_logininfor` VALUES ('159', 'student', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-04 20:48:07');
+INSERT INTO `sys_logininfor` VALUES ('160', 'student', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-04 21:14:14');
+INSERT INTO `sys_logininfor` VALUES ('161', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-04 21:14:26');
+INSERT INTO `sys_logininfor` VALUES ('162', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-04 21:19:11');
+INSERT INTO `sys_logininfor` VALUES ('163', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-04 21:19:39');
+INSERT INTO `sys_logininfor` VALUES ('164', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-04 21:20:05');
+INSERT INTO `sys_logininfor` VALUES ('165', 'student', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-04 21:20:18');
+INSERT INTO `sys_logininfor` VALUES ('166', 'student', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-04 21:24:50');
+INSERT INTO `sys_logininfor` VALUES ('167', 'student', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-04 21:24:54');
+INSERT INTO `sys_logininfor` VALUES ('168', 'student', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-04 21:27:29');
+INSERT INTO `sys_logininfor` VALUES ('169', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-04 21:27:40');
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -702,7 +773,7 @@ CREATE TABLE `sys_menu` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) DEFAULT '' COMMENT '备注',
   PRIMARY KEY (`menu_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2021 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='菜单权限表';
+) ENGINE=InnoDB AUTO_INCREMENT=2027 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='菜单权限表';
 
 -- ----------------------------
 -- Records of sys_menu
@@ -812,6 +883,12 @@ INSERT INTO `sys_menu` VALUES ('2017', '资源状态及预约时间新增', '201
 INSERT INTO `sys_menu` VALUES ('2018', '资源状态及预约时间修改', '2015', '3', '#', '', null, '1', '0', 'F', '0', '0', 'system:ResourceState:edit', '#', 'admin', '2024-05-31 22:13:24', '', null, '');
 INSERT INTO `sys_menu` VALUES ('2019', '资源状态及预约时间删除', '2015', '4', '#', '', null, '1', '0', 'F', '0', '0', 'system:ResourceState:remove', '#', 'admin', '2024-05-31 22:13:24', '', null, '');
 INSERT INTO `sys_menu` VALUES ('2020', '资源状态及预约时间导出', '2015', '5', '#', '', null, '1', '0', 'F', '0', '0', 'system:ResourceState:export', '#', 'admin', '2024-05-31 22:13:24', '', null, '');
+INSERT INTO `sys_menu` VALUES ('2021', '申请管理', '2008', '1', 'apply', 'system/apply/index', null, '1', '0', 'C', '0', '0', 'system:apply:list', '#', 'admin', '2024-06-01 17:32:49', '', null, '申请管理菜单');
+INSERT INTO `sys_menu` VALUES ('2022', '申请管理查询', '2021', '1', '#', '', null, '1', '0', 'F', '0', '0', 'system:apply:query', '#', 'admin', '2024-06-01 17:32:49', '', null, '');
+INSERT INTO `sys_menu` VALUES ('2023', '申请管理新增', '2021', '2', '#', '', null, '1', '0', 'F', '0', '0', 'system:apply:add', '#', 'admin', '2024-06-01 17:32:49', '', null, '');
+INSERT INTO `sys_menu` VALUES ('2024', '申请管理修改', '2021', '3', '#', '', null, '1', '0', 'F', '0', '0', 'system:apply:edit', '#', 'admin', '2024-06-01 17:32:49', '', null, '');
+INSERT INTO `sys_menu` VALUES ('2025', '申请管理删除', '2021', '4', '#', '', null, '1', '0', 'F', '0', '0', 'system:apply:remove', '#', 'admin', '2024-06-01 17:32:49', '', null, '');
+INSERT INTO `sys_menu` VALUES ('2026', '申请管理导出', '2021', '5', '#', '', null, '1', '0', 'F', '0', '0', 'system:apply:export', '#', 'admin', '2024-06-01 17:32:49', '', null, '');
 
 -- ----------------------------
 -- Table structure for sys_notice
@@ -863,7 +940,7 @@ CREATE TABLE `sys_oper_log` (
   KEY `idx_sys_oper_log_bt` (`business_type`),
   KEY `idx_sys_oper_log_s` (`status`),
   KEY `idx_sys_oper_log_ot` (`oper_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=222 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='操作日志记录';
+) ENGINE=InnoDB AUTO_INCREMENT=300 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='操作日志记录';
 
 -- ----------------------------
 -- Records of sys_oper_log
@@ -990,6 +1067,84 @@ INSERT INTO `sys_oper_log` VALUES ('218', '活动管理', '2', 'com.ruoyi.web.co
 INSERT INTO `sys_oper_log` VALUES ('219', '活动管理', '1', 'com.ruoyi.web.controller.ActivityController.add()', 'POST', '1', 'admin', '研发部门', '/system/activity', '127.0.0.1', '内网IP', '{\"activityName\":\"dfssd\",\"activityUserList\":[],\"createdTime\":\"2024-06-01\",\"finishTime\":\"2024-05-15\",\"params\":{},\"processTime\":\"2024-05-02\",\"resourceId\":1,\"userId\":1}', '{\"msg\":\"活动时间段与已有活动发生冲突\",\"code\":500}', '0', null, '2024-06-01 16:07:51', '32');
 INSERT INTO `sys_oper_log` VALUES ('220', '活动管理', '1', 'com.ruoyi.web.controller.ActivityController.add()', 'POST', '1', 'admin', '研发部门', '/system/activity', '127.0.0.1', '内网IP', '{\"activityName\":\"dfssd\",\"activityUserList\":[],\"createdTime\":\"2024-06-01\",\"finishTime\":\"2024-05-15\",\"params\":{},\"processTime\":\"2024-05-02\",\"resourceId\":6,\"userId\":1}', '{\"msg\":\"资源不存在\",\"code\":500}', '0', null, '2024-06-01 16:07:58', '0');
 INSERT INTO `sys_oper_log` VALUES ('221', '活动管理', '2', 'com.ruoyi.web.controller.ActivityController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/activity', '127.0.0.1', '内网IP', '{\"activityId\":7,\"activityName\":\"sadas\",\"activityUserList\":[],\"createdTime\":\"2024-05-28\",\"finishTime\":\"2024-05-16\",\"params\":{},\"processTime\":\"2024-05-01\",\"resourceId\":1,\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-01 16:08:16', '43');
+INSERT INTO `sys_oper_log` VALUES ('222', '创建表', '0', 'com.ruoyi.generator.controller.GenController.createTableSave()', 'POST', '1', 'admin', '研发部门', '/tool/gen/createTable', '127.0.0.1', '内网IP', '{\"sql\":\"DROP TABLE IF EXISTS apply;\\nCREATE TABLE apply(\\n    `id` INT AUTO_INCREMENT COMMENT \'申请ID\' ,\\n    `activity_id` BIGINT(255) NOT NULL  COMMENT \'活动ID\' ,\\n    `user_id` BIGINT(255) NOT NULL  COMMENT \'申请人ID\' ,\\n    `apply_state` INT NOT NULL  COMMENT \'申请状态\' ,\\n    PRIMARY KEY (id)\\n)  COMMENT = \'申请表\';\"}', '{\"msg\":\"创建表结构异常\",\"code\":500}', '0', null, '2024-06-01 17:24:11', '16');
+INSERT INTO `sys_oper_log` VALUES ('223', '代码生成', '6', 'com.ruoyi.generator.controller.GenController.importTableSave()', 'POST', '1', 'admin', '研发部门', '/tool/gen/importTable', '127.0.0.1', '内网IP', '{\"tables\":\"apply\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-01 17:25:05', '63');
+INSERT INTO `sys_oper_log` VALUES ('224', '字典类型', '1', 'com.ruoyi.web.controller.system.SysDictTypeController.add()', 'POST', '1', 'admin', '研发部门', '/system/dict/type', '127.0.0.1', '内网IP', '{\"createBy\":\"admin\",\"dictName\":\"申请状态\",\"dictType\":\"apply_state\",\"params\":{},\"status\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-01 17:26:52', '16');
+INSERT INTO `sys_oper_log` VALUES ('225', '字典数据', '1', 'com.ruoyi.web.controller.system.SysDictDataController.add()', 'POST', '1', 'admin', '研发部门', '/system/dict/data', '127.0.0.1', '内网IP', '{\"createBy\":\"admin\",\"default\":false,\"dictLabel\":\"申请通过\",\"dictSort\":0,\"dictType\":\"apply_state\",\"dictValue\":\"0\",\"listClass\":\"success\",\"params\":{},\"status\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-01 17:28:28', '10');
+INSERT INTO `sys_oper_log` VALUES ('226', '字典数据', '1', 'com.ruoyi.web.controller.system.SysDictDataController.add()', 'POST', '1', 'admin', '研发部门', '/system/dict/data', '127.0.0.1', '内网IP', '{\"createBy\":\"admin\",\"default\":false,\"dictLabel\":\"申请失败\",\"dictSort\":1,\"dictType\":\"apply_state\",\"dictValue\":\"1\",\"listClass\":\"danger\",\"params\":{},\"status\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-01 17:28:52', '10');
+INSERT INTO `sys_oper_log` VALUES ('227', '字典数据', '1', 'com.ruoyi.web.controller.system.SysDictDataController.add()', 'POST', '1', 'admin', '研发部门', '/system/dict/data', '127.0.0.1', '内网IP', '{\"createBy\":\"admin\",\"default\":false,\"dictLabel\":\"申请中\",\"dictSort\":2,\"dictType\":\"apply_state\",\"dictValue\":\"3\",\"listClass\":\"warning\",\"params\":{},\"status\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-01 17:29:12', '10');
+INSERT INTO `sys_oper_log` VALUES ('228', '字典数据', '2', 'com.ruoyi.web.controller.system.SysDictDataController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/dict/data', '127.0.0.1', '内网IP', '{\"createBy\":\"admin\",\"createTime\":\"2024-06-01 17:29:12\",\"default\":false,\"dictCode\":106,\"dictLabel\":\"申请中\",\"dictSort\":2,\"dictType\":\"apply_state\",\"dictValue\":\"2\",\"isDefault\":\"N\",\"listClass\":\"warning\",\"params\":{},\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-01 17:29:20', '8');
+INSERT INTO `sys_oper_log` VALUES ('229', '代码生成', '2', 'com.ruoyi.generator.controller.GenController.editSave()', 'PUT', '1', 'admin', '研发部门', '/tool/gen', '127.0.0.1', '内网IP', '{\"businessName\":\"apply\",\"className\":\"Apply\",\"columns\":[{\"capJavaField\":\"Id\",\"columnComment\":\"申请ID\",\"columnId\":31,\"columnName\":\"id\",\"columnType\":\"int\",\"createBy\":\"admin\",\"createTime\":\"2024-06-01 17:25:05\",\"dictType\":\"\",\"edit\":false,\"htmlType\":\"input\",\"increment\":true,\"insert\":true,\"isIncrement\":\"1\",\"isInsert\":\"1\",\"isPk\":\"1\",\"isRequired\":\"0\",\"javaField\":\"id\",\"javaType\":\"Long\",\"list\":false,\"params\":{},\"pk\":true,\"query\":false,\"queryType\":\"EQ\",\"required\":false,\"sort\":1,\"superColumn\":false,\"tableId\":5,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"ActivityId\",\"columnComment\":\"活动ID\",\"columnId\":32,\"columnName\":\"activity_id\",\"columnType\":\"bigint\",\"createBy\":\"admin\",\"createTime\":\"2024-06-01 17:25:05\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"1\",\"javaField\":\"activityId\",\"javaType\":\"Long\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"EQ\",\"required\":true,\"sort\":2,\"superColumn\":false,\"tableId\":5,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"UserId\",\"columnComment\":\"申请人ID\",\"columnId\":33,\"columnName\":\"user_id\",\"columnType\":\"bigint\",\"createBy\":\"admin\",\"createTime\":\"2024-06-01 17:25:05\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"1\",\"javaField\":\"userId\",\"javaType\":\"Long\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"EQ\",\"required\":true,\"sort\":3,\"superColumn\":false,\"tableId\":5,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"ApplyState\",\"columnComment\":\"申请状态\",\"columnId\":34,\"columnName\":\"apply_state\",\"columnType\":\"int\",\"createBy\":\"admin\",\"createTime\":\"2024-06-01 17:25:05\",\"dictType\":\"apply_state\",\"edit\":true,\"htmlType\":\"select\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"1\",\"javaField\":\"applyStat', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-01 17:31:08', '26');
+INSERT INTO `sys_oper_log` VALUES ('230', '代码生成', '8', 'com.ruoyi.generator.controller.GenController.batchGenCode()', 'GET', '1', 'admin', '研发部门', '/tool/gen/batchGenCode', '127.0.0.1', '内网IP', '{\"tables\":\"apply\"}', null, '0', null, '2024-06-01 17:31:12', '317');
+INSERT INTO `sys_oper_log` VALUES ('231', '活动管理', '3', 'com.ruoyi.web.controller.ActivityController.remove()', 'DELETE', '1', 'admin', '研发部门', '/system/activity/6', '127.0.0.1', '内网IP', '{}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-02 14:45:00', '51');
+INSERT INTO `sys_oper_log` VALUES ('232', '活动管理', '2', 'com.ruoyi.web.controller.ActivityController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/activity', '127.0.0.1', '内网IP', '{\"activityId\":7,\"activityName\":\"sadas\",\"activityUserList\":[],\"createdTime\":\"2024-05-28\",\"finishTime\":\"2024-05-16\",\"params\":{},\"processTime\":\"2024-05-01\",\"resourceId\":1,\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-02 18:57:24', '63');
+INSERT INTO `sys_oper_log` VALUES ('233', '申请管理', '1', 'com.ruoyi.web.controller.ApplyController.add()', 'POST', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":2,\"id\":1,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-02 19:07:05', '13');
+INSERT INTO `sys_oper_log` VALUES ('234', '申请管理', '1', 'com.ruoyi.web.controller.ApplyController.add()', 'POST', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":2,\"id\":2,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-02 22:57:06', '5');
+INSERT INTO `sys_oper_log` VALUES ('235', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":1,\"id\":1,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-02 22:57:21', '6');
+INSERT INTO `sys_oper_log` VALUES ('236', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":0,\"id\":1,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-02 22:57:27', '6');
+INSERT INTO `sys_oper_log` VALUES ('237', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":1,\"id\":1,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-03 14:55:29', '14');
+INSERT INTO `sys_oper_log` VALUES ('238', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":1,\"id\":2,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-03 14:55:34', '0');
+INSERT INTO `sys_oper_log` VALUES ('239', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":1,\"id\":2,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-03 14:55:49', '0');
+INSERT INTO `sys_oper_log` VALUES ('240', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":1,\"id\":2,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-03 14:56:42', '4');
+INSERT INTO `sys_oper_log` VALUES ('241', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":0,\"id\":1,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-03 14:56:53', '0');
+INSERT INTO `sys_oper_log` VALUES ('242', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":0,\"id\":2,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-03 14:57:02', '4');
+INSERT INTO `sys_oper_log` VALUES ('243', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":1,\"id\":1,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-03 15:00:02', '0');
+INSERT INTO `sys_oper_log` VALUES ('244', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":0,\"id\":1,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-03 15:00:11', '3');
+INSERT INTO `sys_oper_log` VALUES ('245', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":1,\"id\":2,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-03 15:00:18', '17');
+INSERT INTO `sys_oper_log` VALUES ('246', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":0,\"id\":2,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-03 15:00:30', '0');
+INSERT INTO `sys_oper_log` VALUES ('247', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":1,\"id\":2,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-03 15:00:37', '17');
+INSERT INTO `sys_oper_log` VALUES ('248', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":1,\"id\":1,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-03 15:03:28', '0');
+INSERT INTO `sys_oper_log` VALUES ('249', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":0,\"id\":1,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-03 15:03:33', '0');
+INSERT INTO `sys_oper_log` VALUES ('250', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":1,\"id\":1,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-03 15:03:42', '0');
+INSERT INTO `sys_oper_log` VALUES ('251', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":0,\"id\":2,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-03 15:07:43', '2');
+INSERT INTO `sys_oper_log` VALUES ('252', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":1,\"id\":2,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-03 15:07:55', '5');
+INSERT INTO `sys_oper_log` VALUES ('253', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":0,\"id\":1,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-03 15:19:09', '0');
+INSERT INTO `sys_oper_log` VALUES ('254', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":0,\"id\":2,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-03 15:19:29', '0');
+INSERT INTO `sys_oper_log` VALUES ('255', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":0,\"id\":2,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-03 15:21:15', '0');
+INSERT INTO `sys_oper_log` VALUES ('256', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":0,\"id\":2,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-03 15:21:27', '0');
+INSERT INTO `sys_oper_log` VALUES ('257', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":0,\"id\":2,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-03 15:21:32', '3');
+INSERT INTO `sys_oper_log` VALUES ('258', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":0,\"id\":2,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-03 15:21:47', '0');
+INSERT INTO `sys_oper_log` VALUES ('259', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":0,\"id\":2,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-03 15:23:55', '14');
+INSERT INTO `sys_oper_log` VALUES ('260', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":1,\"id\":1,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-03 15:24:03', '0');
+INSERT INTO `sys_oper_log` VALUES ('261', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":1,\"id\":2,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-03 15:24:05', '4');
+INSERT INTO `sys_oper_log` VALUES ('262', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":0,\"id\":1,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-03 15:24:10', '0');
+INSERT INTO `sys_oper_log` VALUES ('263', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":0,\"id\":2,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-03 15:24:10', '0');
+INSERT INTO `sys_oper_log` VALUES ('264', '申请管理', '1', 'com.ruoyi.web.controller.ApplyController.add()', 'POST', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":3,\"applyState\":2,\"id\":3,\"params\":{},\"userId\":156}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-03 15:25:20', '0');
+INSERT INTO `sys_oper_log` VALUES ('265', '申请管理', '1', 'com.ruoyi.web.controller.ApplyController.add()', 'POST', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":1,\"applyState\":2,\"id\":4,\"params\":{},\"userId\":2}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-03 15:25:39', '0');
+INSERT INTO `sys_oper_log` VALUES ('266', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":0,\"id\":1,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-03 15:30:21', '16');
+INSERT INTO `sys_oper_log` VALUES ('267', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":0,\"id\":2,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-03 15:30:21', '0');
+INSERT INTO `sys_oper_log` VALUES ('268', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":3,\"applyState\":0,\"id\":3,\"params\":{},\"userId\":156}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-03 15:30:21', '0');
+INSERT INTO `sys_oper_log` VALUES ('269', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":1,\"applyState\":0,\"id\":4,\"params\":{},\"userId\":2}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-03 15:30:21', '0');
+INSERT INTO `sys_oper_log` VALUES ('270', '活动管理', '2', 'com.ruoyi.web.controller.ActivityController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/activity', '127.0.0.1', '内网IP', '{\"activityId\":7,\"activityName\":\"sadas\",\"activityUserList\":[{\"activityId\":7,\"params\":{},\"userId\":1,\"userPosition\":\"老师\"},{\"activityId\":7,\"params\":{},\"userId\":2,\"userPosition\":\"学生\"}],\"createdTime\":\"2024-05-28\",\"finishTime\":\"2024-05-16\",\"params\":{},\"processTime\":\"2024-05-01\",\"resourceId\":1,\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-03 15:42:41', '67');
+INSERT INTO `sys_oper_log` VALUES ('271', '活动管理', '2', 'com.ruoyi.web.controller.ActivityController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/activity', '127.0.0.1', '内网IP', '{\"activityId\":7,\"activityName\":\"sadas\",\"activityUserList\":[{\"activityId\":7,\"id\":\"3\",\"params\":{},\"userId\":1,\"userPosition\":\"老师\"},{\"activityId\":7,\"id\":\"4\",\"params\":{},\"userId\":3,\"userPosition\":\"学生\"}],\"createdTime\":\"2024-05-28\",\"finishTime\":\"2024-05-16\",\"params\":{},\"processTime\":\"2024-05-01\",\"resourceId\":1,\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-03 15:56:38', '16');
+INSERT INTO `sys_oper_log` VALUES ('272', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":0,\"id\":1,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-04 01:03:24', '16');
+INSERT INTO `sys_oper_log` VALUES ('273', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":0,\"id\":2,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-04 01:03:24', '0');
+INSERT INTO `sys_oper_log` VALUES ('274', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":0,\"id\":1,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-04 01:04:59', '32');
+INSERT INTO `sys_oper_log` VALUES ('275', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":3,\"applyState\":0,\"id\":3,\"params\":{},\"userId\":156}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-04 01:05:00', '0');
+INSERT INTO `sys_oper_log` VALUES ('276', '活动管理', '2', 'com.ruoyi.web.controller.ActivityController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/activity', '127.0.0.1', '内网IP', '{\"activityId\":7,\"activityName\":\"sadas\",\"activityUserList\":[{\"activityId\":7,\"id\":\"3\",\"params\":{},\"userId\":1,\"userPosition\":\"老师\"},{\"activityId\":7,\"id\":\"4\",\"params\":{},\"userId\":3,\"userPosition\":\"学生\"},{\"activityId\":7,\"params\":{},\"userId\":1,\"userPosition\":\"\"}],\"createdTime\":\"2024-05-28\",\"finishTime\":\"2024-05-16\",\"params\":{},\"processTime\":\"2024-05-01\",\"resourceId\":1,\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-04 01:12:20', '111');
+INSERT INTO `sys_oper_log` VALUES ('277', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":0,\"id\":1,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-04 01:16:16', '47');
+INSERT INTO `sys_oper_log` VALUES ('278', '添加用户关联', '2', 'com.ruoyi.web.controller.ApplyController.adduser()', 'PUT', '1', 'admin', '研发部门', '/system/apply/adduser', '127.0.0.1', '内网IP', '{\"activityId\":7,\"params\":{},\"userId\":1}', null, '1', '\r\n### Error updating database.  Cause: java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \'values ( 1,\n            7 )\' at line 4\r\n### The error may exist in file [E:\\RuanGong\\zzzruoyi\\RuoYi-Vue-master\\ruoyi-system\\target\\classes\\mapper\\system\\ApplyMapper.xml]\r\n### The error may involve com.ruoyi.system.mapper.ApplyMapper.addUser-Inline\r\n### The error occurred while setting parameters\r\n### SQL: insert into activity_user          ( user_id,             activity_id,           values ( ?,             ? )\r\n### Cause: java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \'values ( 1,\n            7 )\' at line 4\n; bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \'values ( 1,\n            7 )\' at line 4', '2024-06-04 01:16:16', '126');
+INSERT INTO `sys_oper_log` VALUES ('279', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":0,\"id\":1,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-04 01:20:44', '47');
+INSERT INTO `sys_oper_log` VALUES ('280', '添加用户关联', '2', 'com.ruoyi.web.controller.ApplyController.adduser()', 'PUT', '1', 'admin', '研发部门', '/system/apply/adduser', '127.0.0.1', '内网IP', '{\"activityId\":7,\"params\":{},\"userId\":1}', null, '1', '\r\n### Error updating database.  Cause: java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \') \n         values ( 1,\n            7 )\' at line 3\r\n### The error may exist in file [E:\\RuanGong\\zzzruoyi\\RuoYi-Vue-master\\ruoyi-system\\target\\classes\\mapper\\system\\ApplyMapper.xml]\r\n### The error may involve com.ruoyi.system.mapper.ApplyMapper.addUser-Inline\r\n### The error occurred while setting parameters\r\n### SQL: insert into activity_user          ( user_id,             activity_id, )           values ( ?,             ? )\r\n### Cause: java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \') \n         values ( 1,\n            7 )\' at line 3\n; bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \') \n         values ( 1,\n            7 )\' at line 3', '2024-06-04 01:20:44', '95');
+INSERT INTO `sys_oper_log` VALUES ('281', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":0,\"id\":1,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-04 01:23:37', '48');
+INSERT INTO `sys_oper_log` VALUES ('282', '添加用户关联', '2', 'com.ruoyi.web.controller.ApplyController.adduser()', 'PUT', '1', 'admin', '研发部门', '/system/apply/adduser', '127.0.0.1', '内网IP', '{\"activityId\":7,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-04 01:23:37', '0');
+INSERT INTO `sys_oper_log` VALUES ('283', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":3,\"applyState\":0,\"id\":3,\"params\":{},\"userId\":156}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-04 01:24:04', '16');
+INSERT INTO `sys_oper_log` VALUES ('284', '添加用户关联', '2', 'com.ruoyi.web.controller.ApplyController.adduser()', 'PUT', '1', 'admin', '研发部门', '/system/apply/adduser', '127.0.0.1', '内网IP', '{\"activityId\":3,\"params\":{},\"userId\":156}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-04 01:24:04', '0');
+INSERT INTO `sys_oper_log` VALUES ('285', '申请管理', '1', 'com.ruoyi.web.controller.ApplyController.add()', 'POST', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":2,\"id\":5,\"params\":{},\"userId\":23}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-04 01:25:13', '0');
+INSERT INTO `sys_oper_log` VALUES ('286', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":0,\"id\":5,\"params\":{},\"userId\":23}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-04 01:25:20', '15');
+INSERT INTO `sys_oper_log` VALUES ('287', '添加用户关联', '2', 'com.ruoyi.web.controller.ApplyController.adduser()', 'PUT', '1', 'admin', '研发部门', '/system/apply/adduser', '127.0.0.1', '内网IP', '{\"activityId\":7,\"params\":{},\"userId\":23}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-04 01:25:20', '16');
+INSERT INTO `sys_oper_log` VALUES ('288', '活动管理', '2', 'com.ruoyi.web.controller.ActivityController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/activity', '127.0.0.1', '内网IP', '{\"activityId\":7,\"activityName\":\"sadas\",\"activityUserList\":[{\"activityId\":7,\"id\":\"3\",\"params\":{},\"userId\":1,\"userPosition\":\"老师\"},{\"activityId\":7,\"id\":\"4\",\"params\":{},\"userId\":3,\"userPosition\":\"学生\"},{\"activityId\":7,\"id\":\"5\",\"params\":{},\"userId\":1,\"userPosition\":\"\"},{\"activityId\":7,\"id\":\"8\",\"params\":{},\"userId\":1},{\"activityId\":7,\"id\":\"10\",\"params\":{},\"userId\":23,\"userPosition\":\"123\"}],\"createdTime\":\"2024-05-28\",\"finishTime\":\"2024-05-16\",\"params\":{},\"processTime\":\"2024-05-01\",\"resourceId\":1,\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-04 01:25:47', '95');
+INSERT INTO `sys_oper_log` VALUES ('289', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":0,\"id\":1,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-04 01:27:16', '15');
+INSERT INTO `sys_oper_log` VALUES ('290', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":0,\"id\":2,\"params\":{},\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-04 01:27:17', '17');
+INSERT INTO `sys_oper_log` VALUES ('291', '用户管理', '1', 'com.ruoyi.web.controller.system.SysUserController.add()', 'POST', '1', 'admin', '研发部门', '/system/user', '127.0.0.1', '内网IP', '{\"admin\":false,\"createBy\":\"admin\",\"nickName\":\"student\",\"params\":{},\"postIds\":[],\"roleIds\":[102],\"status\":\"0\",\"userId\":101,\"userName\":\"student\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-04 20:36:17', '109');
+INSERT INTO `sys_oper_log` VALUES ('292', '用户管理', '2', 'com.ruoyi.web.controller.system.SysUserController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/user', '127.0.0.1', '内网IP', '{\"admin\":false,\"avatar\":\"\",\"createBy\":\"admin\",\"createTime\":\"2024-06-04 20:36:17\",\"delFlag\":\"0\",\"email\":\"\",\"loginIp\":\"\",\"nickName\":\"student1\",\"params\":{},\"phonenumber\":\"\",\"postIds\":[],\"roleIds\":[102],\"roles\":[{\"admin\":false,\"dataScope\":\"3\",\"deptCheckStrictly\":false,\"flag\":false,\"menuCheckStrictly\":false,\"params\":{},\"roleId\":102,\"roleKey\":\"student\",\"roleName\":\"普通学生\",\"roleSort\":0,\"status\":\"0\"}],\"sex\":\"0\",\"status\":\"0\",\"updateBy\":\"admin\",\"userId\":101,\"userName\":\"student\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-04 20:36:28', '23');
+INSERT INTO `sys_oper_log` VALUES ('293', '角色管理', '2', 'com.ruoyi.web.controller.system.SysRoleController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-05-13 15:26:52\",\"dataScope\":\"4\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2008,2009,2010,2011,2012,2013,2014,2021,2022,2023,2024,2025,2026,1,100,1000,1001,1002,1003,1004,1005,1006,101,1007,1008,1009,1010,1011,102,1012,1013,1014,1015,103,1016,1017,1018,1019,104,1020,1021,1022,1023,1024,105,1025,1026,1027,1028,1029,106,1030,1031,1032,1033,1034,107,1035,1036,1037,1038,108,500,1039,1040,1041,501,1042,1043,1044,1045],\"params\":{},\"roleId\":100,\"roleKey\":\"organizer\",\"roleName\":\"组织者\",\"roleSort\":3,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-04 20:37:41', '27');
+INSERT INTO `sys_oper_log` VALUES ('294', '角色管理', '3', 'com.ruoyi.web.controller.system.SysRoleController.remove()', 'DELETE', '1', 'admin', '研发部门', '/system/role/102', '127.0.0.1', '内网IP', '{}', null, '1', '普通学生已分配,不能删除', '2024-06-04 20:37:52', '9');
+INSERT INTO `sys_oper_log` VALUES ('295', '角色管理', '2', 'com.ruoyi.web.controller.system.SysRoleController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-05-26 01:54:27\",\"dataScope\":\"3\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2008,2009,2021,1,103,3,2002,2010,2014,2022,1016,2003],\"params\":{},\"roleId\":102,\"roleKey\":\"student\",\"roleName\":\"普通学生\",\"roleSort\":0,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-04 20:44:02', '19');
+INSERT INTO `sys_oper_log` VALUES ('296', '活动管理', '5', 'com.ruoyi.web.controller.ActivityController.export()', 'POST', '1', 'student', null, '/system/activity/export', '127.0.0.1', '内网IP', '{\"pageSize\":\"10\",\"pageNum\":\"1\"}', null, '0', null, '2024-06-04 20:48:22', '678');
+INSERT INTO `sys_oper_log` VALUES ('297', '角色管理', '2', 'com.ruoyi.web.controller.system.SysRoleController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-05-26 01:54:27\",\"dataScope\":\"3\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2008,2009,2021,1,103,3,2002,2010,2014,2022,2026,1016,2003],\"params\":{},\"roleId\":102,\"roleKey\":\"student\",\"roleName\":\"普通学生\",\"roleSort\":0,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-04 21:18:44', '50');
+INSERT INTO `sys_oper_log` VALUES ('298', '用户管理', '2', 'com.ruoyi.web.controller.system.SysUserController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/user', '127.0.0.1', '内网IP', '{\"admin\":false,\"avatar\":\"\",\"createBy\":\"admin\",\"createTime\":\"2024-06-04 20:36:17\",\"delFlag\":\"0\",\"email\":\"\",\"loginDate\":\"2024-06-04 20:48:07\",\"loginIp\":\"127.0.0.1\",\"nickName\":\"student1\",\"params\":{},\"phonenumber\":\"\",\"postIds\":[],\"roleIds\":[102],\"roles\":[{\"admin\":false,\"dataScope\":\"3\",\"deptCheckStrictly\":false,\"flag\":false,\"menuCheckStrictly\":false,\"params\":{},\"roleId\":102,\"roleKey\":\"student\",\"roleName\":\"普通学生\",\"roleSort\":0,\"status\":\"0\"}],\"sex\":\"0\",\"status\":\"0\",\"updateBy\":\"admin\",\"userId\":101,\"userName\":\"student\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-04 21:19:02', '14');
+INSERT INTO `sys_oper_log` VALUES ('299', '申请管理', '1', 'com.ruoyi.web.controller.ApplyController.add()', 'POST', '1', 'student', null, '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":2,\"id\":6,\"params\":{},\"userId\":101}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-04 21:24:32', '20');
 
 -- ----------------------------
 -- Table structure for sys_post
@@ -1044,9 +1199,9 @@ CREATE TABLE `sys_role` (
 -- ----------------------------
 INSERT INTO `sys_role` VALUES ('1', '超级管理员', 'admin', '1', '1', '1', '1', '0', '0', 'admin', '2024-04-22 21:16:40', '', null, '超级管理员');
 INSERT INTO `sys_role` VALUES ('2', '普通角色', 'common', '2', '2', '1', '1', '0', '0', 'admin', '2024-04-22 21:16:40', '', null, '普通角色');
-INSERT INTO `sys_role` VALUES ('100', '组织者', 'organizer', '3', '4', '1', '1', '0', '0', 'admin', '2024-05-13 15:26:52', '', '2024-05-27 15:51:56', null);
+INSERT INTO `sys_role` VALUES ('100', '组织者', 'organizer', '3', '4', '1', '1', '0', '0', 'admin', '2024-05-13 15:26:52', 'admin', '2024-06-04 20:37:41', null);
 INSERT INTO `sys_role` VALUES ('101', '管理员', 'boss', '0', '1', '1', '1', '0', '0', 'admin', '2024-05-26 01:53:34', 'admin', '2024-05-26 01:55:09', null);
-INSERT INTO `sys_role` VALUES ('102', '普通学生', 'student', '0', '3', '1', '1', '0', '0', 'admin', '2024-05-26 01:54:27', 'admin', '2024-05-26 01:58:02', null);
+INSERT INTO `sys_role` VALUES ('102', '普通学生', 'student', '0', '3', '1', '1', '0', '0', 'admin', '2024-05-26 01:54:27', 'admin', '2024-06-04 21:18:44', null);
 
 -- ----------------------------
 -- Table structure for sys_role_dept
@@ -1221,6 +1376,19 @@ INSERT INTO `sys_role_menu` VALUES ('100', '1042');
 INSERT INTO `sys_role_menu` VALUES ('100', '1043');
 INSERT INTO `sys_role_menu` VALUES ('100', '1044');
 INSERT INTO `sys_role_menu` VALUES ('100', '1045');
+INSERT INTO `sys_role_menu` VALUES ('100', '2008');
+INSERT INTO `sys_role_menu` VALUES ('100', '2009');
+INSERT INTO `sys_role_menu` VALUES ('100', '2010');
+INSERT INTO `sys_role_menu` VALUES ('100', '2011');
+INSERT INTO `sys_role_menu` VALUES ('100', '2012');
+INSERT INTO `sys_role_menu` VALUES ('100', '2013');
+INSERT INTO `sys_role_menu` VALUES ('100', '2014');
+INSERT INTO `sys_role_menu` VALUES ('100', '2021');
+INSERT INTO `sys_role_menu` VALUES ('100', '2022');
+INSERT INTO `sys_role_menu` VALUES ('100', '2023');
+INSERT INTO `sys_role_menu` VALUES ('100', '2024');
+INSERT INTO `sys_role_menu` VALUES ('100', '2025');
+INSERT INTO `sys_role_menu` VALUES ('100', '2026');
 INSERT INTO `sys_role_menu` VALUES ('101', '1');
 INSERT INTO `sys_role_menu` VALUES ('101', '2');
 INSERT INTO `sys_role_menu` VALUES ('101', '3');
@@ -1319,6 +1487,13 @@ INSERT INTO `sys_role_menu` VALUES ('102', '103');
 INSERT INTO `sys_role_menu` VALUES ('102', '1016');
 INSERT INTO `sys_role_menu` VALUES ('102', '2002');
 INSERT INTO `sys_role_menu` VALUES ('102', '2003');
+INSERT INTO `sys_role_menu` VALUES ('102', '2008');
+INSERT INTO `sys_role_menu` VALUES ('102', '2009');
+INSERT INTO `sys_role_menu` VALUES ('102', '2010');
+INSERT INTO `sys_role_menu` VALUES ('102', '2014');
+INSERT INTO `sys_role_menu` VALUES ('102', '2021');
+INSERT INTO `sys_role_menu` VALUES ('102', '2022');
+INSERT INTO `sys_role_menu` VALUES ('102', '2026');
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -1345,14 +1520,15 @@ CREATE TABLE `sys_user` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=102 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户信息表';
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('1', '103', 'admin', '若依', '00', 'ry@163.com', '15888888888', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', '2024-06-01 16:06:19', 'admin', '2024-04-22 21:16:40', '', '2024-06-01 16:06:19', '管理员');
+INSERT INTO `sys_user` VALUES ('1', '103', 'admin', '若依', '00', 'ry@163.com', '15888888888', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', '2024-06-04 21:27:40', 'admin', '2024-04-22 21:16:40', '', '2024-06-04 21:27:40', '管理员');
 INSERT INTO `sys_user` VALUES ('2', '105', 'ry', '若依', '00', 'ry@qq.com', '15666666666', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', '2024-05-06 16:28:17', 'admin', '2024-04-22 21:16:40', '', '2024-05-06 16:28:16', '测试员');
 INSERT INTO `sys_user` VALUES ('100', '101', 'zuzhizhe', '组织者', '00', '', '', '0', '', '$2a$10$cz/UG929AWBhvSrm6q8vG.EQkGSQO.HoLCos1uf2Wa1FP75NKxYBG', '0', '0', '127.0.0.1', '2024-05-27 15:53:08', 'admin', '2024-05-27 15:52:50', '', '2024-05-27 15:53:08', null);
+INSERT INTO `sys_user` VALUES ('101', null, 'student', 'student1', '00', '', '', '0', '', '$2a$10$bzsEJGn2G4h/qpITBBCggON2.KNtoRd6OHg/mQYR5OPZTYsk0fgYa', '0', '0', '127.0.0.1', '2024-06-04 21:24:55', 'admin', '2024-06-04 20:36:17', 'admin', '2024-06-04 21:24:54', null);
 
 -- ----------------------------
 -- Table structure for sys_user_post
@@ -1386,3 +1562,4 @@ CREATE TABLE `sys_user_role` (
 INSERT INTO `sys_user_role` VALUES ('1', '1');
 INSERT INTO `sys_user_role` VALUES ('2', '2');
 INSERT INTO `sys_user_role` VALUES ('100', '100');
+INSERT INTO `sys_user_role` VALUES ('101', '102');
