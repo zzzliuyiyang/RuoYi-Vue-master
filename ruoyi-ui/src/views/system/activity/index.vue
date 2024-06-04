@@ -132,6 +132,17 @@
           v-hasPermi="['system:activity:export']"
         >导出</el-button>
       </el-col>
+      <el-col :span="1.5">
+        <el-button
+          type="success"
+          plain
+          icon="el-icon-apply"
+          size="mini"
+          :disabled="single"
+          @click="handleApply"
+          v-hasPermi="['system:activity:export']"
+        >申请</el-button>
+      </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
@@ -293,7 +304,7 @@
 </template>
 
 <script>
-import { listActivity, getActivity, delActivity, addActivity, updateActivity } from "@/api/system/activity";
+import { listActivity, getActivity, delActivity, addActivity, updateActivity ,applyActivity } from "@/api/system/activity";
 
 export default {
   name: "Activity",
@@ -422,26 +433,12 @@ export default {
     handleUpdate: function (row) {
       this.reset();
       const activityId = row.activityId || this.ids
-      // getActivity(activityId).then(response => {
-      //   this.form = response.data;
-      //   this.activityUserList = response.data.activityUserList;
-      //   this.open = true;
-      //   this.title = "修改活动管理";
       getActivity(activityId).then(response => {
         this.form = response.data;
         this.activityUserList = response.data.activityUserList;
         console.log(this.form.userId)
         console.log(this.$store.state.user.id)
         if (this.form.userId === this.$store.state.user.id) {
-          // 验证表单在打开之前是否有效
-          // this.$refs["form"].validate(valid => {
-          //   if (valid) {
-          //     this.open = true;
-          //     this.title = "修改活动管理";
-          //   } else {
-          //     this.$modal.msgError("表单验证失败，请检查输入内容");
-          //   }
-          // });
           this.open = true;
           this.title = "修改活动管理";
         } else {
@@ -474,6 +471,39 @@ export default {
         }
       });
     },
+    /** 申请按钮操作 */
+    handleApply: function (row){
+      // 获取活动ID
+      let activityId;
+      if (row.activityId && Array.isArray(row.activityId)) {
+        activityId = row.activityId[0];
+      } else if (row.activityId) {
+        activityId = row.activityId;
+      } else if (this.ids && this.ids.length > 0) {
+        activityId = this.ids[0];
+      } else {
+        console.error('No valid activityId found.');
+        return; // 或者处理这个情况，例如弹出一个错误提示
+      }
+      const activity = this.activityList.find(activity => activity.activityId === activityId);
+      const activityName = activity.activityName;
+      const userId = this.$store.state.user.id;
+      const tempForm = {
+        id: null,
+        activityId: null,
+        userId: null,
+        applyState: null
+      }
+      tempForm.activityId=activityId;
+      tempForm.userId=userId;
+      tempForm.applyState=2;
+      this.$modal.confirm('是否确认申请加入活动："' + activityName).then(()=>{
+        return applyActivity(tempForm);
+      }) .then(() => {
+        this.$modal.msgSuccess("申请成功");
+      }).catch(() => {});
+    },
+
     /** 删除按钮操作 */
     handleDelete(row) {
       const activityIds = row.activityId || this.ids;
@@ -484,6 +514,7 @@ export default {
         this.$modal.msgSuccess("删除成功");
       }).catch(() => {});
     },
+
 	/** 用户和活动关联序号 */
     rowActivityUserIndex({ row, rowIndex }) {
       row.index = rowIndex + 1;

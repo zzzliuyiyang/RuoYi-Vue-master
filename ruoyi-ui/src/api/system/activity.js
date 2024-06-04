@@ -9,6 +9,23 @@ export function listActivity(query) {
   })
 }
 
+// //申请加入活动
+// export function applyActivity(activityId,userId) {
+//   return request({
+//     url: '/system/activity/applyActivity',
+//     method: 'post',
+//   })
+// }
+
+// 新增申请管理
+export function applyActivity(data) {
+  return request({
+    url: '/system/apply',
+    method: 'post',
+    data: data
+  })
+}
+
 // 查询活动管理详细
 export function getActivity(activityId) {
   return request({

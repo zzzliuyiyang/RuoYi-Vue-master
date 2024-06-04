@@ -6,6 +6,7 @@ const user = {
     token: getToken(),
     id: '',
     name: '',
+    nickName: '',
     avatar: '',
     roles: [],
     permissions: []
@@ -20,6 +21,9 @@ const user = {
     },
     SET_NAME: (state, name) => {
       state.name = name
+    },
+    SET_NICKNAME: (state, nickName) => {
+      state.nickName = nickName;
     },
     SET_AVATAR: (state, avatar) => {
       state.avatar = avatar
@@ -64,6 +68,7 @@ const user = {
           }
           commit('SET_ID', user.userId)
           commit('SET_NAME', user.userName)
+          commit('SET_NICKNAME', user.nickName)
           commit('SET_AVATAR', avatar)
           resolve(res)
         }).catch(error => {
