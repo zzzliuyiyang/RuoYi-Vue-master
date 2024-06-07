@@ -84,4 +84,12 @@ public interface ActivityMapper
      * @return 结果
      */
     public int deleteActivityUserByActivityId(Long activityId);
+
+    /**
+     * 查询活动管理One
+     *
+     * @param activityId 活动管理主键
+     * @return 活动管理
+     */
+    public List<Activity> selectActivityByActivityIdOne(Long activityId);
 }

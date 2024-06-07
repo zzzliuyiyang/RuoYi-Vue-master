@@ -58,4 +58,12 @@ public interface IActivityService
      * @return 结果
      */
     public int deleteActivityByActivityId(Long activityId);
+
+    /**
+     * 获取活动详细信息one
+     *
+     * @param activityId 活动管理主键
+     * @return 结果
+     */
+    public List<Activity> selectActivityByActivityIdOne(Long activityId);
 }
