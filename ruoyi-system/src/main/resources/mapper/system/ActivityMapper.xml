@@ -171,4 +171,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             ( #{item.id}, #{item.activityId}, #{item.userId}, #{item.userPosition})
         </foreach>
     </insert>
+
+   <select id="selectActivityByActivityIdOne" parameterType="Long" resultMap="ActivityResult">
+       <include refid="selectActivityVo"/>
+       where activity_id = #{activityId}
+    </select>
 </mapper>

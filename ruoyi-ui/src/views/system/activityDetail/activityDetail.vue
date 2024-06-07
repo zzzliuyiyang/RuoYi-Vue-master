@@ -27,52 +27,52 @@
           />
         </el-select>
       </el-form-item>
-<!--      <el-form-item label="活动预算" prop="budget">-->
-<!--        <el-input-->
-<!--          v-model="queryParams.budget"-->
-<!--          placeholder="请输入活动预算"-->
-<!--          clearable-->
-<!--          @keyup.enter.native="handleQuery"-->
-<!--        />-->
-<!--      </el-form-item>-->
-<!--      <el-form-item label="已花费金额" prop="expend">-->
-<!--        <el-input-->
-<!--          v-model="queryParams.expend"-->
-<!--          placeholder="请输入已花费金额"-->
-<!--          clearable-->
-<!--          @keyup.enter.native="handleQuery"-->
-<!--        />-->
-<!--      </el-form-item>-->
+      <!--      <el-form-item label="活动预算" prop="budget">-->
+      <!--        <el-input-->
+      <!--          v-model="queryParams.budget"-->
+      <!--          placeholder="请输入活动预算"-->
+      <!--          clearable-->
+      <!--          @keyup.enter.native="handleQuery"-->
+      <!--        />-->
+      <!--      </el-form-item>-->
+      <!--      <el-form-item label="已花费金额" prop="expend">-->
+      <!--        <el-input-->
+      <!--          v-model="queryParams.expend"-->
+      <!--          placeholder="请输入已花费金额"-->
+      <!--          clearable-->
+      <!--          @keyup.enter.native="handleQuery"-->
+      <!--        />-->
+      <!--      </el-form-item>-->
       <el-form-item label="创建时间" prop="createdTime">
         <el-date-picker clearable
-          v-model="queryParams.createdTime"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="请选择创建时间">
+                        v-model="queryParams.createdTime"
+                        type="date"
+                        value-format="yyyy-MM-dd"
+                        placeholder="请选择创建时间">
         </el-date-picker>
       </el-form-item>
       <el-form-item label="筹备开始时间" prop="prepareTime">
         <el-date-picker clearable
-          v-model="queryParams.prepareTime"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="请选择筹备开始时间">
+                        v-model="queryParams.prepareTime"
+                        type="date"
+                        value-format="yyyy-MM-dd"
+                        placeholder="请选择筹备开始时间">
         </el-date-picker>
       </el-form-item>
       <el-form-item label="开始进行时间" prop="processTime">
         <el-date-picker clearable
-          v-model="queryParams.processTime"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="请选择开始进行时间">
+                        v-model="queryParams.processTime"
+                        type="date"
+                        value-format="yyyy-MM-dd"
+                        placeholder="请选择开始进行时间">
         </el-date-picker>
       </el-form-item>
       <el-form-item label="结束时间" prop="finishTime">
         <el-date-picker clearable
-          v-model="queryParams.finishTime"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="请选择结束时间">
+                        v-model="queryParams.finishTime"
+                        type="date"
+                        value-format="yyyy-MM-dd"
+                        placeholder="请选择结束时间">
         </el-date-picker>
       </el-form-item>
       <el-form-item label="资源ID" prop="resourceId">
@@ -146,14 +146,14 @@
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="activityList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="activity" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="活动ID" align="center" prop="activityId" />
       <el-table-column label="活动名称" align="center" prop="activityName" >
         <template slot-scope="scope">
-<!--          <router-link :to="'/activity/detail/' + scope.row.activityId" class="link-type">-->
-<!--            <span>{{ scope.row.activityName }}</span>-->
-<!--          </router-link>-->
+          <!--          <router-link :to="'/activity/detail/' + scope.row.activityId" class="link-type">-->
+          <!--            <span>{{ scope.row.activityName }}</span>-->
+          <!--          </router-link>-->
           <el-button type="text" @click="handleShowDetail(scope.row)">{{ scope.row.activityName }}</el-button>
         </template>
       </el-table-column>
@@ -242,34 +242,34 @@
         </el-form-item>
         <el-form-item label="创建时间" prop="createdTime">
           <el-date-picker clearable
-            v-model="form.createdTime"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择创建时间">
+                          v-model="form.createdTime"
+                          type="date"
+                          value-format="yyyy-MM-dd"
+                          placeholder="请选择创建时间">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="筹备开始时间" prop="prepareTime">
           <el-date-picker clearable
-            v-model="form.prepareTime"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择筹备开始时间">
+                          v-model="form.prepareTime"
+                          type="date"
+                          value-format="yyyy-MM-dd"
+                          placeholder="请选择筹备开始时间">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="开始进行时间" prop="processTime">
           <el-date-picker clearable
-            v-model="form.processTime"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择开始进行时间">
+                          v-model="form.processTime"
+                          type="date"
+                          value-format="yyyy-MM-dd"
+                          placeholder="请选择开始进行时间">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="结束时间" prop="finishTime">
           <el-date-picker clearable
-            v-model="form.finishTime"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择结束时间">
+                          v-model="form.finishTime"
+                          type="date"
+                          value-format="yyyy-MM-dd"
+                          placeholder="请选择结束时间">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="资源ID" prop="resourceId">
@@ -321,6 +321,7 @@ import {
   addActivity,
   updateActivity,
   applyActivity,
+  getActivityById,
 } from "@/api/system/activity";
 import { listFiles, getFiles, delFiles, addFiles, updateFiles,getFilesByActivityId } from "@/api/system/files";
 
@@ -330,6 +331,8 @@ export default {
   dicts: ['activity_progress'],
   data() {
     return {
+      //详细查询的活动ID
+      activityId: null,
       // 遮罩层
       loading: true,
       // 选中数组
@@ -373,6 +376,9 @@ export default {
       //图片参数
       photo: {},
 
+      // ID查询活动数据
+      activity: {},
+
       // 表单校验
       rules: {
         activityName: [
@@ -391,9 +397,18 @@ export default {
     };
   },
   created() {
-    this.getList();
+    let activityId = this.$route.query.activityId
+    console.log(activityId);
+    this.getActivityById(activityId);
   },
   methods: {
+    getActivityById(activityId){
+      this.loading = true;
+      getActivityById(activityId).then(response => {
+        this.activity = response.data;
+        this.loading = false;
+      });
+    },
     /** 查询活动管理列表 */
     getList() {
       this.loading = true;
@@ -562,7 +577,7 @@ export default {
       }).catch(() => {});
     },
 
-	/** 用户和活动关联序号 */
+    /** 用户和活动关联序号 */
     rowActivityUserIndex({ row, rowIndex }) {
       row.index = rowIndex + 1;
     },
@@ -598,17 +613,9 @@ export default {
 
     /** 打开活动详情 */
     handleShowDetail(row){
-      const activityId = row.activityId || this.ids
-      getFilesByActivityId(activityId).then(response => {
-        this.photo = response.data;
-      })
-      this.$router.push({
-        path: '/activityDetail/index/',
-        query: {
-          activityId: activityId
-        }
-      })
+      this.$router.push('/activityDetail/index/'+row.activityId)
     },
   }
 };
 </script>
+
