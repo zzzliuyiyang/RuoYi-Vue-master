@@ -106,6 +106,17 @@ public class ActivityServiceImpl implements IActivityService
     }
 
     /**
+     * 查询活动管理One
+     *
+     * @param activityId 活动管理主键
+     * @return 活动管理
+     */
+    @Override
+    public List<Activity> selectActivityByActivityIdOne(Long activityId) {
+        return activityMapper.selectActivityByActivityIdOne(activityId);
+    }
+
+    /**
      * 新增用户和活动关联信息
      * 
      * @param activity 活动管理对象

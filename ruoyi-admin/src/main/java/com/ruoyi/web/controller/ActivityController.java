@@ -9,6 +9,7 @@ import com.ruoyi.system.service.IResourceService;
 import com.ruoyi.system.service.IResourceStateService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -25,6 +26,8 @@ import com.ruoyi.system.domain.Activity;
 import com.ruoyi.system.service.IActivityService;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
+
+import static org.apache.naming.SelectorContext.prefix;
 
 /**
  * 活动管理Controller
@@ -78,6 +81,16 @@ public class ActivityController extends BaseController
     public AjaxResult getInfo(@PathVariable("activityId") Long activityId)
     {
         return success(activityService.selectActivityByActivityId(activityId));
+    }
+
+    /**
+     * 获取活动管理详细信息单个
+     */
+    @PreAuthorize("@ss.hasPermi('system:activity:query')")
+    @GetMapping(value = "/one/{activityId}")
+    public AjaxResult getInfoOne(@PathVariable("activityId") Long activityId)
+    {
+        return success(activityService.selectActivityByActivityIdOne(activityId));
     }
 
     /**
@@ -180,4 +193,6 @@ public class ActivityController extends BaseController
     {
         return toAjax(activityService.deleteActivityByActivityIds(activityIds));
     }
+
+
 }
