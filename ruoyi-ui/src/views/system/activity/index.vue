@@ -1,3 +1,6 @@
+
+
+
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
@@ -157,7 +160,7 @@
           <el-button type="text" @click="handleShowDetail(scope.row)">{{ scope.row.activityName }}</el-button>
         </template>
       </el-table-column>
-      <el-table-column label="创建人ID" align="center" prop="userName" />
+      <el-table-column label="创建人" align="center" prop="userName" />
       <el-table-column label="活动进度" align="center" prop="activityProgress">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.activity_progress" :value="scope.row.activityProgress"/>
@@ -186,7 +189,7 @@
         </template>
       </el-table-column>
       <el-table-column label="资源名" align="center" prop="resourceName" />
-      <el-table-column label="备注" align="center" prop="remark" />
+<!--      <el-table-column label="备注" align="center" prop="remark" />-->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
