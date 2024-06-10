@@ -83,7 +83,7 @@ public class Activity extends BaseEntity
     /** 用户和活动关联信息 */
     private List<ActivityUser> activityUserList;
 
-    /** 资源名 */
+    /** 创建人昵称 */
     @Excel(name = "创建人昵称")
     private String userName;
 

@@ -88,7 +88,6 @@
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
-
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button
@@ -146,17 +145,10 @@
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="activity" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="activityList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="活动ID" align="center" prop="activityId" />
-      <el-table-column label="活动名称" align="center" prop="activityName" >
-        <template slot-scope="scope">
-          <!--          <router-link :to="'/activity/detail/' + scope.row.activityId" class="link-type">-->
-          <!--            <span>{{ scope.row.activityName }}</span>-->
-          <!--          </router-link>-->
-          <el-button type="text" @click="handleShowDetail(scope.row)">{{ scope.row.activityName }}</el-button>
-        </template>
-      </el-table-column>
+      <el-table-column label="活动名称" align="center" prop="activityName" />
       <el-table-column label="创建人ID" align="center" prop="userName" />
       <el-table-column label="活动进度" align="center" prop="activityProgress">
         <template slot-scope="scope">
@@ -204,6 +196,11 @@
             v-hasPermi="['system:activity:remove']"
           >删除</el-button>
         </template>
+      </el-table-column>
+      <el-table-column label="文件路径" align="center" prop="filePath">
+<!--        <template slot-scope="scope">-->
+<!--          <img :src="scope.row.filePath" alt="File" style="width: 50px; height: 50px;" v-if="scope.row.filePath"/>-->
+<!--        </template>-->
       </el-table-column>
     </el-table>
 
@@ -376,6 +373,9 @@ export default {
       //图片参数
       photo: {},
 
+      //原生图片
+      originPhoto: {},
+
       // ID查询活动数据
       activity: {},
 
@@ -397,18 +397,33 @@ export default {
     };
   },
   created() {
-    let activityId = this.$route.query.activityId
+    let activityId = this.$route.query.activityId;
     console.log(activityId);
     this.getActivityById(activityId);
+    console.log(this.originPhoto.filePath);
+    console.log(this.activityList);
   },
   methods: {
     getActivityById(activityId){
       this.loading = true;
-      getActivityById(activityId).then(response => {
-        this.activity = response.data;
+      Promise.all([
+        getActivityById(activityId).then(response => {
+          this.activityList = response.data;
+        }),
+        getFilesByActivityId(activityId).then(response => {
+          this.originPhoto = response.data;
+          this.activityList = this.activityList.map(activity => {
+            if (activity.activityId === activityId) {
+              return { ...activity, filePath: this.originPhoto.filePath };
+            }
+            return activity;
+          });
+        })
+      ]).then(() => {
         this.loading = false;
       });
     },
+
     /** 查询活动管理列表 */
     getList() {
       this.loading = true;
@@ -489,7 +504,8 @@ export default {
       const activityId = row.activityId || this.ids
       getFilesByActivityId(activityId).then(response => {
         this.photo = response.data;
-      })
+      });
+      console.log(this.photo.filePath)
       getActivity(activityId).then(response => {
         this.form = response.data;
         this.activityUserList = response.data.activityUserList;

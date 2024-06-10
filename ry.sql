@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 1
+Source Server         : localhost_3306
 Source Server Version : 80033
 Source Host           : localhost:3306
-Source Database       : ruoyi
+Source Database       : ry
 
 Target Server Type    : MYSQL
 Target Server Version : 80033
 File Encoding         : 65001
 
-Date: 2024-06-09 19:58:40
+Date: 2024-06-09 18:10:07
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -35,13 +35,13 @@ CREATE TABLE `activity` (
   `resource_id` bigint NOT NULL COMMENT '资源ID',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`activity_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='活动表';
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='活动表';
 
 -- ----------------------------
 -- Records of activity
 -- ----------------------------
-INSERT INTO `activity` VALUES ('7', 'sadas', '1', null, null, null, '2024-05-28 00:00:00', null, '2024-05-01 00:00:00', '2024-05-16 00:00:00', null, null, '1', null);
-INSERT INTO `activity` VALUES ('8', 'fsdaf', '1', null, null, null, '2024-05-01 00:00:00', '2024-06-01 00:00:00', '2024-05-01 00:00:00', '2024-06-01 00:00:00', null, null, '2', null);
+INSERT INTO `activity` VALUES ('7', '五四辩论赛', '1', '1', '500.000000', '200.000000', '2024-05-28 00:00:00', '2024-05-30 00:00:00', '2024-05-01 00:00:00', '2024-05-16 00:00:00', null, null, '1', '﻿辩论赛是一项极富挑战性和教育意义的活动，它融合了批判性思维、逻辑推理、公众演讲和团队合作等多种技能。在这场知识与思想的盛宴中，参赛者将围绕特定主题或命题，展开激烈的辩论和探讨。辩论赛通常分为正反两方，每方由若干名队员组成。比赛过程中，双方队员需要充分利用自己的知识储备和辩论技巧，就辩题展开深入剖析和激烈交锋。这不仅考验参赛者的知识储备和应变能力，更是一场对智力和口才的全方位挑战。我们诚挚邀请各位热爱辩论、追求真理的朋友踊跃参加，共同探索知识的海洋，感受辩论的魅力！');
+INSERT INTO `activity` VALUES ('10', '篮球赛', '1', '0', null, null, '2024-06-09 00:00:00', null, null, null, null, null, '2', null);
 
 -- ----------------------------
 -- Table structure for activity_user
@@ -53,17 +53,14 @@ CREATE TABLE `activity_user` (
   `user_id` bigint NOT NULL COMMENT '用户ID',
   `user_position` varchar(20) DEFAULT NULL COMMENT '用户职位',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户和活动关联表';
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户和活动关联表';
 
 -- ----------------------------
 -- Records of activity_user
 -- ----------------------------
-INSERT INTO `activity_user` VALUES ('3', '7', '1', '老师');
-INSERT INTO `activity_user` VALUES ('4', '7', '3', '学生');
-INSERT INTO `activity_user` VALUES ('5', '7', '1', '');
-INSERT INTO `activity_user` VALUES ('8', '7', '1', null);
 INSERT INTO `activity_user` VALUES ('9', '3', '156', null);
-INSERT INTO `activity_user` VALUES ('10', '7', '23', '123');
+INSERT INTO `activity_user` VALUES ('11', '7', '103', '辩手');
+INSERT INTO `activity_user` VALUES ('12', '7', '102', '辩手');
 
 -- ----------------------------
 -- Table structure for apply
@@ -75,18 +72,13 @@ CREATE TABLE `apply` (
   `user_id` bigint NOT NULL COMMENT '申请人ID',
   `apply_state` int NOT NULL COMMENT '申请状态',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='申请表';
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='申请表';
 
 -- ----------------------------
 -- Records of apply
 -- ----------------------------
-INSERT INTO `apply` VALUES ('1', '7', '1', '0');
-INSERT INTO `apply` VALUES ('2', '7', '1', '0');
-INSERT INTO `apply` VALUES ('3', '3', '156', '0');
-INSERT INTO `apply` VALUES ('4', '1', '2', '0');
-INSERT INTO `apply` VALUES ('5', '7', '23', '0');
-INSERT INTO `apply` VALUES ('6', '7', '101', '2');
-INSERT INTO `apply` VALUES ('7', '7', '1', '2');
+INSERT INTO `apply` VALUES ('8', '7', '103', '0');
+INSERT INTO `apply` VALUES ('9', '7', '102', '0');
 
 -- ----------------------------
 -- Table structure for files
@@ -99,14 +91,15 @@ CREATE TABLE `files` (
   `upload_by` varchar(50) DEFAULT NULL COMMENT '文件上传者ID;上传者姓名',
   `activity_id` bigint DEFAULT NULL COMMENT '活动ID;所属活动名称',
   PRIMARY KEY (`file_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='文件存储';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='文件存储';
 
 -- ----------------------------
 -- Records of files
 -- ----------------------------
-INSERT INTO `files` VALUES ('2', '头像sadas', '/profile/upload/2024/06/07/test_20240607020701A003.png', '1', '7');
+INSERT INTO `files` VALUES ('2', '头像五四辩论赛', '/profile/upload/2024/06/08/屏幕截图 2024-05-21 101731_20240608010246A001.png', '1', '7');
 INSERT INTO `files` VALUES ('3', '12', '/profile/upload/2024/06/05/协议调研_20240605170127A002.doc', null, null);
 INSERT INTO `files` VALUES ('4', '头像fsdaf', '/profile/upload/2024/06/07/网络安全4_20240607020946A005.png', '1', '8');
+INSERT INTO `files` VALUES ('5', '头像篮球赛', '/profile/upload/2024/06/09/iogo_20240609174817A001.jpg', '1', null);
 
 -- ----------------------------
 -- Table structure for gen_table
@@ -454,7 +447,7 @@ CREATE TABLE `resource` (
 -- Records of resource
 -- ----------------------------
 INSERT INTO `resource` VALUES ('1', '礼堂', 'admin', '2024-05-28 21:35:25', null, null);
-INSERT INTO `resource` VALUES ('2', '2', 'admin', '2024-06-07 14:07:42', null, null);
+INSERT INTO `resource` VALUES ('2', '操场', 'admin', '2024-06-07 00:00:00', null, null);
 
 -- ----------------------------
 -- Table structure for resource_state
@@ -529,8 +522,8 @@ CREATE TABLE `sys_dept` (
 -- ----------------------------
 INSERT INTO `sys_dept` VALUES ('100', '0', '0', '活动项目', '0', 'admin', '15888888888', 'admin@qq.com', '0', '0', 'admin', '2024-04-22 21:16:40', 'admin', '2024-05-06 14:23:32');
 INSERT INTO `sys_dept` VALUES ('101', '100', '0,100', '五四辩论赛', '1', '五四', '15888888888', '54@qq.com', '0', '0', 'admin', '2024-04-22 21:16:40', 'admin', '2024-05-06 14:26:00');
-INSERT INTO `sys_dept` VALUES ('102', '100', '0,100', '长沙分公司', '2', '若依', '15888888888', 'ry@qq.com', '0', '0', 'admin', '2024-04-22 21:16:40', '', null);
-INSERT INTO `sys_dept` VALUES ('103', '101', '0,100,101', '研发部门', '1', '若依', '15888888888', 'ry@qq.com', '0', '0', 'admin', '2024-04-22 21:16:40', '', null);
+INSERT INTO `sys_dept` VALUES ('102', '100', '0,100', '篮球赛', '2', '若依', '15888888888', 'ry@qq.com', '0', '0', 'admin', '2024-04-22 21:16:40', 'admin', '2024-06-09 17:58:45');
+INSERT INTO `sys_dept` VALUES ('103', '101', '0,100,101', '辩手', '2', '若依', '15888888888', 'ry@qq.com', '0', '0', 'admin', '2024-04-22 21:16:40', 'admin', '2024-06-09 17:17:00');
 INSERT INTO `sys_dept` VALUES ('104', '101', '0,100,101', '市场部门', '2', '若依', '15888888888', 'ry@qq.com', '0', '0', 'admin', '2024-04-22 21:16:40', '', null);
 INSERT INTO `sys_dept` VALUES ('105', '101', '0,100,101', '测试部门', '3', '若依', '15888888888', 'ry@qq.com', '0', '0', 'admin', '2024-04-22 21:16:40', '', null);
 INSERT INTO `sys_dept` VALUES ('106', '101', '0,100,101', '财务部门', '4', '若依', '15888888888', 'ry@qq.com', '0', '0', 'admin', '2024-04-22 21:16:40', '', null);
@@ -700,7 +693,7 @@ CREATE TABLE `sys_logininfor` (
   PRIMARY KEY (`info_id`),
   KEY `idx_sys_logininfor_s` (`status`),
   KEY `idx_sys_logininfor_lt` (`login_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=191 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='系统访问记录';
+) ENGINE=InnoDB AUTO_INCREMENT=217 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='系统访问记录';
 
 -- ----------------------------
 -- Records of sys_logininfor
@@ -788,14 +781,40 @@ INSERT INTO `sys_logininfor` VALUES ('179', 'admin', '127.0.0.1', '内网IP', 'C
 INSERT INTO `sys_logininfor` VALUES ('180', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-07 01:52:58');
 INSERT INTO `sys_logininfor` VALUES ('181', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-07 14:02:18');
 INSERT INTO `sys_logininfor` VALUES ('182', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-07 15:42:39');
-INSERT INTO `sys_logininfor` VALUES ('183', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-07 23:14:45');
-INSERT INTO `sys_logininfor` VALUES ('184', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-08 00:19:28');
-INSERT INTO `sys_logininfor` VALUES ('185', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-09 17:41:30');
-INSERT INTO `sys_logininfor` VALUES ('186', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-09 18:18:29');
-INSERT INTO `sys_logininfor` VALUES ('187', '123', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '注册成功', '2024-06-09 18:18:51');
-INSERT INTO `sys_logininfor` VALUES ('188', '123', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-09 18:19:00');
-INSERT INTO `sys_logininfor` VALUES ('189', '123', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-09 18:19:30');
-INSERT INTO `sys_logininfor` VALUES ('190', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-09 18:19:43');
+INSERT INTO `sys_logininfor` VALUES ('183', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-08 01:11:29');
+INSERT INTO `sys_logininfor` VALUES ('184', 'lyy', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '注册成功', '2024-06-08 01:11:46');
+INSERT INTO `sys_logininfor` VALUES ('185', 'lyy', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-08 01:11:57');
+INSERT INTO `sys_logininfor` VALUES ('186', 'lyy', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-08 01:12:29');
+INSERT INTO `sys_logininfor` VALUES ('187', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-08 01:12:38');
+INSERT INTO `sys_logininfor` VALUES ('188', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '1', '验证码错误', '2024-06-09 13:56:00');
+INSERT INTO `sys_logininfor` VALUES ('189', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-09 13:56:05');
+INSERT INTO `sys_logininfor` VALUES ('190', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '1', '验证码已失效', '2024-06-09 15:27:17');
+INSERT INTO `sys_logininfor` VALUES ('191', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '1', '验证码错误', '2024-06-09 15:44:57');
+INSERT INTO `sys_logininfor` VALUES ('192', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-09 15:45:00');
+INSERT INTO `sys_logininfor` VALUES ('193', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '1', '验证码已失效', '2024-06-09 16:26:27');
+INSERT INTO `sys_logininfor` VALUES ('194', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-09 17:19:01');
+INSERT INTO `sys_logininfor` VALUES ('195', 'sch', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-09 17:19:12');
+INSERT INTO `sys_logininfor` VALUES ('196', 'sch', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-09 17:23:13');
+INSERT INTO `sys_logininfor` VALUES ('197', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-09 17:23:17');
+INSERT INTO `sys_logininfor` VALUES ('198', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-09 17:23:38');
+INSERT INTO `sys_logininfor` VALUES ('199', 'lyy', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '1', '用户不存在/密码错误', '2024-06-09 17:23:55');
+INSERT INTO `sys_logininfor` VALUES ('200', 'lyy', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '1', '验证码错误', '2024-06-09 17:24:02');
+INSERT INTO `sys_logininfor` VALUES ('201', 'lyy', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '1', '验证码错误', '2024-06-09 17:24:04');
+INSERT INTO `sys_logininfor` VALUES ('202', 'lyy', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-09 17:24:08');
+INSERT INTO `sys_logininfor` VALUES ('203', 'lyy', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-09 17:24:19');
+INSERT INTO `sys_logininfor` VALUES ('204', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-09 17:24:23');
+INSERT INTO `sys_logininfor` VALUES ('205', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-09 17:25:40');
+INSERT INTO `sys_logininfor` VALUES ('206', 'lyy', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-09 17:25:50');
+INSERT INTO `sys_logininfor` VALUES ('207', 'lyy', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-09 17:26:23');
+INSERT INTO `sys_logininfor` VALUES ('208', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '1', '验证码错误', '2024-06-09 17:26:29');
+INSERT INTO `sys_logininfor` VALUES ('209', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-09 17:26:35');
+INSERT INTO `sys_logininfor` VALUES ('210', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-09 17:30:46');
+INSERT INTO `sys_logininfor` VALUES ('211', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-09 17:33:08');
+INSERT INTO `sys_logininfor` VALUES ('212', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-09 18:04:00');
+INSERT INTO `sys_logininfor` VALUES ('213', 'zuzhizhe', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '1', '用户不存在/密码错误', '2024-06-09 18:04:23');
+INSERT INTO `sys_logininfor` VALUES ('214', 'zuzhizhe', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-09 18:04:38');
+INSERT INTO `sys_logininfor` VALUES ('215', 'zuzhizhe', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '退出成功', '2024-06-09 18:05:08');
+INSERT INTO `sys_logininfor` VALUES ('216', 'admin', '127.0.0.1', '内网IP', 'Chrome 12', 'Windows 10', '0', '登录成功', '2024-06-09 18:05:13');
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -963,13 +982,14 @@ CREATE TABLE `sys_notice` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`notice_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='通知公告表';
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='通知公告表';
 
 -- ----------------------------
 -- Records of sys_notice
 -- ----------------------------
 INSERT INTO `sys_notice` VALUES ('1', '温馨提醒：2018-07-01 若依新版本发布啦', '2', 0x3C703EE696B0E78988E69CACE58685E5AEB96173646173643C2F703E, '0', 'admin', '2024-04-22 21:16:41', 'ry', '2024-05-06 16:29:06', '管理员');
 INSERT INTO `sys_notice` VALUES ('2', '维护通知：2018-07-01 若依系统凌晨维护', '1', 0xE7BBB4E68AA4E58685E5AEB9, '0', 'admin', '2024-04-22 21:16:41', '', null, '管理员');
+INSERT INTO `sys_notice` VALUES ('10', '首页设计完成', '2', null, '0', 'admin', '2024-06-07 23:15:59', '', null, null);
 
 -- ----------------------------
 -- Table structure for sys_oper_log
@@ -997,7 +1017,7 @@ CREATE TABLE `sys_oper_log` (
   KEY `idx_sys_oper_log_bt` (`business_type`),
   KEY `idx_sys_oper_log_s` (`status`),
   KEY `idx_sys_oper_log_ot` (`oper_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=342 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='操作日志记录';
+) ENGINE=InnoDB AUTO_INCREMENT=413 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='操作日志记录';
 
 -- ----------------------------
 -- Records of sys_oper_log
@@ -1238,12 +1258,83 @@ INSERT INTO `sys_oper_log` VALUES ('332', '文件存储', '1', 'com.ruoyi.web.co
 INSERT INTO `sys_oper_log` VALUES ('333', '活动管理', '2', 'com.ruoyi.web.controller.ActivityController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/activity', '127.0.0.1', '内网IP', '{\"activityId\":8,\"activityName\":\"fsdaf\",\"activityUserList\":[],\"createdTime\":\"2024-05-01\",\"finishTime\":\"2024-06-01\",\"params\":{},\"prepareTime\":\"2024-06-01\",\"processTime\":\"2024-05-01\",\"resourceId\":2,\"userId\":1}', '{\"msg\":\"资源不存在\",\"code\":500}', '0', null, '2024-06-07 14:07:04', '4');
 INSERT INTO `sys_oper_log` VALUES ('334', '文件存储', '2', 'com.ruoyi.web.controller.FilesController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/files', '127.0.0.1', '内网IP', '{\"activityId\":8,\"fileId\":4,\"fileName\":\"头像fsdaf\",\"filePath\":\"/profile/upload/2024/06/07/网络安全4_20240607020946A005.png\",\"params\":{},\"uploadBy\":\"1\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-07 14:07:04', '4');
 INSERT INTO `sys_oper_log` VALUES ('335', '活动资源;活动资源', '1', 'com.ruoyi.web.controller.system.ResourceController.add()', 'POST', '1', 'admin', '研发部门', '/system/resource', '127.0.0.1', '内网IP', '{\"createdBy\":\"admin\",\"createdTime\":\"2024-06-07\",\"params\":{},\"resourceId\":2,\"resourceName\":\"2\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-07 14:07:42', '14');
-INSERT INTO `sys_oper_log` VALUES ('336', '文件存储', '2', 'com.ruoyi.web.controller.FilesController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/files', '127.0.0.1', '内网IP', '{\"activityId\":8,\"fileId\":4,\"fileName\":\"头像fsdaf\",\"filePath\":\"/profile/upload/2024/06/07/网络安全4_20240607020946A005.png\",\"params\":{},\"uploadBy\":\"1\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:44:35', '18');
-INSERT INTO `sys_oper_log` VALUES ('337', '活动管理', '2', 'com.ruoyi.web.controller.ActivityController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/activity', '127.0.0.1', '内网IP', '{\"activityId\":8,\"activityName\":\"fsdaf\",\"activityUserList\":[],\"createdTime\":\"2024-05-01\",\"finishTime\":\"2024-06-01\",\"params\":{},\"prepareTime\":\"2024-06-01\",\"processTime\":\"2024-05-01\",\"resourceId\":2,\"userId\":1}', null, '1', 'Index: 0, Size: 0', '2024-06-09 17:44:35', '21');
-INSERT INTO `sys_oper_log` VALUES ('338', '文件存储', '2', 'com.ruoyi.web.controller.FilesController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/files', '127.0.0.1', '内网IP', '{\"activityId\":8,\"fileId\":4,\"fileName\":\"头像fsdaf\",\"filePath\":\"/profile/upload/2024/06/07/网络安全4_20240607020946A005.png\",\"params\":{},\"uploadBy\":\"1\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:44:46', '3');
-INSERT INTO `sys_oper_log` VALUES ('339', '活动管理', '2', 'com.ruoyi.web.controller.ActivityController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/activity', '127.0.0.1', '内网IP', '{\"activityId\":8,\"activityName\":\"fsdaf\",\"activityUserList\":[],\"createdTime\":\"2024-05-01\",\"finishTime\":\"2024-06-01\",\"params\":{},\"prepareTime\":\"2024-06-01\",\"processTime\":\"2024-05-01\",\"resourceId\":1,\"userId\":1}', '{\"msg\":\"活动时间段与已有活动发生冲突\",\"code\":500}', '0', null, '2024-06-09 17:44:47', '8');
-INSERT INTO `sys_oper_log` VALUES ('340', '文件存储', '2', 'com.ruoyi.web.controller.FilesController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/files', '127.0.0.1', '内网IP', '{\"activityId\":8,\"fileId\":4,\"fileName\":\"头像fsdaf\",\"filePath\":\"/profile/upload/2024/06/07/网络安全4_20240607020946A005.png\",\"params\":{},\"uploadBy\":\"1\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:45:12', '5');
-INSERT INTO `sys_oper_log` VALUES ('341', '活动管理', '2', 'com.ruoyi.web.controller.ActivityController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/activity', '127.0.0.1', '内网IP', '{\"activityId\":8,\"activityName\":\"fsdaf\",\"activityUserList\":[],\"createdTime\":\"2024-05-01\",\"finishTime\":\"2024-06-01\",\"params\":{},\"prepareTime\":\"2024-06-01\",\"processTime\":\"2024-05-01\",\"resourceId\":2,\"userId\":1}', null, '1', 'Index: 0, Size: 0', '2024-06-09 17:45:12', '13');
+INSERT INTO `sys_oper_log` VALUES ('336', '通知公告', '1', 'com.ruoyi.web.controller.system.SysNoticeController.add()', 'POST', '1', 'admin', '研发部门', '/system/notice', '127.0.0.1', '内网IP', '{\"createBy\":\"admin\",\"noticeTitle\":\"首页设计完成\",\"noticeType\":\"2\",\"params\":{},\"status\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-07 23:15:59', '20');
+INSERT INTO `sys_oper_log` VALUES ('337', '文件存储', '2', 'com.ruoyi.web.controller.FilesController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/files', '127.0.0.1', '内网IP', '{\"activityId\":7,\"fileId\":2,\"fileName\":\"头像sadas\",\"filePath\":\"/profile/upload/2024/06/08/屏幕截图 2024-05-21 101731_20240608010246A001.png\",\"params\":{},\"uploadBy\":\"1\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-08 01:02:50', '17');
+INSERT INTO `sys_oper_log` VALUES ('338', '活动管理', '2', 'com.ruoyi.web.controller.ActivityController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/activity', '127.0.0.1', '内网IP', '{\"activityId\":7,\"activityName\":\"sadas\",\"activityUserList\":[{\"activityId\":7,\"id\":\"3\",\"params\":{},\"userId\":1,\"userPosition\":\"老师\"},{\"activityId\":7,\"id\":\"4\",\"params\":{},\"userId\":3,\"userPosition\":\"学生\"},{\"activityId\":7,\"id\":\"5\",\"params\":{},\"userId\":1,\"userPosition\":\"\"},{\"activityId\":7,\"id\":\"8\",\"params\":{},\"userId\":1},{\"activityId\":7,\"id\":\"10\",\"params\":{},\"userId\":23,\"userPosition\":\"123\"}],\"createdTime\":\"2024-05-28\",\"finishTime\":\"2024-05-16\",\"params\":{},\"processTime\":\"2024-05-01\",\"resourceId\":1,\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-08 01:02:50', '65');
+INSERT INTO `sys_oper_log` VALUES ('339', '文件存储', '2', 'com.ruoyi.web.controller.FilesController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/files', '127.0.0.1', '内网IP', '{\"activityId\":7,\"fileId\":2,\"fileName\":\"头像sadas\",\"filePath\":\"\",\"params\":{},\"uploadBy\":\"1\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-08 01:03:12', '4');
+INSERT INTO `sys_oper_log` VALUES ('340', '活动管理', '2', 'com.ruoyi.web.controller.ActivityController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/activity', '127.0.0.1', '内网IP', '{\"activityId\":7,\"activityName\":\"sadas\",\"activityUserList\":[{\"activityId\":7,\"id\":\"3\",\"params\":{},\"userId\":1,\"userPosition\":\"老师\"},{\"activityId\":7,\"id\":\"4\",\"params\":{},\"userId\":3,\"userPosition\":\"学生\"},{\"activityId\":7,\"id\":\"5\",\"params\":{},\"userId\":1,\"userPosition\":\"\"},{\"activityId\":7,\"id\":\"8\",\"params\":{},\"userId\":1},{\"activityId\":7,\"id\":\"10\",\"params\":{},\"userId\":23,\"userPosition\":\"123\"}],\"createdTime\":\"2024-05-28\",\"finishTime\":\"2024-05-16\",\"params\":{},\"processTime\":\"2024-05-01\",\"resourceId\":1,\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-08 01:03:12', '20');
+INSERT INTO `sys_oper_log` VALUES ('341', '文件存储', '2', 'com.ruoyi.web.controller.FilesController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/files', '127.0.0.1', '内网IP', '{\"activityId\":7,\"fileId\":2,\"fileName\":\"头像sadas\",\"filePath\":\"/profile/upload/2024/06/08/屏幕截图 2024-05-21 101731_20240608010246A001.png\",\"params\":{},\"uploadBy\":\"1\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-08 01:05:43', '3');
+INSERT INTO `sys_oper_log` VALUES ('342', '活动管理', '2', 'com.ruoyi.web.controller.ActivityController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/activity', '127.0.0.1', '内网IP', '{\"activityId\":7,\"activityName\":\"sadas\",\"activityProgress\":1,\"activityUserList\":[{\"activityId\":7,\"id\":\"3\",\"params\":{},\"userId\":1,\"userPosition\":\"老师\"},{\"activityId\":7,\"id\":\"4\",\"params\":{},\"userId\":3,\"userPosition\":\"学生\"},{\"activityId\":7,\"id\":\"5\",\"params\":{},\"userId\":1,\"userPosition\":\"\"},{\"activityId\":7,\"id\":\"8\",\"params\":{},\"userId\":1},{\"activityId\":7,\"id\":\"10\",\"params\":{},\"userId\":23,\"userPosition\":\"123\"}],\"budget\":500,\"createdTime\":\"2024-05-28\",\"expend\":200,\"finishTime\":\"2024-05-16\",\"params\":{},\"prepareTime\":\"2024-05-30\",\"processTime\":\"2024-05-01\",\"resourceId\":1,\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-08 01:05:44', '22');
+INSERT INTO `sys_oper_log` VALUES ('343', '文件存储', '2', 'com.ruoyi.web.controller.FilesController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/files', '127.0.0.1', '内网IP', '{\"activityId\":7,\"fileId\":2,\"fileName\":\"头像sadas\",\"filePath\":\"/profile/upload/2024/06/08/屏幕截图 2024-05-21 101731_20240608010246A001.png\",\"params\":{},\"uploadBy\":\"1\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-08 02:30:39', '6');
+INSERT INTO `sys_oper_log` VALUES ('344', '活动管理', '2', 'com.ruoyi.web.controller.ActivityController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/activity', '127.0.0.1', '内网IP', '{\"activityId\":7,\"activityName\":\"sadas\",\"activityProgress\":1,\"activityUserList\":[{\"activityId\":7,\"id\":\"3\",\"params\":{},\"userId\":1,\"userPosition\":\"老师\"},{\"activityId\":7,\"id\":\"4\",\"params\":{},\"userId\":3,\"userPosition\":\"学生\"},{\"activityId\":7,\"id\":\"5\",\"params\":{},\"userId\":1,\"userPosition\":\"\"},{\"activityId\":7,\"id\":\"8\",\"params\":{},\"userId\":1},{\"activityId\":7,\"id\":\"10\",\"params\":{},\"userId\":23,\"userPosition\":\"123\"}],\"budget\":500,\"createdTime\":\"2024-05-28\",\"expend\":200,\"finishTime\":\"2024-05-16\",\"params\":{},\"prepareTime\":\"2024-05-30\",\"processTime\":\"2024-05-01\",\"remark\":\"辩论赛是一项极富挑战性和教育意义的活动，它融合了批判性思维、逻辑推理、公众演讲和团队合作等多种技能。在这场知识与思想的盛宴中，参赛者将围绕特定主题或命题，展开激烈的辩论和探讨。辩论赛旨在培养参赛者的思辨能力和表达能力，同时也提供了一个展示个人才华和团队协作的舞台。在这里，每位参赛者都有机会发表自己的观点，通过摆事实、讲道理的方式，努力说服评委和观众。辩论赛通常分为正反两方，每方由若干名队员组成。比赛过程中，双方队员需要充分利用自己的知识储备和辩论技巧，就辩题展开深入剖析和激烈交锋。这不仅考验参赛者的知识储备和应变能力，更是一场对智力和口才的全方位挑战。通过参与辩论赛，参赛者可以锻炼自己的逻辑思维能力、语言表达能力和团队协作能力，为未来的学术和职业发展奠定坚实基础。同时，观众也能在观看比赛的过程中，感受到辩论所带来的智慧与激情的碰撞，拓宽自己的视野和思维。总之，辩论赛是一场智慧的较量，也是一次思想的盛宴。它不仅能够提升个人的综合素质，还能增进人们对社会问题的认识和思考。我们诚挚邀请各位热爱辩论、追求真理的朋友踊跃参加，共同探索知识的海洋，感受辩论的魅力！\",\"resourceId\":1,\"userId\":1}', null, '1', '\r\n### Error updating database.  Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column \'remark\' at row 1\r\n### The error may exist in file [D:\\Ruangong\\RuoYi-Vue-master\\ruoyi-system\\target\\classes\\mapper\\system\\ActivityMapper.xml]\r\n### The error may involve com.ruoyi.system.mapper.ActivityMapper.updateActivity-Inline\r\n### The error occurred while setting parameters\r\n### SQL: update activity          SET activity_name = ?,             user_id = ?,             activity_progress = ?,             budget = ?,             expend = ?,             created_time = ?,             prepare_time = ?,             process_time = ?,             finish_time = ?,                                       resource_id = ?,             remark = ?          where activity_id = ?\r\n### Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column \'remark\' at row 1\n; Data truncation: Data too long for column \'remark\' at row 1; nested exception is com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column \'remark\' at row 1', '2024-06-08 02:30:39', '106');
+INSERT INTO `sys_oper_log` VALUES ('345', '文件存储', '2', 'com.ruoyi.web.controller.FilesController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/files', '127.0.0.1', '内网IP', '{\"activityId\":7,\"fileId\":2,\"fileName\":\"头像sadas\",\"filePath\":\"/profile/upload/2024/06/08/屏幕截图 2024-05-21 101731_20240608010246A001.png\",\"params\":{},\"uploadBy\":\"1\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-08 02:30:50', '3');
+INSERT INTO `sys_oper_log` VALUES ('346', '活动管理', '2', 'com.ruoyi.web.controller.ActivityController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/activity', '127.0.0.1', '内网IP', '{\"activityId\":7,\"activityName\":\"sadas\",\"activityProgress\":1,\"activityUserList\":[{\"activityId\":7,\"id\":\"3\",\"params\":{},\"userId\":1,\"userPosition\":\"老师\"},{\"activityId\":7,\"id\":\"4\",\"params\":{},\"userId\":3,\"userPosition\":\"学生\"},{\"activityId\":7,\"id\":\"5\",\"params\":{},\"userId\":1,\"userPosition\":\"\"},{\"activityId\":7,\"id\":\"8\",\"params\":{},\"userId\":1},{\"activityId\":7,\"id\":\"10\",\"params\":{},\"userId\":23,\"userPosition\":\"123\"}],\"budget\":500,\"createdTime\":\"2024-05-28\",\"expend\":200,\"finishTime\":\"2024-05-16\",\"params\":{},\"prepareTime\":\"2024-05-30\",\"processTime\":\"2024-05-01\",\"remark\":\"辩论赛\",\"resourceId\":1,\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-08 02:30:50', '17');
+INSERT INTO `sys_oper_log` VALUES ('347', '文件存储', '2', 'com.ruoyi.web.controller.FilesController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/files', '127.0.0.1', '内网IP', '{\"activityId\":7,\"fileId\":2,\"fileName\":\"头像sadas\",\"filePath\":\"/profile/upload/2024/06/08/屏幕截图 2024-05-21 101731_20240608010246A001.png\",\"params\":{},\"uploadBy\":\"1\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-08 02:31:17', '3');
+INSERT INTO `sys_oper_log` VALUES ('348', '活动管理', '2', 'com.ruoyi.web.controller.ActivityController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/activity', '127.0.0.1', '内网IP', '{\"activityId\":7,\"activityName\":\"sadas\",\"activityProgress\":1,\"activityUserList\":[{\"activityId\":7,\"id\":\"3\",\"params\":{},\"userId\":1,\"userPosition\":\"老师\"},{\"activityId\":7,\"id\":\"4\",\"params\":{},\"userId\":3,\"userPosition\":\"学生\"},{\"activityId\":7,\"id\":\"5\",\"params\":{},\"userId\":1,\"userPosition\":\"\"},{\"activityId\":7,\"id\":\"8\",\"params\":{},\"userId\":1},{\"activityId\":7,\"id\":\"10\",\"params\":{},\"userId\":23,\"userPosition\":\"123\"}],\"budget\":500,\"createdTime\":\"2024-05-28\",\"expend\":200,\"finishTime\":\"2024-05-16\",\"params\":{},\"prepareTime\":\"2024-05-30\",\"processTime\":\"2024-05-01\",\"remark\":\"辩论赛是一项极富挑战性和教育意义的活动，它融合了批判性思维、逻辑推理、公众演讲和团队合作等多种技能。在这场知识与思想的盛宴中，参赛者将围绕特定主题或命题，展开激烈的辩论和探讨。辩论赛通常分为正反两方，每方由若干名队员组成。比赛过程中，双方队员需要充分利用自己的知识储备和辩论技巧，就辩题展开深入剖析和激烈交锋。这不仅考验参赛者的知识储备和应变能力，更是一场对智力和口才的全方位挑战。通过参与辩论赛，参赛者可以锻炼自己的逻辑思维能力、语言表达能力和团队协作能力，为未来的学术和职业发展奠定坚实基础。同时，观众也能在观看比赛的过程中，感受到辩论所带来的智慧与激情的碰撞，拓宽自己的视野和思维。我们诚挚邀请各位热爱辩论、追求真理的朋友踊跃参加，共同探索知识的海洋，感受辩论的魅力！\",\"resourceId\":1,\"userId\":1}', null, '1', '\r\n### Error updating database.  Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column \'remark\' at row 1\r\n### The error may exist in file [D:\\Ruangong\\RuoYi-Vue-master\\ruoyi-system\\target\\classes\\mapper\\system\\ActivityMapper.xml]\r\n### The error may involve com.ruoyi.system.mapper.ActivityMapper.updateActivity-Inline\r\n### The error occurred while setting parameters\r\n### SQL: update activity          SET activity_name = ?,             user_id = ?,             activity_progress = ?,             budget = ?,             expend = ?,             created_time = ?,             prepare_time = ?,             process_time = ?,             finish_time = ?,                                       resource_id = ?,             remark = ?          where activity_id = ?\r\n### Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column \'remark\' at row 1\n; Data truncation: Data too long for column \'remark\' at row 1; nested exception is com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column \'remark\' at row 1', '2024-06-08 02:31:17', '21');
+INSERT INTO `sys_oper_log` VALUES ('349', '文件存储', '2', 'com.ruoyi.web.controller.FilesController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/files', '127.0.0.1', '内网IP', '{\"activityId\":7,\"fileId\":2,\"fileName\":\"头像sadas\",\"filePath\":\"/profile/upload/2024/06/08/屏幕截图 2024-05-21 101731_20240608010246A001.png\",\"params\":{},\"uploadBy\":\"1\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-08 02:31:38', '3');
+INSERT INTO `sys_oper_log` VALUES ('350', '活动管理', '2', 'com.ruoyi.web.controller.ActivityController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/activity', '127.0.0.1', '内网IP', '{\"activityId\":7,\"activityName\":\"sadas\",\"activityProgress\":1,\"activityUserList\":[{\"activityId\":7,\"id\":\"3\",\"params\":{},\"userId\":1,\"userPosition\":\"老师\"},{\"activityId\":7,\"id\":\"4\",\"params\":{},\"userId\":3,\"userPosition\":\"学生\"},{\"activityId\":7,\"id\":\"5\",\"params\":{},\"userId\":1,\"userPosition\":\"\"},{\"activityId\":7,\"id\":\"8\",\"params\":{},\"userId\":1},{\"activityId\":7,\"id\":\"10\",\"params\":{},\"userId\":23,\"userPosition\":\"123\"}],\"budget\":500,\"createdTime\":\"2024-05-28\",\"expend\":200,\"finishTime\":\"2024-05-16\",\"params\":{},\"prepareTime\":\"2024-05-30\",\"processTime\":\"2024-05-01\",\"remark\":\"辩论赛是一项极富挑战性和教育意义的活动，它融合了批判性思维、逻辑推理、公众演讲和团队合作等多种技能。在这场知识与思想的盛宴中，参赛者将围绕特定主题或命题，展开激烈的辩论和探讨。辩论赛通常分为正反两方，每方由若干名队员组成。比赛过程中，双方队员需要充分利用自己的知识储备和辩论技巧，就辩题展开深入剖析和激烈交锋。这不仅考验参赛者的知识储备和应变能力，更是一场对智力和口才的全方位挑战。我们诚挚邀请各位热爱辩论、追求真理的朋友踊跃参加，共同探索知识的海洋，感受辩论的魅力！\",\"resourceId\":1,\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-08 02:31:39', '17');
+INSERT INTO `sys_oper_log` VALUES ('351', '文件存储', '2', 'com.ruoyi.web.controller.FilesController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/files', '127.0.0.1', '内网IP', '{\"activityId\":7,\"fileId\":2,\"fileName\":\"头像sadas\",\"filePath\":\"/profile/upload/2024/06/08/屏幕截图 2024-05-21 101731_20240608010246A001.png\",\"params\":{},\"uploadBy\":\"1\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-08 03:20:40', '8');
+INSERT INTO `sys_oper_log` VALUES ('352', '活动管理', '2', 'com.ruoyi.web.controller.ActivityController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/activity', '127.0.0.1', '内网IP', '{\"activityId\":7,\"activityName\":\"sadas\",\"activityProgress\":1,\"activityUserList\":[{\"activityId\":7,\"id\":\"3\",\"params\":{},\"userId\":1,\"userPosition\":\"老师\"},{\"activityId\":7,\"id\":\"4\",\"params\":{},\"userId\":3,\"userPosition\":\"学生\"},{\"activityId\":7,\"id\":\"5\",\"params\":{},\"userId\":1,\"userPosition\":\"\"},{\"activityId\":7,\"id\":\"8\",\"params\":{},\"userId\":1},{\"activityId\":7,\"id\":\"10\",\"params\":{},\"userId\":23,\"userPosition\":\"123\"}],\"budget\":500,\"createdTime\":\"2024-05-28\",\"expend\":200,\"finishTime\":\"2024-05-16\",\"params\":{},\"prepareTime\":\"2024-05-30\",\"processTime\":\"2024-05-01\",\"remark\":\"\\t\\t辩论赛是一项极富挑战性和教育意义的活动，它融合了批判性思维、逻辑推理、公众演讲和团队合作等多种技能。\\t\\t在这场知识与思想的盛宴中，参赛者将围绕特定主题或命题，展开激烈的辩论和探讨。辩论赛通常分为正反两方，每方由若干名队员组成。比赛过程中，双方队员需要充分利用自己的知识储备和辩论技巧，就辩题展开深入剖析和激烈交锋。这不仅考验参赛者的知识储备和应变能力，更是一场对智力和口才的全方位挑战。\\t\\t我们诚挚邀请各位热爱辩论、追求真理的朋友踊跃参加，共同探索知识的海洋，感受辩论的魅力！\",\"resourceId\":1,\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-08 03:20:40', '32');
+INSERT INTO `sys_oper_log` VALUES ('353', '文件存储', '2', 'com.ruoyi.web.controller.FilesController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/files', '127.0.0.1', '内网IP', '{\"activityId\":7,\"fileId\":2,\"fileName\":\"头像sadas\",\"filePath\":\"/profile/upload/2024/06/08/屏幕截图 2024-05-21 101731_20240608010246A001.png\",\"params\":{},\"uploadBy\":\"1\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-08 03:24:23', '3');
+INSERT INTO `sys_oper_log` VALUES ('354', '活动管理', '2', 'com.ruoyi.web.controller.ActivityController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/activity', '127.0.0.1', '内网IP', '{\"activityId\":7,\"activityName\":\"sadas\",\"activityProgress\":1,\"activityUserList\":[{\"activityId\":7,\"id\":\"3\",\"params\":{},\"userId\":1,\"userPosition\":\"老师\"},{\"activityId\":7,\"id\":\"4\",\"params\":{},\"userId\":3,\"userPosition\":\"学生\"},{\"activityId\":7,\"id\":\"5\",\"params\":{},\"userId\":1,\"userPosition\":\"\"},{\"activityId\":7,\"id\":\"8\",\"params\":{},\"userId\":1},{\"activityId\":7,\"id\":\"10\",\"params\":{},\"userId\":23,\"userPosition\":\"123\"}],\"budget\":500,\"createdTime\":\"2024-05-28\",\"expend\":200,\"finishTime\":\"2024-05-16\",\"params\":{},\"prepareTime\":\"2024-05-30\",\"processTime\":\"2024-05-01\",\"remark\":\"辩论赛是一项极富挑战性和教育意义的活动，它融合了批判性思维、逻辑推理、公众演讲和团队合作等多种技能。在这场知识与思想的盛宴中，参赛者将围绕特定主题或命题，展开激烈的辩论和探讨。辩论赛通常分为正反两方，每方由若干名队员组成。比赛过程中，双方队员需要充分利用自己的知识储备和辩论技巧，就辩题展开深入剖析和激烈交锋。这不仅考验参赛者的知识储备和应变能力，更是一场对智力和口才的全方位挑战。我们诚挚邀请各位热爱辩论、追求真理的朋友踊跃参加，共同探索知识的海洋，感受辩论的魅力！\",\"resourceId\":1,\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-08 03:24:23', '29');
+INSERT INTO `sys_oper_log` VALUES ('355', '文件存储', '2', 'com.ruoyi.web.controller.FilesController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/files', '127.0.0.1', '内网IP', '{\"activityId\":7,\"fileId\":2,\"fileName\":\"头像sadas\",\"filePath\":\"/profile/upload/2024/06/08/屏幕截图 2024-05-21 101731_20240608010246A001.png\",\"params\":{},\"uploadBy\":\"1\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-08 03:53:29', '7');
+INSERT INTO `sys_oper_log` VALUES ('356', '活动管理', '2', 'com.ruoyi.web.controller.ActivityController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/activity', '127.0.0.1', '内网IP', '{\"activityId\":7,\"activityName\":\"sadas\",\"activityProgress\":1,\"activityUserList\":[{\"activityId\":7,\"id\":\"3\",\"params\":{},\"userId\":1,\"userPosition\":\"老师\"},{\"activityId\":7,\"id\":\"4\",\"params\":{},\"userId\":3,\"userPosition\":\"学生\"},{\"activityId\":7,\"id\":\"5\",\"params\":{},\"userId\":1,\"userPosition\":\"\"},{\"activityId\":7,\"id\":\"8\",\"params\":{},\"userId\":1},{\"activityId\":7,\"id\":\"10\",\"params\":{},\"userId\":23,\"userPosition\":\"123\"}],\"budget\":500,\"createdTime\":\"2024-05-28\",\"expend\":200,\"finishTime\":\"2024-05-16\",\"params\":{},\"prepareTime\":\"2024-05-30\",\"processTime\":\"2024-05-01\",\"remark\":\"<strong>﻿辩论赛是一项极富挑战性和教育意义的活动，它融合了批判性思维、逻辑推理、公众演讲和团队合作等多种技能。在这场知识与思想的盛宴中，参赛者将围绕特定主题或命题，展开激烈的辩论和探讨。辩论赛通常分为正反两方，每方由若干名队员组成。比赛过程中，双方队员需要充分利用自己的知识储备和辩论技巧，就辩题展开深入剖析和激烈交锋。这不仅考验参赛者的知识储备和应变能力，更是一场对智力和口才的全方位挑战。我们诚挚邀请各位热爱辩论、追求真理的朋友踊跃参加，共同探索知识的海洋，感受辩论的魅力！</strong>\",\"resourceId\":1,\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-08 03:53:29', '20');
+INSERT INTO `sys_oper_log` VALUES ('357', '文件存储', '2', 'com.ruoyi.web.controller.FilesController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/files', '127.0.0.1', '内网IP', '{\"activityId\":7,\"fileId\":2,\"fileName\":\"头像sadas\",\"filePath\":\"/profile/upload/2024/06/08/屏幕截图 2024-05-21 101731_20240608010246A001.png\",\"params\":{},\"uploadBy\":\"1\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-08 03:53:50', '2');
+INSERT INTO `sys_oper_log` VALUES ('358', '活动管理', '2', 'com.ruoyi.web.controller.ActivityController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/activity', '127.0.0.1', '内网IP', '{\"activityId\":7,\"activityName\":\"sadas\",\"activityProgress\":1,\"activityUserList\":[{\"activityId\":7,\"id\":\"3\",\"params\":{},\"userId\":1,\"userPosition\":\"老师\"},{\"activityId\":7,\"id\":\"4\",\"params\":{},\"userId\":3,\"userPosition\":\"学生\"},{\"activityId\":7,\"id\":\"5\",\"params\":{},\"userId\":1,\"userPosition\":\"\"},{\"activityId\":7,\"id\":\"8\",\"params\":{},\"userId\":1},{\"activityId\":7,\"id\":\"10\",\"params\":{},\"userId\":23,\"userPosition\":\"123\"}],\"budget\":500,\"createdTime\":\"2024-05-28\",\"expend\":200,\"finishTime\":\"2024-05-16\",\"params\":{},\"prepareTime\":\"2024-05-30\",\"processTime\":\"2024-05-01\",\"remark\":\"<strong>﻿</strong>辩论赛是一项极富挑战性和教育意义的活动，它融合了批判性思维、逻辑推理、公众演讲和团队合作等多种技能。在这场知识与思想的盛宴中，参赛者将围绕特定主题或命题，展开激烈的辩论和探讨。辩论赛通常分为正反两方，每方由若干名队员组成。比赛过程中，双方队员需要充分利用自己的知识储备和辩论技巧，就辩题展开深入剖析和激烈交锋。这不仅考验参赛者的知识储备和应变能力，更是一场对智力和口才的全方位挑战。我们诚挚邀请各位热爱辩论、追求真理的朋友踊跃参加，共同探索知识的海洋，感受辩论的魅力！\",\"resourceId\":1,\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-08 03:53:50', '21');
+INSERT INTO `sys_oper_log` VALUES ('359', '文件存储', '2', 'com.ruoyi.web.controller.FilesController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/files', '127.0.0.1', '内网IP', '{\"activityId\":7,\"fileId\":2,\"fileName\":\"头像sadas\",\"filePath\":\"/profile/upload/2024/06/08/屏幕截图 2024-05-21 101731_20240608010246A001.png\",\"params\":{},\"uploadBy\":\"1\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-08 03:54:08', '2');
+INSERT INTO `sys_oper_log` VALUES ('360', '活动管理', '2', 'com.ruoyi.web.controller.ActivityController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/activity', '127.0.0.1', '内网IP', '{\"activityId\":7,\"activityName\":\"sadas\",\"activityProgress\":1,\"activityUserList\":[{\"activityId\":7,\"id\":\"3\",\"params\":{},\"userId\":1,\"userPosition\":\"老师\"},{\"activityId\":7,\"id\":\"4\",\"params\":{},\"userId\":3,\"userPosition\":\"学生\"},{\"activityId\":7,\"id\":\"5\",\"params\":{},\"userId\":1,\"userPosition\":\"\"},{\"activityId\":7,\"id\":\"8\",\"params\":{},\"userId\":1},{\"activityId\":7,\"id\":\"10\",\"params\":{},\"userId\":23,\"userPosition\":\"123\"}],\"budget\":500,\"createdTime\":\"2024-05-28\",\"expend\":200,\"finishTime\":\"2024-05-16\",\"params\":{},\"prepareTime\":\"2024-05-30\",\"processTime\":\"2024-05-01\",\"remark\":\"﻿辩论赛是一项极富挑战性和教育意义的活动，它融合了批判性思维、逻辑推理、公众演讲和团队合作等多种技能。在这场知识与思想的盛宴中，参赛者将围绕特定主题或命题，展开激烈的辩论和探讨。辩论赛通常分为正反两方，每方由若干名队员组成。比赛过程中，双方队员需要充分利用自己的知识储备和辩论技巧，就辩题展开深入剖析和激烈交锋。这不仅考验参赛者的知识储备和应变能力，更是一场对智力和口才的全方位挑战。我们诚挚邀请各位热爱辩论、追求真理的朋友踊跃参加，共同探索知识的海洋，感受辩论的魅力！\",\"resourceId\":1,\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-08 03:54:08', '19');
+INSERT INTO `sys_oper_log` VALUES ('361', '文件存储', '2', 'com.ruoyi.web.controller.FilesController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/files', '127.0.0.1', '内网IP', '{\"activityId\":7,\"fileId\":2,\"fileName\":\"头像sadas\",\"filePath\":\"/profile/upload/2024/06/08/屏幕截图 2024-05-21 101731_20240608010246A001.png\",\"params\":{},\"uploadBy\":\"1\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-08 03:56:28', '2');
+INSERT INTO `sys_oper_log` VALUES ('362', '活动管理', '2', 'com.ruoyi.web.controller.ActivityController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/activity', '127.0.0.1', '内网IP', '{\"activityId\":7,\"activityName\":\"sadas\",\"activityProgress\":1,\"activityUserList\":[{\"activityId\":7,\"id\":\"3\",\"params\":{},\"userId\":1,\"userPosition\":\"老师\"},{\"activityId\":7,\"id\":\"4\",\"params\":{},\"userId\":3,\"userPosition\":\"学生\"},{\"activityId\":7,\"id\":\"5\",\"params\":{},\"userId\":1,\"userPosition\":\"\"},{\"activityId\":7,\"id\":\"8\",\"params\":{},\"userId\":1},{\"activityId\":7,\"id\":\"10\",\"params\":{},\"userId\":23,\"userPosition\":\"123\"}],\"budget\":500,\"createdTime\":\"2024-05-28\",\"expend\":200,\"finishTime\":\"2024-05-16\",\"params\":{},\"prepareTime\":\"2024-05-30\",\"processTime\":\"2024-05-01\",\"remark\":\"﻿辩论赛是一项极富挑战性和教育意义的活动，它融合了批判性思维、逻辑推理、公众演讲和团队合作等多种技能。在这场知识与思想的盛宴中，参赛者将围绕特定主题或命题，展开激烈的辩论和探讨。辩论赛通常分为正反两方，每方由若干名队员组成。比赛过程中，双方队员需要充分利用自己的知识储备和辩论技巧，就辩题展开深入剖析和激烈交锋。这不仅考验参赛者的知识储备和应变能力，更是一场对智力和口才的全方位挑战。我们诚挚邀请各位热爱辩论、追求真理的朋友踊跃参加，共同探索知识的海洋，感受辩论的魅力！\",\"resourceId\":1,\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-08 03:56:28', '20');
+INSERT INTO `sys_oper_log` VALUES ('363', '用户管理', '1', 'com.ruoyi.web.controller.system.SysUserController.add()', 'POST', '1', 'admin', '研发部门', '/system/user', '127.0.0.1', '内网IP', '{\"admin\":false,\"createBy\":\"admin\",\"nickName\":\"sch\",\"params\":{},\"postIds\":[],\"roleIds\":[],\"status\":\"0\",\"userId\":103,\"userName\":\"sch\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:04:39', '115');
+INSERT INTO `sys_oper_log` VALUES ('364', '角色管理', '2', 'com.ruoyi.web.controller.system.SysRoleController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-05-26 01:54:27\",\"dataScope\":\"3\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2008,2009,2021,1,103,3,2002,2010,2014,2022,2026,2040,1016,2003],\"params\":{},\"roleId\":102,\"roleKey\":\"student\",\"roleName\":\"普通学生\",\"roleSort\":0,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:10:02', '177');
+INSERT INTO `sys_oper_log` VALUES ('365', '角色管理', '2', 'com.ruoyi.web.controller.system.SysRoleController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-05-26 01:54:27\",\"dataScope\":\"3\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2008,2009,2021,1,103,107,3,2002,2010,2014,2022,2026,2040,1016,1035,2003],\"params\":{},\"roleId\":102,\"roleKey\":\"student\",\"roleName\":\"普通学生\",\"roleSort\":0,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:12:45', '20');
+INSERT INTO `sys_oper_log` VALUES ('366', '角色管理', '2', 'com.ruoyi.web.controller.system.SysRoleController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/role', '127.0.0.1', '内网IP', '{\"admin\":false,\"createTime\":\"2024-05-26 01:54:27\",\"dataScope\":\"3\",\"delFlag\":\"0\",\"deptCheckStrictly\":true,\"flag\":false,\"menuCheckStrictly\":true,\"menuIds\":[2008,2009,2021,1,103,107,2,3,2002,2027,2034,2010,2014,2022,2026,2040,1016,1035,110,1049,1050,1051,1052,1053,1054,2003,2035,2039],\"params\":{},\"roleId\":102,\"roleKey\":\"student\",\"roleName\":\"普通学生\",\"roleSort\":0,\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:14:53', '21');
+INSERT INTO `sys_oper_log` VALUES ('367', '角色管理', '3', 'com.ruoyi.web.controller.system.SysRoleController.remove()', 'DELETE', '1', 'admin', '研发部门', '/system/role/2', '127.0.0.1', '内网IP', '{}', null, '1', '普通角色已分配,不能删除', '2024-06-09 17:15:17', '10');
+INSERT INTO `sys_oper_log` VALUES ('368', '部门管理', '2', 'com.ruoyi.web.controller.system.SysDeptController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/dept', '127.0.0.1', '内网IP', '{\"ancestors\":\"0,100,101\",\"children\":[],\"deptId\":103,\"deptName\":\"辩手\",\"email\":\"ry@qq.com\",\"leader\":\"若依\",\"orderNum\":2,\"params\":{},\"parentId\":101,\"parentName\":\"五四辩论赛\",\"phone\":\"15888888888\",\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:17:00', '24');
+INSERT INTO `sys_oper_log` VALUES ('369', '用户管理', '2', 'com.ruoyi.web.controller.system.SysUserController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/user', '127.0.0.1', '内网IP', '{\"admin\":false,\"avatar\":\"\",\"createBy\":\"admin\",\"createTime\":\"2024-06-09 17:04:39\",\"delFlag\":\"0\",\"deptId\":103,\"email\":\"\",\"loginIp\":\"\",\"nickName\":\"sch\",\"params\":{},\"phonenumber\":\"\",\"postIds\":[],\"roleIds\":[102],\"roles\":[],\"sex\":\"0\",\"status\":\"0\",\"updateBy\":\"admin\",\"userId\":103,\"userName\":\"sch\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:18:01', '19');
+INSERT INTO `sys_oper_log` VALUES ('370', '用户管理', '2', 'com.ruoyi.web.controller.system.SysUserController.edit()', 'PUT', '1', 'admin', '研发部门', '/system/user', '127.0.0.1', '内网IP', '{\"admin\":false,\"avatar\":\"\",\"createBy\":\"\",\"createTime\":\"2024-06-08 01:11:46\",\"delFlag\":\"0\",\"deptId\":103,\"email\":\"\",\"loginDate\":\"2024-06-08 01:11:57\",\"loginIp\":\"127.0.0.1\",\"nickName\":\"lyy\",\"params\":{},\"phonenumber\":\"\",\"postIds\":[],\"roleIds\":[102],\"roles\":[],\"sex\":\"1\",\"status\":\"0\",\"updateBy\":\"admin\",\"userId\":102,\"userName\":\"lyy\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:18:54', '17');
+INSERT INTO `sys_oper_log` VALUES ('371', '申请管理', '1', 'com.ruoyi.web.controller.ApplyController.add()', 'POST', '1', 'sch', '辩手', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":2,\"id\":8,\"params\":{},\"userId\":103}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:22:55', '11');
+INSERT INTO `sys_oper_log` VALUES ('372', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '辩手', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":0,\"id\":8,\"params\":{},\"userId\":103}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:23:30', '7');
+INSERT INTO `sys_oper_log` VALUES ('373', '添加用户关联', '2', 'com.ruoyi.web.controller.ApplyController.adduser()', 'PUT', '1', 'admin', '辩手', '/system/apply/adduser', '127.0.0.1', '内网IP', '{\"activityId\":7,\"params\":{},\"userId\":103}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:23:30', '6');
+INSERT INTO `sys_oper_log` VALUES ('374', '申请管理', '1', 'com.ruoyi.web.controller.ApplyController.add()', 'POST', '1', 'lyy', '辩手', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":2,\"id\":9,\"params\":{},\"userId\":102}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:26:00', '7');
+INSERT INTO `sys_oper_log` VALUES ('375', '申请管理', '2', 'com.ruoyi.web.controller.ApplyController.edit()', 'PUT', '1', 'admin', '辩手', '/system/apply', '127.0.0.1', '内网IP', '{\"activityId\":7,\"applyState\":0,\"id\":9,\"params\":{},\"userId\":102}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:26:46', '8');
+INSERT INTO `sys_oper_log` VALUES ('376', '添加用户关联', '2', 'com.ruoyi.web.controller.ApplyController.adduser()', 'PUT', '1', 'admin', '辩手', '/system/apply/adduser', '127.0.0.1', '内网IP', '{\"activityId\":7,\"params\":{},\"userId\":102}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:26:46', '6');
+INSERT INTO `sys_oper_log` VALUES ('377', '文件存储', '2', 'com.ruoyi.web.controller.FilesController.edit()', 'PUT', '1', 'admin', '辩手', '/system/files', '127.0.0.1', '内网IP', '{\"activityId\":7,\"fileId\":2,\"fileName\":\"头像sadas\",\"filePath\":\"/profile/upload/2024/06/08/屏幕截图 2024-05-21 101731_20240608010246A001.png\",\"params\":{},\"uploadBy\":\"1\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:28:15', '5');
+INSERT INTO `sys_oper_log` VALUES ('378', '活动管理', '2', 'com.ruoyi.web.controller.ActivityController.edit()', 'PUT', '1', 'admin', '辩手', '/system/activity', '127.0.0.1', '内网IP', '{\"activityId\":7,\"activityName\":\"sadas\",\"activityProgress\":1,\"activityUserList\":[{\"activityId\":7,\"id\":\"3\",\"params\":{},\"userId\":1,\"userPosition\":\"老师\"},{\"activityId\":7,\"id\":\"4\",\"params\":{},\"userId\":3,\"userPosition\":\"学生\"},{\"activityId\":7,\"id\":\"5\",\"params\":{},\"userId\":1,\"userPosition\":\"\"},{\"activityId\":7,\"id\":\"8\",\"params\":{},\"userId\":1},{\"activityId\":7,\"id\":\"10\",\"params\":{},\"userId\":23,\"userPosition\":\"123\"},{\"activityId\":7,\"id\":\"11\",\"params\":{},\"userId\":103},{\"activityId\":7,\"id\":\"12\",\"params\":{},\"userId\":102}],\"budget\":500,\"createdTime\":\"2024-05-28\",\"expend\":200,\"finishTime\":\"2024-05-16\",\"params\":{},\"prepareTime\":\"2024-05-30\",\"processTime\":\"2024-05-01\",\"remark\":\"﻿辩论赛是一项极富挑战性和教育意义的活动，它融合了批判性思维、逻辑推理、公众演讲和团队合作等多种技能。在这场知识与思想的盛宴中，参赛者将围绕特定主题或命题，展开激烈的辩论和探讨。辩论赛通常分为正反两方，每方由若干名队员组成。比赛过程中，双方队员需要充分利用自己的知识储备和辩论技巧，就辩题展开深入剖析和激烈交锋。这不仅考验参赛者的知识储备和应变能力，更是一场对智力和口才的全方位挑战。我们诚挚邀请各位热爱辩论、追求真理的朋友踊跃参加，共同探索知识的海洋，感受辩论的魅力！\",\"resourceId\":1,\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:28:15', '34');
+INSERT INTO `sys_oper_log` VALUES ('379', '文件存储', '2', 'com.ruoyi.web.controller.FilesController.edit()', 'PUT', '1', 'admin', '辩手', '/system/files', '127.0.0.1', '内网IP', '{\"activityId\":7,\"fileId\":2,\"fileName\":\"头像五四辩论赛\",\"filePath\":\"/profile/upload/2024/06/08/屏幕截图 2024-05-21 101731_20240608010246A001.png\",\"params\":{},\"uploadBy\":\"1\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:35:36', '8');
+INSERT INTO `sys_oper_log` VALUES ('380', '活动管理', '2', 'com.ruoyi.web.controller.ActivityController.edit()', 'PUT', '1', 'admin', '辩手', '/system/activity', '127.0.0.1', '内网IP', '{\"activityId\":7,\"activityName\":\"五四辩论赛\",\"activityProgress\":1,\"activityUserList\":[{\"activityId\":7,\"id\":\"3\",\"params\":{},\"userId\":1,\"userPosition\":\"老师\"},{\"activityId\":7,\"id\":\"4\",\"params\":{},\"userId\":3,\"userPosition\":\"学生\"},{\"activityId\":7,\"id\":\"5\",\"params\":{},\"userId\":1,\"userPosition\":\"\"},{\"activityId\":7,\"id\":\"8\",\"params\":{},\"userId\":1},{\"activityId\":7,\"id\":\"10\",\"params\":{},\"userId\":23,\"userPosition\":\"123\"},{\"activityId\":7,\"id\":\"11\",\"params\":{},\"userId\":103},{\"activityId\":7,\"id\":\"12\",\"params\":{},\"userId\":102}],\"budget\":500,\"createdTime\":\"2024-05-28\",\"expend\":200,\"finishTime\":\"2024-05-16\",\"params\":{},\"prepareTime\":\"2024-05-30\",\"processTime\":\"2024-05-01\",\"remark\":\"﻿辩论赛是一项极富挑战性和教育意义的活动，它融合了批判性思维、逻辑推理、公众演讲和团队合作等多种技能。在这场知识与思想的盛宴中，参赛者将围绕特定主题或命题，展开激烈的辩论和探讨。辩论赛通常分为正反两方，每方由若干名队员组成。比赛过程中，双方队员需要充分利用自己的知识储备和辩论技巧，就辩题展开深入剖析和激烈交锋。这不仅考验参赛者的知识储备和应变能力，更是一场对智力和口才的全方位挑战。我们诚挚邀请各位热爱辩论、追求真理的朋友踊跃参加，共同探索知识的海洋，感受辩论的魅力！\",\"resourceId\":1,\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:35:36', '22');
+INSERT INTO `sys_oper_log` VALUES ('381', '文件存储', '2', 'com.ruoyi.web.controller.FilesController.edit()', 'PUT', '1', 'admin', '辩手', '/system/files', '127.0.0.1', '内网IP', '{\"activityId\":7,\"fileId\":2,\"fileName\":\"头像五四辩论赛\",\"filePath\":\"/profile/upload/2024/06/08/屏幕截图 2024-05-21 101731_20240608010246A001.png\",\"params\":{},\"uploadBy\":\"1\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:36:22', '1');
+INSERT INTO `sys_oper_log` VALUES ('382', '活动管理', '2', 'com.ruoyi.web.controller.ActivityController.edit()', 'PUT', '1', 'admin', '辩手', '/system/activity', '127.0.0.1', '内网IP', '{\"activityId\":7,\"activityName\":\"五四辩论赛\",\"activityProgress\":1,\"activityUserList\":[{\"activityId\":7,\"id\":\"11\",\"params\":{},\"userId\":103,\"userPosition\":\"辩手\"},{\"activityId\":7,\"id\":\"12\",\"params\":{},\"userId\":102,\"userPosition\":\"辩手\"}],\"budget\":500,\"createdTime\":\"2024-05-28\",\"expend\":200,\"finishTime\":\"2024-05-16\",\"params\":{},\"prepareTime\":\"2024-05-30\",\"processTime\":\"2024-05-01\",\"remark\":\"﻿辩论赛是一项极富挑战性和教育意义的活动，它融合了批判性思维、逻辑推理、公众演讲和团队合作等多种技能。在这场知识与思想的盛宴中，参赛者将围绕特定主题或命题，展开激烈的辩论和探讨。辩论赛通常分为正反两方，每方由若干名队员组成。比赛过程中，双方队员需要充分利用自己的知识储备和辩论技巧，就辩题展开深入剖析和激烈交锋。这不仅考验参赛者的知识储备和应变能力，更是一场对智力和口才的全方位挑战。我们诚挚邀请各位热爱辩论、追求真理的朋友踊跃参加，共同探索知识的海洋，感受辩论的魅力！\",\"resourceId\":1,\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:36:22', '18');
+INSERT INTO `sys_oper_log` VALUES ('383', '活动管理', '2', 'com.ruoyi.web.controller.ActivityController.edit()', 'PUT', '1', 'admin', '辩手', '/system/activity', '127.0.0.1', '内网IP', '{\"activityId\":8,\"activityName\":\"篮球赛\",\"activityUserList\":[],\"createdTime\":\"2024-05-01\",\"finishTime\":\"2024-06-01\",\"params\":{},\"prepareTime\":\"2024-06-01\",\"processTime\":\"2024-05-01\",\"resourceId\":2,\"userId\":1}', null, '1', 'Index: 0, Size: 0', '2024-06-09 17:37:38', '13');
+INSERT INTO `sys_oper_log` VALUES ('384', '文件存储', '2', 'com.ruoyi.web.controller.FilesController.edit()', 'PUT', '1', 'admin', '辩手', '/system/files', '127.0.0.1', '内网IP', '{\"activityId\":8,\"fileId\":4,\"fileName\":\"头像篮球赛\",\"filePath\":\"/profile/upload/2024/06/07/网络安全4_20240607020946A005.png\",\"params\":{},\"uploadBy\":\"1\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:37:38', '8');
+INSERT INTO `sys_oper_log` VALUES ('385', '活动管理', '2', 'com.ruoyi.web.controller.ActivityController.edit()', 'PUT', '1', 'admin', '辩手', '/system/activity', '127.0.0.1', '内网IP', '{\"activityId\":8,\"activityName\":\"篮球赛\",\"activityUserList\":[],\"createdTime\":\"2024-05-01\",\"finishTime\":\"2024-06-01\",\"params\":{},\"prepareTime\":\"2024-06-01\",\"processTime\":\"2024-05-01\",\"resourceId\":2,\"userId\":1}', null, '1', 'Index: 0, Size: 0', '2024-06-09 17:42:50', '8');
+INSERT INTO `sys_oper_log` VALUES ('386', '文件存储', '2', 'com.ruoyi.web.controller.FilesController.edit()', 'PUT', '1', 'admin', '辩手', '/system/files', '127.0.0.1', '内网IP', '{\"activityId\":8,\"fileId\":4,\"fileName\":\"头像篮球赛\",\"filePath\":\"/profile/upload/2024/06/07/网络安全4_20240607020946A005.png\",\"params\":{},\"uploadBy\":\"1\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:42:50', '3');
+INSERT INTO `sys_oper_log` VALUES ('387', '活动管理', '2', 'com.ruoyi.web.controller.ActivityController.edit()', 'PUT', '1', 'admin', '辩手', '/system/activity', '127.0.0.1', '内网IP', '{\"activityId\":8,\"activityName\":\"篮球赛\",\"activityUserList\":[{\"params\":{},\"userId\":102,\"userPosition\":\"队员\"}],\"createdTime\":\"2024-05-01\",\"finishTime\":\"2024-06-01\",\"params\":{},\"prepareTime\":\"2024-06-01\",\"processTime\":\"2024-05-01\",\"resourceId\":2,\"userId\":1}', null, '1', 'Index: 0, Size: 0', '2024-06-09 17:43:31', '7');
+INSERT INTO `sys_oper_log` VALUES ('388', '文件存储', '2', 'com.ruoyi.web.controller.FilesController.edit()', 'PUT', '1', 'admin', '辩手', '/system/files', '127.0.0.1', '内网IP', '{\"activityId\":8,\"fileId\":4,\"fileName\":\"头像篮球赛\",\"filePath\":\"/profile/upload/2024/06/07/网络安全4_20240607020946A005.png\",\"params\":{},\"uploadBy\":\"1\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:43:31', '3');
+INSERT INTO `sys_oper_log` VALUES ('389', '文件存储', '2', 'com.ruoyi.web.controller.FilesController.edit()', 'PUT', '1', 'admin', '辩手', '/system/files', '127.0.0.1', '内网IP', '{\"activityId\":8,\"fileId\":4,\"fileName\":\"头像篮球赛\",\"filePath\":\"\",\"params\":{},\"uploadBy\":\"1\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:43:37', '4');
+INSERT INTO `sys_oper_log` VALUES ('390', '活动管理', '2', 'com.ruoyi.web.controller.ActivityController.edit()', 'PUT', '1', 'admin', '辩手', '/system/activity', '127.0.0.1', '内网IP', '{\"activityId\":8,\"activityName\":\"篮球赛\",\"activityUserList\":[{\"params\":{},\"userId\":102,\"userPosition\":\"队员\"}],\"createdTime\":\"2024-05-01\",\"finishTime\":\"2024-06-01\",\"params\":{},\"prepareTime\":\"2024-06-01\",\"processTime\":\"2024-05-01\",\"resourceId\":2,\"userId\":1}', null, '1', 'Index: 0, Size: 0', '2024-06-09 17:43:37', '7');
+INSERT INTO `sys_oper_log` VALUES ('391', '活动管理', '2', 'com.ruoyi.web.controller.ActivityController.edit()', 'PUT', '1', 'admin', '辩手', '/system/activity', '127.0.0.1', '内网IP', '{\"activityId\":8,\"activityName\":\"a\",\"activityUserList\":[{\"params\":{},\"userId\":102,\"userPosition\":\"队员\"}],\"createdTime\":\"2024-05-01\",\"finishTime\":\"2024-06-01\",\"params\":{},\"prepareTime\":\"2024-06-01\",\"processTime\":\"2024-05-01\",\"resourceId\":2,\"userId\":1}', null, '1', 'Index: 0, Size: 0', '2024-06-09 17:43:49', '7');
+INSERT INTO `sys_oper_log` VALUES ('392', '文件存储', '2', 'com.ruoyi.web.controller.FilesController.edit()', 'PUT', '1', 'admin', '辩手', '/system/files', '127.0.0.1', '内网IP', '{\"activityId\":8,\"fileId\":4,\"fileName\":\"头像a\",\"filePath\":\"\",\"params\":{},\"uploadBy\":\"1\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:43:49', '5');
+INSERT INTO `sys_oper_log` VALUES ('393', '活动管理', '2', 'com.ruoyi.web.controller.ActivityController.edit()', 'PUT', '1', 'admin', '辩手', '/system/activity', '127.0.0.1', '内网IP', '{\"activityId\":8,\"activityName\":\"fsdaf\",\"activityUserList\":[],\"createdTime\":\"2024-05-01\",\"finishTime\":\"2024-06-01\",\"params\":{},\"prepareTime\":\"2024-06-01\",\"processTime\":\"2024-05-01\",\"resourceId\":2,\"userId\":1}', null, '1', 'Index: 0, Size: 0', '2024-06-09 17:44:39', '6');
+INSERT INTO `sys_oper_log` VALUES ('394', '文件存储', '2', 'com.ruoyi.web.controller.FilesController.edit()', 'PUT', '1', 'admin', '辩手', '/system/files', '127.0.0.1', '内网IP', '{\"activityId\":8,\"fileId\":4,\"fileName\":\"头像fsdaf\",\"filePath\":\"/profile/upload/2024/06/07/网络安全4_20240607020946A005.png\",\"params\":{},\"uploadBy\":\"1\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:44:39', '4');
+INSERT INTO `sys_oper_log` VALUES ('395', '活动管理', '3', 'com.ruoyi.web.controller.ActivityController.remove()', 'DELETE', '1', 'admin', '辩手', '/system/activity/8', '127.0.0.1', '内网IP', '{}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:45:24', '9');
+INSERT INTO `sys_oper_log` VALUES ('396', '活动资源;活动资源', '2', 'com.ruoyi.web.controller.system.ResourceController.edit()', 'PUT', '1', 'admin', '辩手', '/system/resource', '127.0.0.1', '内网IP', '{\"createdBy\":\"admin\",\"createdTime\":\"2024-06-07\",\"params\":{},\"resourceId\":2,\"resourceName\":\"操场\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:46:09', '10');
+INSERT INTO `sys_oper_log` VALUES ('397', '活动管理', '1', 'com.ruoyi.web.controller.ActivityController.add()', 'POST', '1', 'admin', '辩手', '/system/activity', '127.0.0.1', '内网IP', '{\"activityId\":9,\"activityName\":\"篮球赛\",\"activityProgress\":0,\"activityUserList\":[],\"createdTime\":\"2024-06-09\",\"params\":{},\"resourceId\":2,\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:46:41', '12');
+INSERT INTO `sys_oper_log` VALUES ('398', '文件存储', '1', 'com.ruoyi.web.controller.FilesController.add()', 'POST', '1', 'admin', '辩手', '/system/files', '127.0.0.1', '内网IP', '{\"fileName\":\"头像篮球赛\",\"params\":{},\"uploadBy\":\"1\"}', null, '1', '\r\n### Error updating database.  Cause: java.sql.SQLException: Field \'file_path\' doesn\'t have a default value\r\n### The error may exist in file [D:\\Ruangong\\RuoYi-Vue-master\\ruoyi-system\\target\\classes\\mapper\\system\\FilesMapper.xml]\r\n### The error may involve com.ruoyi.system.mapper.FilesMapper.insertFiles-Inline\r\n### The error occurred while setting parameters\r\n### SQL: insert into files          ( file_name,                          upload_by )           values ( ?,                          ? )\r\n### Cause: java.sql.SQLException: Field \'file_path\' doesn\'t have a default value\n; Field \'file_path\' doesn\'t have a default value; nested exception is java.sql.SQLException: Field \'file_path\' doesn\'t have a default value', '2024-06-09 17:46:41', '80');
+INSERT INTO `sys_oper_log` VALUES ('399', '活动管理', '3', 'com.ruoyi.web.controller.ActivityController.remove()', 'DELETE', '1', 'admin', '辩手', '/system/activity/9', '127.0.0.1', '内网IP', '{}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:47:35', '13');
+INSERT INTO `sys_oper_log` VALUES ('400', '活动管理', '1', 'com.ruoyi.web.controller.ActivityController.add()', 'POST', '1', 'admin', '辩手', '/system/activity', '127.0.0.1', '内网IP', '{\"activityId\":10,\"activityName\":\"篮球赛\",\"activityProgress\":0,\"activityUserList\":[],\"createdTime\":\"2024-06-09\",\"params\":{},\"resourceId\":2,\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:48:25', '11');
+INSERT INTO `sys_oper_log` VALUES ('401', '文件存储', '1', 'com.ruoyi.web.controller.FilesController.add()', 'POST', '1', 'admin', '辩手', '/system/files', '127.0.0.1', '内网IP', '{\"fileId\":5,\"fileName\":\"头像篮球赛\",\"filePath\":\"/profile/upload/2024/06/09/iogo_20240609174817A001.jpg\",\"params\":{},\"uploadBy\":\"1\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:48:25', '6');
+INSERT INTO `sys_oper_log` VALUES ('402', '申请管理', '3', 'com.ruoyi.web.controller.ApplyController.remove()', 'DELETE', '1', 'admin', '辩手', '/system/apply/1,2,3,4,5,6,7', '127.0.0.1', '内网IP', '{}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:51:50', '6');
+INSERT INTO `sys_oper_log` VALUES ('403', '用户管理', '2', 'com.ruoyi.web.controller.system.SysUserController.edit()', 'PUT', '1', 'admin', '辩手', '/system/user', '127.0.0.1', '内网IP', '{\"admin\":false,\"avatar\":\"\",\"createBy\":\"admin\",\"createTime\":\"2024-05-27 15:52:50\",\"delFlag\":\"0\",\"dept\":{\"ancestors\":\"0,100\",\"children\":[],\"deptId\":101,\"deptName\":\"五四辩论赛\",\"leader\":\"五四\",\"orderNum\":1,\"params\":{},\"parentId\":100,\"status\":\"0\"},\"deptId\":101,\"email\":\"\",\"loginDate\":\"2024-05-27 15:53:08\",\"loginIp\":\"127.0.0.1\",\"nickName\":\"组织者\",\"params\":{},\"phonenumber\":\"\",\"postIds\":[],\"roleIds\":[100],\"roles\":[{\"admin\":false,\"dataScope\":\"4\",\"deptCheckStrictly\":false,\"flag\":false,\"menuCheckStrictly\":false,\"params\":{},\"roleId\":100,\"roleKey\":\"organizer\",\"roleName\":\"组织者\",\"roleSort\":3,\"status\":\"0\"}],\"sex\":\"0\",\"status\":\"0\",\"updateBy\":\"admin\",\"userId\":100,\"userName\":\"zuzhizhe\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:55:58', '13');
+INSERT INTO `sys_oper_log` VALUES ('404', '用户管理', '2', 'com.ruoyi.web.controller.system.SysUserController.edit()', 'PUT', '1', 'admin', '辩手', '/system/user', '127.0.0.1', '内网IP', '{\"admin\":false,\"avatar\":\"\",\"createBy\":\"admin\",\"createTime\":\"2024-05-27 15:52:50\",\"delFlag\":\"0\",\"dept\":{\"ancestors\":\"0,100\",\"children\":[],\"deptId\":101,\"deptName\":\"五四辩论赛\",\"leader\":\"五四\",\"orderNum\":1,\"params\":{},\"parentId\":100,\"status\":\"0\"},\"deptId\":101,\"email\":\"\",\"loginDate\":\"2024-05-27 15:53:08\",\"loginIp\":\"127.0.0.1\",\"nickName\":\"石从灏\",\"params\":{},\"phonenumber\":\"\",\"postIds\":[],\"roleIds\":[100],\"roles\":[{\"admin\":false,\"dataScope\":\"4\",\"deptCheckStrictly\":false,\"flag\":false,\"menuCheckStrictly\":false,\"params\":{},\"roleId\":100,\"roleKey\":\"organizer\",\"roleName\":\"组织者\",\"roleSort\":3,\"status\":\"0\"}],\"sex\":\"0\",\"status\":\"0\",\"updateBy\":\"admin\",\"userId\":100,\"userName\":\"zuzhizhe\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:56:50', '15');
+INSERT INTO `sys_oper_log` VALUES ('405', '文件存储', '2', 'com.ruoyi.web.controller.FilesController.edit()', 'PUT', '1', 'admin', '辩手', '/system/files', '127.0.0.1', '内网IP', '{\"activityId\":7,\"fileId\":2,\"fileName\":\"头像五四辩论赛\",\"filePath\":\"/profile/upload/2024/06/08/屏幕截图 2024-05-21 101731_20240608010246A001.png\",\"params\":{},\"uploadBy\":\"1\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:57:09', '3');
+INSERT INTO `sys_oper_log` VALUES ('406', '活动管理', '2', 'com.ruoyi.web.controller.ActivityController.edit()', 'PUT', '1', 'admin', '辩手', '/system/activity', '127.0.0.1', '内网IP', '{\"activityId\":7,\"activityName\":\"五四辩论赛\",\"activityProgress\":1,\"activityUserList\":[{\"activityId\":7,\"id\":\"11\",\"params\":{},\"userId\":103,\"userPosition\":\"辩手\"},{\"activityId\":7,\"id\":\"12\",\"params\":{},\"userId\":102,\"userPosition\":\"辩手\"}],\"budget\":500,\"createdTime\":\"2024-05-28\",\"expend\":200,\"finishTime\":\"2024-05-16\",\"params\":{},\"prepareTime\":\"2024-05-30\",\"processTime\":\"2024-05-01\",\"remark\":\"﻿辩论赛是一项极富挑战性和教育意义的活动，它融合了批判性思维、逻辑推理、公众演讲和团队合作等多种技能。在这场知识与思想的盛宴中，参赛者将围绕特定主题或命题，展开激烈的辩论和探讨。辩论赛通常分为正反两方，每方由若干名队员组成。比赛过程中，双方队员需要充分利用自己的知识储备和辩论技巧，就辩题展开深入剖析和激烈交锋。这不仅考验参赛者的知识储备和应变能力，更是一场对智力和口才的全方位挑战。我们诚挚邀请各位热爱辩论、追求真理的朋友踊跃参加，共同探索知识的海洋，感受辩论的魅力！\",\"resourceId\":1,\"userId\":100}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:57:09', '18');
+INSERT INTO `sys_oper_log` VALUES ('407', '用户管理', '2', 'com.ruoyi.web.controller.system.SysUserController.edit()', 'PUT', '1', 'admin', '辩手', '/system/user', '127.0.0.1', '内网IP', '{\"admin\":false,\"avatar\":\"\",\"createBy\":\"admin\",\"createTime\":\"2024-06-04 20:36:17\",\"delFlag\":\"0\",\"email\":\"\",\"loginDate\":\"2024-06-04 21:24:55\",\"loginIp\":\"127.0.0.1\",\"nickName\":\"石二灏\",\"params\":{},\"phonenumber\":\"\",\"postIds\":[],\"roleIds\":[100],\"roles\":[{\"admin\":false,\"dataScope\":\"3\",\"deptCheckStrictly\":false,\"flag\":false,\"menuCheckStrictly\":false,\"params\":{},\"roleId\":102,\"roleKey\":\"student\",\"roleName\":\"普通学生\",\"roleSort\":0,\"status\":\"0\"}],\"sex\":\"0\",\"status\":\"0\",\"updateBy\":\"admin\",\"userId\":101,\"userName\":\"student\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:58:02', '13');
+INSERT INTO `sys_oper_log` VALUES ('408', '部门管理', '2', 'com.ruoyi.web.controller.system.SysDeptController.edit()', 'PUT', '1', 'admin', '辩手', '/system/dept', '127.0.0.1', '内网IP', '{\"ancestors\":\"0,100\",\"children\":[],\"deptId\":102,\"deptName\":\"篮球赛\",\"email\":\"ry@qq.com\",\"leader\":\"若依\",\"orderNum\":2,\"params\":{},\"parentId\":100,\"parentName\":\"活动项目\",\"phone\":\"15888888888\",\"status\":\"0\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 17:58:45', '20');
+INSERT INTO `sys_oper_log` VALUES ('409', '活动管理', '2', 'com.ruoyi.web.controller.ActivityController.edit()', 'PUT', '1', 'zuzhizhe', '五四辩论赛', '/system/activity', '127.0.0.1', '内网IP', '{\"activityId\":7,\"activityName\":\"五四辩论赛\",\"activityProgress\":1,\"activityUserList\":[{\"activityId\":7,\"id\":\"11\",\"params\":{},\"userId\":103,\"userPosition\":\"辩手\"},{\"activityId\":7,\"id\":\"12\",\"params\":{},\"userId\":102,\"userPosition\":\"辩手\"}],\"budget\":500,\"createdTime\":\"2024-05-28\",\"expend\":200,\"finishTime\":\"2024-05-16\",\"params\":{},\"prepareTime\":\"2024-05-30\",\"processTime\":\"2024-05-01\",\"remark\":\"﻿辩论赛是一项极富挑战性和教育意义的活动，它融合了批判性思维、逻辑推理、公众演讲和团队合作等多种技能。在这场知识与思想的盛宴中，参赛者将围绕特定主题或命题，展开激烈的辩论和探讨。辩论赛通常分为正反两方，每方由若干名队员组成。比赛过程中，双方队员需要充分利用自己的知识储备和辩论技巧，就辩题展开深入剖析和激烈交锋。这不仅考验参赛者的知识储备和应变能力，更是一场对智力和口才的全方位挑战。我们诚挚邀请各位热爱辩论、追求真理的朋友踊跃参加，共同探索知识的海洋，感受辩论的魅力！\",\"resourceId\":1,\"userId\":1}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 18:04:59', '55');
+INSERT INTO `sys_oper_log` VALUES ('410', '角色管理', '3', 'com.ruoyi.web.controller.system.SysRoleController.remove()', 'DELETE', '1', 'admin', '辩手', '/system/role/2', '127.0.0.1', '内网IP', '{}', null, '1', '普通角色已分配,不能删除', '2024-06-09 18:08:07', '10');
+INSERT INTO `sys_oper_log` VALUES ('411', '角色管理', '4', 'com.ruoyi.web.controller.system.SysRoleController.cancelAuthUser()', 'PUT', '1', 'admin', '辩手', '/system/role/authUser/cancel', '127.0.0.1', '内网IP', '{\"roleId\":2,\"userId\":2}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 18:08:18', '6');
+INSERT INTO `sys_oper_log` VALUES ('412', '角色管理', '3', 'com.ruoyi.web.controller.system.SysRoleController.remove()', 'DELETE', '1', 'admin', '辩手', '/system/role/2', '127.0.0.1', '内网IP', '{}', '{\"msg\":\"操作成功\",\"code\":200}', '0', null, '2024-06-09 18:08:24', '34');
 
 -- ----------------------------
 -- Table structure for sys_post
@@ -1297,10 +1388,10 @@ CREATE TABLE `sys_role` (
 -- Records of sys_role
 -- ----------------------------
 INSERT INTO `sys_role` VALUES ('1', '超级管理员', 'admin', '1', '1', '1', '1', '0', '0', 'admin', '2024-04-22 21:16:40', '', null, '超级管理员');
-INSERT INTO `sys_role` VALUES ('2', '普通角色', 'common', '2', '2', '1', '1', '0', '0', 'admin', '2024-04-22 21:16:40', '', null, '普通角色');
+INSERT INTO `sys_role` VALUES ('2', '普通角色', 'common', '2', '2', '1', '1', '0', '2', 'admin', '2024-04-22 21:16:40', '', null, '普通角色');
 INSERT INTO `sys_role` VALUES ('100', '组织者', 'organizer', '3', '4', '1', '1', '0', '0', 'admin', '2024-05-13 15:26:52', 'admin', '2024-06-04 20:37:41', null);
 INSERT INTO `sys_role` VALUES ('101', '管理员', 'boss', '0', '1', '1', '1', '0', '0', 'admin', '2024-05-26 01:53:34', 'admin', '2024-05-26 01:55:09', null);
-INSERT INTO `sys_role` VALUES ('102', '普通学生', 'student', '0', '3', '1', '1', '0', '0', 'admin', '2024-05-26 01:54:27', 'admin', '2024-06-04 21:18:44', null);
+INSERT INTO `sys_role` VALUES ('102', '普通学生', 'student', '0', '3', '1', '1', '0', '0', 'admin', '2024-05-26 01:54:27', 'admin', '2024-06-09 17:14:53', null);
 
 -- ----------------------------
 -- Table structure for sys_role_dept
@@ -1315,9 +1406,6 @@ CREATE TABLE `sys_role_dept` (
 -- ----------------------------
 -- Records of sys_role_dept
 -- ----------------------------
-INSERT INTO `sys_role_dept` VALUES ('2', '100');
-INSERT INTO `sys_role_dept` VALUES ('2', '101');
-INSERT INTO `sys_role_dept` VALUES ('2', '105');
 
 -- ----------------------------
 -- Table structure for sys_role_menu
@@ -1332,91 +1420,6 @@ CREATE TABLE `sys_role_menu` (
 -- ----------------------------
 -- Records of sys_role_menu
 -- ----------------------------
-INSERT INTO `sys_role_menu` VALUES ('2', '1');
-INSERT INTO `sys_role_menu` VALUES ('2', '2');
-INSERT INTO `sys_role_menu` VALUES ('2', '3');
-INSERT INTO `sys_role_menu` VALUES ('2', '4');
-INSERT INTO `sys_role_menu` VALUES ('2', '100');
-INSERT INTO `sys_role_menu` VALUES ('2', '101');
-INSERT INTO `sys_role_menu` VALUES ('2', '102');
-INSERT INTO `sys_role_menu` VALUES ('2', '103');
-INSERT INTO `sys_role_menu` VALUES ('2', '104');
-INSERT INTO `sys_role_menu` VALUES ('2', '105');
-INSERT INTO `sys_role_menu` VALUES ('2', '106');
-INSERT INTO `sys_role_menu` VALUES ('2', '107');
-INSERT INTO `sys_role_menu` VALUES ('2', '108');
-INSERT INTO `sys_role_menu` VALUES ('2', '109');
-INSERT INTO `sys_role_menu` VALUES ('2', '110');
-INSERT INTO `sys_role_menu` VALUES ('2', '111');
-INSERT INTO `sys_role_menu` VALUES ('2', '112');
-INSERT INTO `sys_role_menu` VALUES ('2', '113');
-INSERT INTO `sys_role_menu` VALUES ('2', '114');
-INSERT INTO `sys_role_menu` VALUES ('2', '115');
-INSERT INTO `sys_role_menu` VALUES ('2', '116');
-INSERT INTO `sys_role_menu` VALUES ('2', '117');
-INSERT INTO `sys_role_menu` VALUES ('2', '500');
-INSERT INTO `sys_role_menu` VALUES ('2', '501');
-INSERT INTO `sys_role_menu` VALUES ('2', '1000');
-INSERT INTO `sys_role_menu` VALUES ('2', '1001');
-INSERT INTO `sys_role_menu` VALUES ('2', '1002');
-INSERT INTO `sys_role_menu` VALUES ('2', '1003');
-INSERT INTO `sys_role_menu` VALUES ('2', '1004');
-INSERT INTO `sys_role_menu` VALUES ('2', '1005');
-INSERT INTO `sys_role_menu` VALUES ('2', '1006');
-INSERT INTO `sys_role_menu` VALUES ('2', '1007');
-INSERT INTO `sys_role_menu` VALUES ('2', '1008');
-INSERT INTO `sys_role_menu` VALUES ('2', '1009');
-INSERT INTO `sys_role_menu` VALUES ('2', '1010');
-INSERT INTO `sys_role_menu` VALUES ('2', '1011');
-INSERT INTO `sys_role_menu` VALUES ('2', '1012');
-INSERT INTO `sys_role_menu` VALUES ('2', '1013');
-INSERT INTO `sys_role_menu` VALUES ('2', '1014');
-INSERT INTO `sys_role_menu` VALUES ('2', '1015');
-INSERT INTO `sys_role_menu` VALUES ('2', '1016');
-INSERT INTO `sys_role_menu` VALUES ('2', '1017');
-INSERT INTO `sys_role_menu` VALUES ('2', '1018');
-INSERT INTO `sys_role_menu` VALUES ('2', '1019');
-INSERT INTO `sys_role_menu` VALUES ('2', '1020');
-INSERT INTO `sys_role_menu` VALUES ('2', '1021');
-INSERT INTO `sys_role_menu` VALUES ('2', '1022');
-INSERT INTO `sys_role_menu` VALUES ('2', '1023');
-INSERT INTO `sys_role_menu` VALUES ('2', '1024');
-INSERT INTO `sys_role_menu` VALUES ('2', '1025');
-INSERT INTO `sys_role_menu` VALUES ('2', '1026');
-INSERT INTO `sys_role_menu` VALUES ('2', '1027');
-INSERT INTO `sys_role_menu` VALUES ('2', '1028');
-INSERT INTO `sys_role_menu` VALUES ('2', '1029');
-INSERT INTO `sys_role_menu` VALUES ('2', '1030');
-INSERT INTO `sys_role_menu` VALUES ('2', '1031');
-INSERT INTO `sys_role_menu` VALUES ('2', '1032');
-INSERT INTO `sys_role_menu` VALUES ('2', '1033');
-INSERT INTO `sys_role_menu` VALUES ('2', '1034');
-INSERT INTO `sys_role_menu` VALUES ('2', '1035');
-INSERT INTO `sys_role_menu` VALUES ('2', '1036');
-INSERT INTO `sys_role_menu` VALUES ('2', '1037');
-INSERT INTO `sys_role_menu` VALUES ('2', '1038');
-INSERT INTO `sys_role_menu` VALUES ('2', '1039');
-INSERT INTO `sys_role_menu` VALUES ('2', '1040');
-INSERT INTO `sys_role_menu` VALUES ('2', '1041');
-INSERT INTO `sys_role_menu` VALUES ('2', '1042');
-INSERT INTO `sys_role_menu` VALUES ('2', '1043');
-INSERT INTO `sys_role_menu` VALUES ('2', '1044');
-INSERT INTO `sys_role_menu` VALUES ('2', '1045');
-INSERT INTO `sys_role_menu` VALUES ('2', '1046');
-INSERT INTO `sys_role_menu` VALUES ('2', '1047');
-INSERT INTO `sys_role_menu` VALUES ('2', '1048');
-INSERT INTO `sys_role_menu` VALUES ('2', '1049');
-INSERT INTO `sys_role_menu` VALUES ('2', '1050');
-INSERT INTO `sys_role_menu` VALUES ('2', '1051');
-INSERT INTO `sys_role_menu` VALUES ('2', '1052');
-INSERT INTO `sys_role_menu` VALUES ('2', '1053');
-INSERT INTO `sys_role_menu` VALUES ('2', '1054');
-INSERT INTO `sys_role_menu` VALUES ('2', '1055');
-INSERT INTO `sys_role_menu` VALUES ('2', '1056');
-INSERT INTO `sys_role_menu` VALUES ('2', '1057');
-INSERT INTO `sys_role_menu` VALUES ('2', '1058');
-INSERT INTO `sys_role_menu` VALUES ('2', '1059');
-INSERT INTO `sys_role_menu` VALUES ('2', '1060');
 INSERT INTO `sys_role_menu` VALUES ('100', '1');
 INSERT INTO `sys_role_menu` VALUES ('100', '100');
 INSERT INTO `sys_role_menu` VALUES ('100', '101');
@@ -1581,9 +1584,19 @@ INSERT INTO `sys_role_menu` VALUES ('101', '2005');
 INSERT INTO `sys_role_menu` VALUES ('101', '2006');
 INSERT INTO `sys_role_menu` VALUES ('101', '2007');
 INSERT INTO `sys_role_menu` VALUES ('102', '1');
+INSERT INTO `sys_role_menu` VALUES ('102', '2');
 INSERT INTO `sys_role_menu` VALUES ('102', '3');
 INSERT INTO `sys_role_menu` VALUES ('102', '103');
+INSERT INTO `sys_role_menu` VALUES ('102', '107');
+INSERT INTO `sys_role_menu` VALUES ('102', '110');
 INSERT INTO `sys_role_menu` VALUES ('102', '1016');
+INSERT INTO `sys_role_menu` VALUES ('102', '1035');
+INSERT INTO `sys_role_menu` VALUES ('102', '1049');
+INSERT INTO `sys_role_menu` VALUES ('102', '1050');
+INSERT INTO `sys_role_menu` VALUES ('102', '1051');
+INSERT INTO `sys_role_menu` VALUES ('102', '1052');
+INSERT INTO `sys_role_menu` VALUES ('102', '1053');
+INSERT INTO `sys_role_menu` VALUES ('102', '1054');
 INSERT INTO `sys_role_menu` VALUES ('102', '2002');
 INSERT INTO `sys_role_menu` VALUES ('102', '2003');
 INSERT INTO `sys_role_menu` VALUES ('102', '2008');
@@ -1593,6 +1606,11 @@ INSERT INTO `sys_role_menu` VALUES ('102', '2014');
 INSERT INTO `sys_role_menu` VALUES ('102', '2021');
 INSERT INTO `sys_role_menu` VALUES ('102', '2022');
 INSERT INTO `sys_role_menu` VALUES ('102', '2026');
+INSERT INTO `sys_role_menu` VALUES ('102', '2027');
+INSERT INTO `sys_role_menu` VALUES ('102', '2034');
+INSERT INTO `sys_role_menu` VALUES ('102', '2035');
+INSERT INTO `sys_role_menu` VALUES ('102', '2039');
+INSERT INTO `sys_role_menu` VALUES ('102', '2040');
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -1619,16 +1637,17 @@ CREATE TABLE `sys_user` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户信息表';
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('1', '103', 'admin', '若依', '00', 'ry@163.com', '15888888888', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', '2024-06-09 18:19:43', 'admin', '2024-04-22 21:16:40', '', '2024-06-09 18:19:43', '管理员');
+INSERT INTO `sys_user` VALUES ('1', '103', 'admin', '若依', '00', 'ry@163.com', '15888888888', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', '2024-06-09 18:05:14', 'admin', '2024-04-22 21:16:40', '', '2024-06-09 18:05:13', '管理员');
 INSERT INTO `sys_user` VALUES ('2', '105', 'ry', '若依', '00', 'ry@qq.com', '15666666666', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', '2024-05-06 16:28:17', 'admin', '2024-04-22 21:16:40', '', '2024-05-06 16:28:16', '测试员');
-INSERT INTO `sys_user` VALUES ('100', '101', 'zuzhizhe', '组织者', '00', '', '', '0', '', '$2a$10$cz/UG929AWBhvSrm6q8vG.EQkGSQO.HoLCos1uf2Wa1FP75NKxYBG', '0', '0', '127.0.0.1', '2024-05-27 15:53:08', 'admin', '2024-05-27 15:52:50', '', '2024-05-27 15:53:08', null);
-INSERT INTO `sys_user` VALUES ('101', null, 'student', 'student1', '00', '', '', '0', '', '$2a$10$bzsEJGn2G4h/qpITBBCggON2.KNtoRd6OHg/mQYR5OPZTYsk0fgYa', '0', '0', '127.0.0.1', '2024-06-04 21:24:55', 'admin', '2024-06-04 20:36:17', 'admin', '2024-06-04 21:24:54', null);
-INSERT INTO `sys_user` VALUES ('102', null, '123', '123', '00', '', '', '0', '', '$2a$10$Tg5zgIox3FoLvhUb/nFHIenGeN4dMy/9kKf.cFDwJF1FKo1.zsasm', '0', '0', '127.0.0.1', '2024-06-09 18:19:00', '', '2024-06-09 18:18:51', '', '2024-06-09 18:19:00', null);
+INSERT INTO `sys_user` VALUES ('100', '101', 'zuzhizhe', '石从灏', '00', '', '', '0', '', '$2a$10$cz/UG929AWBhvSrm6q8vG.EQkGSQO.HoLCos1uf2Wa1FP75NKxYBG', '0', '0', '127.0.0.1', '2024-06-09 18:04:38', 'admin', '2024-05-27 15:52:50', 'admin', '2024-06-09 18:04:38', null);
+INSERT INTO `sys_user` VALUES ('101', null, 'student', '石二灏', '00', '', '', '0', '', '$2a$10$bzsEJGn2G4h/qpITBBCggON2.KNtoRd6OHg/mQYR5OPZTYsk0fgYa', '0', '0', '127.0.0.1', '2024-06-04 21:24:55', 'admin', '2024-06-04 20:36:17', 'admin', '2024-06-09 17:58:02', null);
+INSERT INTO `sys_user` VALUES ('102', '103', 'lyy', 'lyy', '00', '', '', '1', '', '$2a$10$MEbnnQN5LOkwgZQI.Avuf.1Jxo2tVW4asgMrXDZ5xxthOFQfarNVa', '0', '0', '127.0.0.1', '2024-06-09 17:25:50', '', '2024-06-08 01:11:46', 'admin', '2024-06-09 17:25:50', null);
+INSERT INTO `sys_user` VALUES ('103', '103', 'sch', 'sch', '00', '', '', '0', '', '$2a$10$T4TKmgu.m1yP3CeaunuPXeIfbNb4lxPbv8T44cJYgYCOsdMxY/JWu', '0', '0', '127.0.0.1', '2024-06-09 17:19:12', 'admin', '2024-06-09 17:04:39', 'admin', '2024-06-09 17:19:12', null);
 
 -- ----------------------------
 -- Table structure for sys_user_post
@@ -1660,6 +1679,7 @@ CREATE TABLE `sys_user_role` (
 -- Records of sys_user_role
 -- ----------------------------
 INSERT INTO `sys_user_role` VALUES ('1', '1');
-INSERT INTO `sys_user_role` VALUES ('2', '2');
 INSERT INTO `sys_user_role` VALUES ('100', '100');
-INSERT INTO `sys_user_role` VALUES ('101', '102');
+INSERT INTO `sys_user_role` VALUES ('101', '100');
+INSERT INTO `sys_user_role` VALUES ('102', '102');
+INSERT INTO `sys_user_role` VALUES ('103', '102');

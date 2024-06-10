@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.MainReplyMapper">
+    
+    <resultMap type="MainReply" id="MainReplyResult">
+        <result property="id"    column="id"    />
+        <result property="date"    column="date"    />
+        <result property="activityId"    column="activity_id"    />
+        <result property="fromId"    column="from_id"    />
+        <result property="fromName"    column="from_name"    />
+        <result property="fromAvatar"    column="from_avatar"    />
+        <result property="likeNum"    column="like_num"    />
+        <result property="content"    column="content"    />
+    </resultMap>
+
+    <resultMap id="MainReplyAppendReplyResult" type="MainReply" extends="MainReplyResult">
+        <collection property="appendReplyList" notNullColumn="sub_id" javaType="java.util.List" resultMap="AppendReplyResult" />
+    </resultMap>
+
+    <resultMap type="AppendReply" id="AppendReplyResult">
+        <result property="id"    column="sub_id"    />
+        <result property="commentId"    column="sub_comment_id"    />
+        <result property="fromId"    column="sub_from_id"    />
+        <result property="fromName"    column="sub_from_name"    />
+        <result property="fromAvatar"    column="sub_from_avatar"    />
+        <result property="toId"    column="sub_to_id"    />
+        <result property="toName"    column="sub_to_name"    />
+        <result property="toAvatar"    column="sub_to_avatar"    />
+        <result property="date"    column="sub_date"    />
+        <result property="content"    column="sub_content"    />
+    </resultMap>
+
+    <sql id="selectMainReplyVo">
+--         select id, date, activity_id, from_id, from_name, from_avatar, like_num, content  from main_reply
+    </sql>
+
+    <select id="selectMainReplyList" parameterType="MainReply" resultMap="MainReplyResult">
+        <include refid="selectMainReplyVo"/>
+        <where>  
+            <if test="date != null "> and date = #{date}</if>
+            <if test="activityId != null "> and activity_id = #{activityId}</if>
+            <if test="fromId != null "> and from_id = #{fromId}</if>
+            <if test="fromName != null  and fromName != ''"> and from_name like concat('%', #{fromName}, '%')</if>
+            <if test="fromAvatar != null  and fromAvatar != ''"> and from_avatar = #{fromAvatar}</if>
+            <if test="likeNum != null "> and like_num = #{likeNum}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+        </where>
+    </select>
+    
+    <select id="selectMainReplyById" parameterType="Long" resultMap="MainReplyAppendReplyResult">
+        select a.id, a.date, a.activity_id, a.from_id, a.from_name, a.from_avatar, a.like_num, a.content,
+ b.id as sub_id, b.comment_id as sub_comment_id, b.from_id as sub_from_id, b.from_name as sub_from_name, b.from_avatar as sub_from_avatar, b.to_id as sub_to_id, b.to_name as sub_to_name, b.to_avatar as sub_to_avatar, b.date as sub_date, b.content as sub_content
+        from main_reply a
+        left join append_reply b on b.comment_id = a.id
+        where a.id = #{id}
+    </select>
+        
+    <insert id="insertMainReply" parameterType="MainReply" useGeneratedKeys="true" keyProperty="id">
+        insert into main_reply
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="date != null">date,</if>
+            <if test="activityId != null">activity_id,</if>
+            <if test="fromId != null">from_id,</if>
+            <if test="fromName != null and fromName != ''">from_name,</if>
+            <if test="fromAvatar != null and fromAvatar != ''">from_avatar,</if>
+            <if test="likeNum != null">like_num,</if>
+            <if test="content != null and content != ''">content,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="date != null">#{date},</if>
+            <if test="activityId != null">#{activityId},</if>
+            <if test="fromId != null">#{fromId},</if>
+            <if test="fromName != null and fromName != ''">#{fromName},</if>
+            <if test="fromAvatar != null and fromAvatar != ''">#{fromAvatar},</if>
+            <if test="likeNum != null">#{likeNum},</if>
+            <if test="content != null and content != ''">#{content},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMainReply" parameterType="MainReply">
+        update main_reply
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="date != null">date = #{date},</if>
+            <if test="activityId != null">activity_id = #{activityId},</if>
+            <if test="fromId != null">from_id = #{fromId},</if>
+            <if test="fromName != null and fromName != ''">from_name = #{fromName},</if>
+            <if test="fromAvatar != null and fromAvatar != ''">from_avatar = #{fromAvatar},</if>
+            <if test="likeNum != null">like_num = #{likeNum},</if>
+            <if test="content != null and content != ''">content = #{content},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMainReplyById" parameterType="Long">
+        delete from main_reply where id = #{id}
+    </delete>
+
+    <delete id="deleteMainReplyByIds" parameterType="String">
+        delete from main_reply where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+    <delete id="deleteAppendReplyByCommentIds" parameterType="String">
+        delete from append_reply where comment_id in 
+        <foreach item="commentId" collection="array" open="(" separator="," close=")">
+            #{commentId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteAppendReplyByCommentId" parameterType="Long">
+        delete from append_reply where comment_id = #{commentId}
+    </delete>
+
+    <insert id="batchAppendReply">
+        insert into append_reply( id, comment_id, from_id, from_name, from_avatar, to_id, to_name, to_avatar, date, content) values
+		<foreach item="item" index="index" collection="list" separator=",">
+            ( #{item.id}, #{item.commentId}, #{item.fromId}, #{item.fromName}, #{item.fromAvatar}, #{item.toId}, #{item.toName}, #{item.toAvatar}, #{item.date}, #{item.content})
+        </foreach>
+    </insert>
+</mapper>
