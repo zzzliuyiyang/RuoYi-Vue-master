@@ -164,6 +164,18 @@ public class ActivityController extends BaseController
     }
 
     /**
+     * 修改活动管理（纯）
+     */
+    @PreAuthorize("@ss.hasPermi('system:activity:edit')")
+    @Log(title = "活动管理", businessType = BusinessType.UPDATE)
+    @PutMapping("/pure")
+    public AjaxResult editpure(@RequestBody Activity activity)
+    {
+
+        return toAjax(activityService.updateActivity(activity));
+    }
+
+    /**
      * 修改活动查询时间冲突
      */
     private boolean isTimeConflictUpdate(Activity activity) {

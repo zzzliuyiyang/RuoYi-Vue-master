@@ -27,22 +27,6 @@
           />
         </el-select>
       </el-form-item>
-<!--      <el-form-item label="活动预算" prop="budget">-->
-<!--        <el-input-->
-<!--          v-model="queryParams.budget"-->
-<!--          placeholder="请输入活动预算"-->
-<!--          clearable-->
-<!--          @keyup.enter.native="handleQuery"-->
-<!--        />-->
-<!--      </el-form-item>-->
-<!--      <el-form-item label="已花费金额" prop="expend">-->
-<!--        <el-input-->
-<!--          v-model="queryParams.expend"-->
-<!--          placeholder="请输入已花费金额"-->
-<!--          clearable-->
-<!--          @keyup.enter.native="handleQuery"-->
-<!--        />-->
-<!--      </el-form-item>-->
       <el-form-item label="创建时间" prop="createdTime">
         <el-date-picker clearable
           v-model="queryParams.createdTime"
@@ -143,8 +127,21 @@
           v-hasPermi="['system:activity:export']"
         >申请</el-button>
       </el-col>
+        <el-col :span="1.5">
+          <el-button
+            type="warning"
+            plain
+            icon="el-icon-apply"
+            size="mini"
+            :disabled="single"
+            @click="handleAccount"
+            v-hasPermi="['system:activity:export']"
+          >报销</el-button>
+      </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+
     </el-row>
+
 
     <el-table v-loading="loading" :data="activityList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
@@ -186,7 +183,7 @@
         </template>
       </el-table-column>
       <el-table-column label="资源名" align="center" prop="resourceName" />
-      <el-table-column label="备注" align="center" prop="remark" />
+<!--      <el-table-column label="备注" align="center" prop="remark" />-->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -310,6 +307,20 @@
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
+
+
+    <!-- 添加报销框 -->
+    <el-dialog :title="title" :visible.sync="accountopen" width="500px" append-to-body>
+      <el-form ref="accountform" :model="accountform" :rules="accountrules" label-width="80px">
+        <el-form-item label="报销金额" prop="money">
+          <el-input v-model="accountform.money" placeholder="请输入报销金额" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitAccountForm">确 定</el-button>
+        <el-button @click="accountcancel">取 消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -323,6 +334,7 @@ import {
   applyActivity,
 } from "@/api/system/activity";
 import { listFiles, getFiles, delFiles, addFiles, updateFiles,getFilesByActivityId } from "@/api/system/files";
+import {addReimbursement} from "@/api/system/reimbursement";
 
 
 export default {
@@ -350,8 +362,12 @@ export default {
       activityUserList: [],
       // 弹出层标题
       title: "",
+      //报销标题
+      accounttitle:"",
       // 是否显示弹出层
       open: false,
+      //是否显示报销
+      accountopen:false,
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -370,6 +386,9 @@ export default {
       // 表单参数
       form: {},
 
+      //报销参数
+      accountform:{},
+
       //图片参数
       photo: {},
 
@@ -387,6 +406,21 @@ export default {
         createdTime: [
           { required: true, message: "创建时间不能为空", trigger: "blur" }
         ],
+      },
+
+      accountrules: {
+        userId: [
+          { required: true, message: "用户ID不能为空", trigger: "blur" }
+        ],
+        activityId: [
+          { required: true, message: "活动ID不能为空", trigger: "blur" }
+        ],
+        money: [
+          { required: true, message: "报销金额不能为空", trigger: "blur" }
+        ],
+        state: [
+          { required: true, message: "状态不能为空", trigger: "change" }
+        ]
       }
     };
   },
@@ -407,6 +441,11 @@ export default {
     cancel() {
       this.open = false;
       this.reset();
+    },
+
+    accountcancel() {
+      this.accountopen = false;
+      this.resetaccount();
     },
     // 表单重置
     reset() {
@@ -441,6 +480,18 @@ export default {
       };
       this.resetForm("photo");
     },
+
+    // 报销重置
+    resetaccount() {
+      this.accountform = {
+        projectId: null,
+        userId: null,
+        activityId: null,
+        money: null,
+        state: null
+      };
+      this.resetForm("account");
+    },
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.pageNum = 1;
@@ -465,10 +516,36 @@ export default {
       this.form.createdTime = new Date();
       this.title = "添加活动管理";
     },
-
-
+    /** 报销按钮操作 */
+    handleAccount(){
+      this.resetaccount();
+      this.accountopen = true;
+      this.accounttitle = "添加报销";
+      this.accountform.userId = this.$store.state.user.id;
+      this.accountform.activityId = this.ids[0];
+      this.accountform.state = 2;
+    },
+    /** 报销提交按钮 */
+    submitAccountForm() {
+      const activityId = this.accountform.activityId || this.ids[0];
+      const activity = this.activityList.find(activity => activity.activityId === activityId);
+      const activityName = activity.activityName;
+      this.$refs["accountform"].validate(valid => {
+        if (valid) {
+          this.$modal.confirm('是否确认向"' + activityName + '”活动：' + '报销' + this.accountform.money + '元').then(() => {
+            return addReimbursement(this.accountform);
+          }).then(() => {
+            this.$modal.msgSuccess("报销申请成功");
+          }).catch(error => {
+            // 错误处理，比如活动获取失败的情况
+            this.$modal.msgError(error.message || "报销申请失败");
+          });
+          this.accountopen = false;
+        }
+      });
+    },
     /** 修改按钮操作 */
-    handleUpdate: function (row) {
+    handleUpdate:function(row) {
       this.reset();
       this.resetPhoto();
       const activityId = row.activityId || this.ids

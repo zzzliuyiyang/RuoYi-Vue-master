@@ -110,3 +110,13 @@ export function getActivityById(activityId) {
     method: 'get'
   })
 }
+
+
+// 修改活动管理（纯）
+export function updateActivityPure(data) {
+  return request({
+    url: '/system/activity/pure',
+    method: 'put',
+    data: data
+  })
+}
