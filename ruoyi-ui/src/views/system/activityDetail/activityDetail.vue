@@ -1,5 +1,6 @@
 <template>
   <div class="app-container">
+
     <div class="top-section">
       <div v-loading="loading" class="activity-grid">
         <div v-for="item in activity" :key="item.activityId">
@@ -37,6 +38,7 @@
       </div>
     </div>
     <div class="divider"></div>
+
 
     <!-- 图片部分开始 -->
     <div class="photo-section">
@@ -110,6 +112,14 @@ export default {
       },
       form: {},
       photo: {},
+
+
+
+      //原生图片
+      originPhoto: {},
+
+      // ID查询活动数据
+
       activity: {},
       commentData: [],
     };
@@ -118,16 +128,38 @@ export default {
     let activityId = this.$route.query.activityId;
     console.log(activityId);
     this.getActivityById(activityId);
+
     this.commentData = CommentData.comment.data;
+
+    console.log(this.originPhoto.filePath);
+    console.log(this.activityList);
+
   },
   methods: {
     getActivityById(activityId) {
       this.loading = true;
-      getActivityById(activityId).then(response => {
-        this.activity = response.data;
+      Promise.all([
+        getActivityById(activityId).then(response => {
+          this.activityList = response.data;
+        }),
+        getFilesByActivityId(activityId).then(response => {
+          this.originPhoto = response.data;
+          this.activityList = this.activityList.map(activity => {
+            if (activity.activityId === activityId) {
+              return { ...activity, filePath: this.originPhoto.filePath };
+            }
+            return activity;
+          });
+        })
+      ]).then(() => {
         this.loading = false;
       });
     },
+
+
+
+    /** 查询活动管理列表 */
+
     getList() {
       this.loading = true;
       listActivity(this.queryParams).then(response => {
@@ -157,11 +189,14 @@ export default {
 /* 引入背景图 */
 @import url('/src/assets/images/bg.png');
 
+
 .app-container {
   font-family: Arial, sans-serif;
   text-align: center;
   padding: 20px; /* 添加页边距 */
 }
+
+  
 
 .top-section {
   background-image: url('~@/assets/images/bg.png'); /* 设置背景图 */

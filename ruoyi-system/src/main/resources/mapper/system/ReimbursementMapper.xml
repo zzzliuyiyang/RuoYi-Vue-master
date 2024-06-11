@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ReimbursementMapper">
+    
+    <resultMap type="Reimbursement" id="ReimbursementResult">
+        <result property="projectId"    column="project_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="activityId"    column="activity_id"    />
+        <result property="money"    column="money"    />
+        <result property="state"    column="state"    />
+        <result property="userName"    column="user_name"    />
+        <result property="activityName"    column="activity_name"    />
+    </resultMap>
+
+    <sql id="selectReimbursementVo">
+--         select project_id, user_id, activity_id, money, state from reimbursement
+        select reimbursement.*,
+               ruoyi.sys_user.nick_name as user_name,
+               ruoyi.activity.activity_name as activity_name
+        from reimbursement
+                 left join
+             sys_user on reimbursement.user_id = sys_user.user_id
+                 left join
+             activity on reimbursement.activity_id = activity.activity_id
+    </sql>
+
+    <select id="selectReimbursementList" parameterType="Reimbursement" resultMap="ReimbursementResult">
+        <include refid="selectReimbursementVo"/>
+        <where>  
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="activityId != null "> and activity_id = #{activityId}</if>
+            <if test="money != null "> and money = #{money}</if>
+            <if test="state != null "> and state = #{state}</if>
+        </where>
+    </select>
+    
+    <select id="selectReimbursementByProjectId" parameterType="Long" resultMap="ReimbursementResult">
+        <include refid="selectReimbursementVo"/>
+        where project_id = #{projectId}
+    </select>
+        
+    <insert id="insertReimbursement" parameterType="Reimbursement" useGeneratedKeys="true" keyProperty="projectId">
+        insert into reimbursement
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="activityId != null">activity_id,</if>
+            <if test="money != null">money,</if>
+            <if test="state != null">state,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="activityId != null">#{activityId},</if>
+            <if test="money != null">#{money},</if>
+            <if test="state != null">#{state},</if>
+         </trim>
+    </insert>
+
+    <update id="updateReimbursement" parameterType="Reimbursement">
+        update reimbursement
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="activityId != null">activity_id = #{activityId},</if>
+            <if test="money != null">money = #{money},</if>
+            <if test="state != null">state = #{state},</if>
+        </trim>
+        where project_id = #{projectId}
+    </update>
+
+    <delete id="deleteReimbursementByProjectId" parameterType="Long">
+        delete from reimbursement where project_id = #{projectId}
+    </delete>
+
+    <delete id="deleteReimbursementByProjectIds" parameterType="String">
+        delete from reimbursement where project_id in 
+        <foreach item="projectId" collection="array" open="(" separator="," close=")">
+            #{projectId}
+        </foreach>
+    </delete>
+</mapper>
