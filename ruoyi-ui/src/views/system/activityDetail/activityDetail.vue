@@ -73,6 +73,7 @@ import {
   listActivity,
   getActivityById,
 } from "@/api/system/activity";
+import {getFilesByActivityId}from"@/api/system/files";
 import * as CommentData from '/src/views/system/activityDetail/mockdata';
 import comment from '/src/views/system/activityDetail/comment';
 
@@ -141,6 +142,7 @@ export default {
       Promise.all([
         getActivityById(activityId).then(response => {
           this.activityList = response.data;
+          this.activity=response.data;
         }),
         getFilesByActivityId(activityId).then(response => {
           this.originPhoto = response.data;
@@ -196,7 +198,7 @@ export default {
   padding: 20px; /* 添加页边距 */
 }
 
-  
+
 
 .top-section {
   background-image: url('~@/assets/images/bg.png'); /* 设置背景图 */
