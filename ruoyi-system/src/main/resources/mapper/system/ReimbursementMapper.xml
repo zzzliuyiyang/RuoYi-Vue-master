@@ -10,6 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="activityId"    column="activity_id"    />
         <result property="money"    column="money"    />
         <result property="state"    column="state"    />
+        <result property="remark" column="remark"    />
         <result property="userName"    column="user_name"    />
         <result property="activityName"    column="activity_name"    />
     </resultMap>
@@ -48,12 +49,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="activityId != null">activity_id,</if>
             <if test="money != null">money,</if>
             <if test="state != null">state,</if>
+            <if test="remark != null">remark,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userId != null">#{userId},</if>
             <if test="activityId != null">#{activityId},</if>
             <if test="money != null">#{money},</if>
             <if test="state != null">#{state},</if>
+            <if test="remark != null">#{remark},</if>
          </trim>
     </insert>
 
@@ -64,6 +67,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="activityId != null">activity_id = #{activityId},</if>
             <if test="money != null">money = #{money},</if>
             <if test="state != null">state = #{state},</if>
+            <if test="remark != null">remark = #{remark},</if>
         </trim>
         where project_id = #{projectId}
     </update>
