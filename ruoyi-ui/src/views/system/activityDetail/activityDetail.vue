@@ -61,7 +61,7 @@
 
     <div class="bottom-section">
       <h2 class="forum-title">论坛发言</h2>
-      <!-- 添加下半部分的内容 -->
+      <comment :comments="commentData"></comment>
     </div>
   </div>
 </template>
@@ -71,10 +71,15 @@ import {
   listActivity,
   getActivityById,
 } from "@/api/system/activity";
+import * as CommentData from '/src/views/system/activityDetail/mockdata';
+import comment from '/src/views/system/activityDetail/comment';
 
 export default {
   name: "Activity",
   dicts: ['activity_progress'],
+  components: {
+    comment
+  },
   data() {
     return {
       activityId: null,
@@ -106,12 +111,14 @@ export default {
       form: {},
       photo: {},
       activity: {},
+      commentData: [],
     };
   },
   created() {
     let activityId = this.$route.query.activityId;
     console.log(activityId);
     this.getActivityById(activityId);
+    this.commentData = CommentData.comment.data;
   },
   methods: {
     getActivityById(activityId) {
