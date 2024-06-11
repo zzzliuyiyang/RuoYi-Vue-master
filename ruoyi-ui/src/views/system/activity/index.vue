@@ -318,6 +318,9 @@
         <el-form-item label="报销金额" prop="money">
           <el-input v-model="accountform.money" placeholder="请输入报销金额" />
         </el-form-item>
+        <el-form-item label="评论内容" prop="content">
+          <el-input v-model="accountform.remark" type="textarea" placeholder="请输入内容" />
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitAccountForm">确 定</el-button>
@@ -491,7 +494,8 @@ export default {
         userId: null,
         activityId: null,
         money: null,
-        state: null
+        state: null,
+        remark: null
       };
       this.resetForm("account");
     },

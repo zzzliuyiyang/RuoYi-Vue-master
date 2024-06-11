@@ -108,6 +108,7 @@
           <dict-tag :options="dict.type.apply_state" :value="scope.row.state"/>
         </template>
       </el-table-column>
+      <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -256,7 +257,8 @@ export default {
         userId: null,
         activityId: null,
         money: null,
-        state: null
+        state: null,
+        remark: null
       };
       this.resetForm("form");
     },

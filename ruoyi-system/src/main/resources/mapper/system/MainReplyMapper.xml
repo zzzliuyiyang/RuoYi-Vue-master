@@ -35,7 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <sql id="selectMainReplyVo">
 --         select id, date, activity_id, from_id, from_name, from_avatar, like_num, content  from main_reply
     </sql>
-
+ 
     <select id="selectMainReplyList" parameterType="MainReply" resultMap="MainReplyResult">
         <include refid="selectMainReplyVo"/>
         <where>  

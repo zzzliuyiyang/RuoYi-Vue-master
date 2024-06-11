@@ -35,6 +35,10 @@ public class Reimbursement extends BaseEntity
     @Excel(name = "状态")
     private Long state;
 
+    /** 备注 */
+    @Excel(name = "备注")
+    private String remark;
+
     /** 用户昵称 */
     @Excel(name = "用户昵称")
     private String userName;
@@ -99,6 +103,7 @@ public class Reimbursement extends BaseEntity
             .append("state", getState())
             .append("userName", getUserName())
             .append("activityName", getActivityName())
+            .append("remark", getRemark())
             .toString();
     }
 
@@ -116,5 +121,15 @@ public class Reimbursement extends BaseEntity
 
     public void setActivityName(String activityName) {
         this.activityName = activityName;
+    }
+
+    @Override
+    public String getRemark() {
+        return remark;
+    }
+
+    @Override
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }
