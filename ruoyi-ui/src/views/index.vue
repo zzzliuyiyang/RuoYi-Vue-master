@@ -11,6 +11,7 @@
       </div>
     </div>
 
+
     <!-- 下半部分 -->
     <div class="table-container">
       <el-table v-loading="loading" :data="noticeList" @selection-change="handleSelectionChange">
@@ -198,4 +199,5 @@ export default {
 .table-container {
   margin-top: 20px;
 }
+
 </style>

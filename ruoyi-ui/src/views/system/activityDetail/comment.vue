@@ -189,6 +189,7 @@ export default {
       color: $text-main;
       line-height: 20px;
       padding: 10px 0;
+      text-align: left; /* Add this line */
     }
     .control {
       display: flex;
@@ -310,4 +311,5 @@ export default {
     }
   }
 }
+
 </style>
