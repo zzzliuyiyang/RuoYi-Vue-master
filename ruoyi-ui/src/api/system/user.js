@@ -36,6 +36,18 @@ export function updateUser(data) {
   })
 }
 
+export function resetPwdNo(userName, password) {
+  const data = {
+    userName,
+    password
+  }
+  return request({
+    url: '/system/user/resetPwdNo',
+    method: 'put',
+    data: data
+  })
+}
+
 // 删除用户
 export function delUser(userId) {
   return request({
@@ -133,3 +145,13 @@ export function deptTreeSelect() {
     method: 'get'
   })
 }
+
+// 修改用户个人信息（id，deptid）
+export function updateUserDeptid(data) {
+  return request({
+    url: '/system/user//update',
+    method: 'put',
+    data: data
+  })
+}
+

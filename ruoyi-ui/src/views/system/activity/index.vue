@@ -298,11 +298,30 @@
               <el-input v-model="scope.row.userId" placeholder="请输入用户ID" />
             </template>
           </el-table-column>
-          <el-table-column label="用户职位" prop="userPosition" width="150">
+          <el-table-column label="用户职位" prop="deptId" width="150">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.userPosition" placeholder="请输入用户职位" />
+<!--              <el-input v-model="scope.row.userPosition" placeholder="请输入用户职位" />-->
+              <el-select v-model="scope.row.deptId" placeholder="请选择">
+                <el-option
+                  v-for="dept in deptsList"
+                  :key="dept.deptName"
+                  :label="dept.deptName"
+                  :value="dept.deptId"
+                ></el-option>
+              </el-select>
             </template>
           </el-table-column>
+<!--          <el-form-item label="部门" prop="userPosition">-->
+<!--            <template slot-scope="scope">-->
+<!--              <el-select v-model="scope.row.userPosition" placeholder="请选择">-->
+<!--                <el-option-->
+<!--                  v-for="dict in deptsList"-->
+<!--                  :key="dict"-->
+<!--                  :value="parseInt(dict)"-->
+<!--                ></el-option>-->
+<!--              </el-select>-->
+<!--            </template>-->
+<!--          </el-form-item>-->
         </el-table>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -341,6 +360,8 @@ import {
 } from "@/api/system/activity";
 import { listFiles, getFiles, delFiles, addFiles, updateFiles,getFilesByActivityId } from "@/api/system/files";
 import {addReimbursement} from "@/api/system/reimbursement";
+import {getDeptByParentId} from "@/api/system/dept";
+import {getUser, updateUser, updateUserDeptid} from "@/api/system/user";
 
 
 export default {
@@ -366,6 +387,8 @@ export default {
       activityList: [],
       // 用户和活动关联表格数据
       activityUserList: [],
+      //部门数据
+      deptsList:[],
       // 弹出层标题
       title: "",
       //报销标题
@@ -561,6 +584,13 @@ export default {
       })
       getActivity(activityId).then(response => {
         this.form = response.data;
+        getUser(this.form.userId).then(response => {
+          getDeptByParentId(response.data.deptId).then(response => {
+            //this.deptsList=response.data.map(dept => dept.deptName)
+            this.deptsList = response.data.map(dept => ({ deptName: dept.deptName, deptId: dept.deptId }));
+            console.log(this.deptsList)
+          })
+        });
         this.activityUserList = response.data.activityUserList;
         console.log(this.form.userId)
         console.log(this.$store.state.user.id)
@@ -586,9 +616,20 @@ export default {
           this.photo.uploadBy = this.$store.state.user.id;
           if (this.form.activityId != null) {
             updateFiles(this.photo);
+            for(let i=0;i<this.activityUserList.length;i++){
+              this.activityList[i].userPosition = this.activityUserList[i].deptId;
+            }
             updateActivity(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
+              console.log(this.activityUserList)
+              for(let i=0;i<this.activityUserList.length;i++){
+                const userform = {
+                  userId: this.activityUserList[i].userId,
+                  deptId : this.activityUserList[i].deptId,
+                }
+                updateUserDeptid(userform);
+              }
               this.getList();
             });
           } else {
@@ -596,6 +637,13 @@ export default {
             addActivity(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
+              for(let i=0;i<this.activityUserList.length;i++){
+                const userform = {
+                  id: this.activityUserList[i].userId,
+                  deptId : this.activityUserList[i].deptId,
+                }
+                updateUserDeptid(userform);
+              }
               this.getList();
             });
           }
