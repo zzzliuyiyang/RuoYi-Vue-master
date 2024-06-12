@@ -1,6 +1,8 @@
 package com.ruoyi.system.service;
 
 import java.util.List;
+
+import com.ruoyi.system.domain.AppendReply;
 import com.ruoyi.system.domain.MainReply;
 
 /**
@@ -58,4 +60,21 @@ public interface IMainReplyService
      * @return 结果
      */
     public int deleteMainReplyById(Long id);
+
+    /**
+     * 查询评论活动ID
+     *
+     * @param id 活动ID
+     * @return 评论
+     */
+    public List<MainReply> selectMainReplyByActivityId(Long id);
+
+
+    /**
+     * 新增子评论
+     *
+     * @param appendReply 评论
+     * @return 结果
+     */
+    public int insertAppendReply(AppendReply appendReply);
 }

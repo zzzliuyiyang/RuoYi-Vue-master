@@ -63,7 +63,13 @@
 
     <div class="bottom-section">
       <h2 class="forum-title">论坛发言</h2>
-      <comment :comments="commentData"></comment>
+      <comment :comments="commentData" @sendComment="addSonComment" :key="refreshKey"></comment>
+    </div>
+
+    <div class="comment-box">
+      <h2>添加评论</h2>
+      <textarea v-model="newComment" placeholder="输入你的评论"></textarea>
+      <button @click="addComment">添加评论</button>
     </div>
   </div>
 </template>
@@ -76,6 +82,7 @@ import {
 import {getFilesByActivityId}from"@/api/system/files";
 import * as CommentData from '/src/views/system/activityDetail/mockdata';
 import comment from '/src/views/system/activityDetail/comment';
+import {addReply, addSonReply, getReply, getReplyActivity} from "@/api/system/reply";
 
 export default {
   name: "Activity",
@@ -85,6 +92,7 @@ export default {
   },
   data() {
     return {
+      newComment:'',
       activityId: null,
       loading: true,
       ids: [],
@@ -95,6 +103,8 @@ export default {
       total: 0,
       activityList: [],
       activityUserList: [],
+      //评论区组件刷新
+      refreshKey:0,
       title: "",
       open: false,
       queryParams: {
@@ -113,7 +123,9 @@ export default {
       },
       form: {},
       photo: {},
+      reply: {},
 
+      sonfrom:{},
 
 
       //原生图片
@@ -129,14 +141,65 @@ export default {
     let activityId = this.$route.query.activityId;
     console.log(activityId);
     this.getActivityById(activityId);
+    this.getComment(activityId);
 
-    this.commentData = CommentData.comment.data;
-
+    //this.commentData = CommentData.comment.data;
+    this.activityId = activityId;
     console.log(this.originPhoto.filePath);
     console.log(this.activityList);
 
   },
   methods: {
+    /** 提交主评论 */
+    addComment() {
+      if (this.newComment.trim() !== '') {
+        this.resetReply();
+        this.reply.activityId = this.activityId;
+        this.reply.fromId = this.$store.state.user.id;
+        this.reply.fromName = this.$store.state.user.nickName;
+        this.reply.fromAvatar = this.$store.state.user.avatar;
+        this.reply.content = this.newComment;
+        this.reply.date = new Date();
+        this.reply.likeNum = 0;
+        addReply(this.reply);
+        this.newComment = '';
+        this.getComment(this.activityId);
+        this.refreshKey++;
+      } else {
+        alert('评论不能为空');
+      }
+    },
+
+    // /** 提交子评论 */
+    // addSonComment(data) {
+    //   let obj = {};
+    //   obj.fromId = this.$store.state.user.id;
+    //   obj.fromName = this.$store.state.user.nickName;
+    //   obj.fromAvatar = this.$store.state.user.avatar;
+    //   obj.toId = data.toId;
+    //   obj.toName = data.toName;
+    //   obj.toAvatar = data.toAvatar;
+    //   obj.date = new Date();
+    //   obj.content = data.content;
+    //   this.appendReplyList.push(obj);
+    // },
+
+    /** 提交子评论 */
+    addSonComment(data) {
+      this.sonfrom.fromId = this.$store.state.user.id;
+      this.sonfrom.fromName = this.$store.state.user.nickName;
+      this.sonfrom.fromAvatar = this.$store.state.user.avatar;
+      this.sonfrom.toId = data.toId;
+      this.sonfrom.toName = data.toName;
+      this.sonfrom.toAvatar = data.toAvatar;
+      this.sonfrom.date = new Date();
+      this.sonfrom.content = data.content;
+      this.sonfrom.commentId = data.commentId;
+      addSonReply(this.sonfrom);
+      this.getComment(this.activityId);
+      this.refreshKey++;
+    },
+
     getActivityById(activityId) {
       this.loading = true;
       Promise.all([
@@ -160,6 +223,18 @@ export default {
 
 
 
+    /** 查询评论区 */
+    getComment(activityId) {
+      this.loading = true;
+      getReplyActivity(activityId).then(response => {
+        this.commentData = response.data;
+      }).then(() => {
+        this.loading = false;
+      })
+    },
+
+
+
     /** 查询活动管理列表 */
 
     getList() {
@@ -179,6 +254,21 @@ export default {
         activityId: null
       };
       this.resetForm("photo");
+    },
+    // 表单重置
+    resetReply() {
+      this.reply = {
+        id: null,
+        date: null,
+        activityId: null,
+        fromId: null,
+        fromName: null,
+        fromAvatar: null,
+        likeNum: null,
+        content: null
+      };
+      this.appendReplyList = [];
+      this.resetForm("reply");
     },
     rowActivityUserIndex({ row, rowIndex }) {
       row.index = rowIndex + 1;

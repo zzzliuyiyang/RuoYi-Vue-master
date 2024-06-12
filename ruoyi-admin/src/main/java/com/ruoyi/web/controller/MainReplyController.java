@@ -2,6 +2,8 @@ package com.ruoyi.web.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.system.domain.AppendReply;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -69,6 +71,18 @@ public class MainReplyController extends BaseController
         return success(mainReplyService.selectMainReplyById(id));
     }
 
+
+    /**
+     * 获取评论详细信息活动ID
+     */
+    @PreAuthorize("@ss.hasPermi('system:reply:list')")
+    @GetMapping(value = "/activity/{id}")
+    public AjaxResult selectMainReplyByActivityId(@PathVariable("id") Long id)
+    {
+        List<MainReply> list =mainReplyService.selectMainReplyByActivityId(id);
+        return success(list);
+    }
+
     /**
      * 新增评论
      */
@@ -78,6 +92,17 @@ public class MainReplyController extends BaseController
     public AjaxResult add(@RequestBody MainReply mainReply)
     {
         return toAjax(mainReplyService.insertMainReply(mainReply));
+    }
+
+    /**
+     * 新增子评论
+     */
+    @PreAuthorize("@ss.hasPermi('system:reply:add')")
+    @Log(title = "子评论", businessType = BusinessType.INSERT)
+    @PostMapping("/son")
+    public AjaxResult addSon(@RequestBody AppendReply appendReply)
+    {
+        return toAjax(mainReplyService.insertAppendReply(appendReply));
     }
 
     /**

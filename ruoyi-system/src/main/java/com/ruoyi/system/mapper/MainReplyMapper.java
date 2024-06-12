@@ -21,6 +21,15 @@ public interface MainReplyMapper
     public MainReply selectMainReplyById(Long id);
 
     /**
+     * 查询评论活动ID
+     *
+     * @param id 活动ID
+     * @return 评论
+     */
+    public List<MainReply> selectMainReplyByActivityId(Long id);
+
+
+    /**
      * 查询评论列表
      * 
      * @param mainReply 评论
@@ -84,4 +93,13 @@ public interface MainReplyMapper
      * @return 结果
      */
     public int deleteAppendReplyByCommentId(Long id);
+
+
+    /**
+     * 新增子评论
+     *
+     * @param appendReply 回复评论列表
+     * @return 结果
+     */
+    public int insertAppendReply(AppendReply appendReply);
 }

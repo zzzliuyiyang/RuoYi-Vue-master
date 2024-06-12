@@ -106,6 +106,17 @@ public class MainReplyServiceImpl implements IMainReplyService
     }
 
     /**
+     * 查询评论活动ID
+     *
+     * @param id 活动ID
+     * @return 评论
+     */
+    @Override
+    public List<MainReply> selectMainReplyByActivityId(Long id) {
+        return mainReplyMapper.selectMainReplyByActivityId(id);
+    }
+
+    /**
      * 新增回复评论信息
      * 
      * @param mainReply 评论对象
@@ -127,5 +138,19 @@ public class MainReplyServiceImpl implements IMainReplyService
                 mainReplyMapper.batchAppendReply(list);
             }
         }
+    }
+
+
+    /**
+     * 新增子评论
+     *
+     * @param appendReply 评论
+     * @return 结果
+     */
+    @Transactional
+    @Override
+    public int insertAppendReply(AppendReply appendReply)
+    {
+        return mainReplyMapper.insertAppendReply(appendReply);
     }
 }

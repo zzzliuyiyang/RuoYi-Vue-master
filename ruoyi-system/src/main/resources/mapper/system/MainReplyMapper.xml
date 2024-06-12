@@ -9,6 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="date"    column="date"    />
         <result property="activityId"    column="activity_id"    />
         <result property="fromId"    column="from_id"    />
+<!--        修改过-->
         <result property="fromName"    column="from_name"    />
         <result property="fromAvatar"    column="from_avatar"    />
         <result property="likeNum"    column="like_num"    />
@@ -33,6 +34,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectMainReplyVo">
+        select main_reply.* ,
+               ruoyi.sys_user.nick_name as nick_name
+        from main_reply
+                 left join sys_user on main_reply.from_id = sys_user.user_id
 --         select id, date, activity_id, from_id, from_name, from_avatar, like_num, content  from main_reply
     </sql>
  
@@ -55,6 +60,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         from main_reply a
         left join append_reply b on b.comment_id = a.id
         where a.id = #{id}
+    </select>
+
+    <select id="selectMainReplyByActivityId" parameterType="Long" resultMap="MainReplyAppendReplyResult">
+        select a.id, a.date, a.activity_id, a.from_id, a.from_name, a.from_avatar, a.like_num, a.content,
+               b.id as sub_id, b.comment_id as sub_comment_id, b.from_id as sub_from_id, b.from_name as sub_from_name, b.from_avatar as sub_from_avatar, b.to_id as sub_to_id, b.to_name as sub_to_name, b.to_avatar as sub_to_avatar, b.date as sub_date, b.content as sub_content
+        from main_reply a
+                 left join append_reply b on b.comment_id = a.id
+        where a.activity_id = #{id}
     </select>
         
     <insert id="insertMainReply" parameterType="MainReply" useGeneratedKeys="true" keyProperty="id">
@@ -121,4 +134,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             ( #{item.id}, #{item.commentId}, #{item.fromId}, #{item.fromName}, #{item.fromAvatar}, #{item.toId}, #{item.toName}, #{item.toAvatar}, #{item.date}, #{item.content})
         </foreach>
     </insert>
+
+    <insert id="insertAppendReply" parameterType="AppendReply" useGeneratedKeys="true" keyProperty="id">
+        insert into append_reply
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="commentId != null">comment_id,</if>
+            <if test="fromId != null">from_id,</if>
+            <if test="fromName != null and fromName != ''">from_name,</if>
+            <if test="fromAvatar != null and fromAvatar != ''">from_avatar,</if>
+            <if test="toId != null">to_id,</if>
+            <if test="toName != null and toName != ''">to_name,</if>
+            <if test="toAvatar != null and toAvatar != ''">to_avatar,</if>
+            <if test="date != null">date,</if>
+            <if test="content != null and content != ''">content,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="commentId != null">#{commentId},</if>
+            <if test="fromId != null">#{fromId},</if>
+            <if test="fromName != null and fromName != ''">#{fromName},</if>
+            <if test="fromAvatar != null and fromAvatar != ''">#{fromAvatar},</if>
+            <if test="toId != null">#{toId},</if>
+            <if test="toName != null and toName != ''">#{toName},</if>
+            <if test="toAvatar != null and toAvatar != ''">#{toAvatar},</if>
+            <if test="date != null">#{date},</if>
+            <if test="content != null and content != ''">#{content},</if>
+        </trim>
+    </insert>
+
 </mapper>

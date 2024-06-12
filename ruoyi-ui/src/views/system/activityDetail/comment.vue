@@ -21,7 +21,7 @@
         </span>
       </div>
       <div class="reply">
-        <div class="item" v-for="reply in item.reply">
+        <div class="item" v-for="reply in item.appendReplyList">
           <div class="reply-content">
             <span class="from-name">{{reply.fromName}}</span><span>: </span>
             <span class="to-name">@{{reply.toName}}</span>
@@ -35,7 +35,7 @@
             </span>
           </div>
         </div>
-        <div class="write-reply" v-if="item.reply.length > 0" @click="showCommentInput(item)">
+        <div class="write-reply" v-if="item.appendReplyList.length > 0" @click="showCommentInput(item)">
           <i class="el-icon-edit"></i>
           <span class="add-comment">添加新评论</span>
         </div>
@@ -54,6 +54,7 @@
             </div>
           </div>
         </transition>
+
       </div>
     </div>
   </div>
@@ -74,7 +75,17 @@ export default {
   data() {
     return {
       inputComment: '',
-      showItemId: ''
+      showItemId: '',
+      // 表单
+      form: {},
+      //二级评论信息
+      sonReplyInfo:{
+        content: '',
+        toId: null,
+        toName: '',
+        toAvatar: '',
+        commentId: null,
+      }
     }
   },
   computed: {},
@@ -108,6 +119,8 @@ export default {
      */
     commitComment() {
       console.log(this.inputComment);
+      this.sonReplyInfo.content = this.inputComment
+      this.$emit('sendComment', this.sonReplyInfo)
     },
 
     /**
@@ -115,9 +128,15 @@ export default {
      * item: 当前大评论
      * reply: 当前回复的评论
      */
-    showCommentInput(item, reply) {
-      if (reply) {
-        this.inputComment = "@" + reply.fromName + " "
+    showCommentInput(item, appendReplyList) {
+      this.sonReplyInfo.toId = item.fromId
+      this.sonReplyInfo.toName = item.fromName
+      this.sonReplyInfo.toAvatar = item.fromAvatar
+      this.sonReplyInfo.commentId = item.id
+      this.sonReplyInfo.content = this.inputComment
+      if (appendReplyList) {
+        this.inputComment = "@" + appendReplyList.fromName + " "
+
       } else {
         this.inputComment = ''
       }
@@ -126,6 +145,7 @@ export default {
   },
   created() {
     console.log(this.comments)
+    this.form=this.comments
   }
 }
 </script>
