@@ -298,10 +298,10 @@
               <el-input v-model="scope.row.userId" placeholder="请输入用户ID" />
             </template>
           </el-table-column>
-          <el-table-column label="用户职位" prop="deptId" width="150">
+          <el-table-column label="用户职位" prop="userPosition" width="150">
             <template slot-scope="scope">
 <!--              <el-input v-model="scope.row.userPosition" placeholder="请输入用户职位" />-->
-              <el-select v-model="scope.row.deptId" placeholder="请选择">
+              <el-select v-model="scope.row.userPosition" placeholder="请选择">
                 <el-option
                   v-for="dept in deptsList"
                   :key="dept.deptName"
@@ -581,28 +581,32 @@ export default {
       const activityId = row.activityId || this.ids
       getFilesByActivityId(activityId).then(response => {
         this.photo = response.data;
+        getActivity(activityId).then(response => {
+          this.form = response.data;
+          getUser(this.form.userId).then(response => {
+            getDeptByParentId(response.data.deptId).then(response => {
+              //this.deptsList=response.data.map(dept => dept.deptName)
+              this.deptsList = response.data.map(dept => ({ deptName: dept.deptName, deptId: dept.deptId }));
+              console.log(this.deptsList)
+            })
+          });
+          this.activityUserList = response.data.activityUserList;
+          for(let i=0;i<this.activityUserList.length;i++){
+            this.activityUserList[i].userPosition = response.data.activityUserList[i].userPosition.toNumber;
+          }
+          console.log(this.form.userId)
+          console.log(this.$store.state.user.id)
+          if (this.form.userId === this.$store.state.user.id) {
+            this.open = true;
+            this.title = "修改活动管理";
+          } else {
+            this.$modal.msgError("当前用户无法修改该活动");
+          }
+        }).catch(error => {
+          // 错误处理，比如活动获取失败的情况
+          this.$modal.msgError(error.message || "获取活动信息失败");
       })
-      getActivity(activityId).then(response => {
-        this.form = response.data;
-        getUser(this.form.userId).then(response => {
-          getDeptByParentId(response.data.deptId).then(response => {
-            //this.deptsList=response.data.map(dept => dept.deptName)
-            this.deptsList = response.data.map(dept => ({ deptName: dept.deptName, deptId: dept.deptId }));
-            console.log(this.deptsList)
-          })
-        });
-        this.activityUserList = response.data.activityUserList;
-        console.log(this.form.userId)
-        console.log(this.$store.state.user.id)
-        if (this.form.userId === this.$store.state.user.id) {
-          this.open = true;
-          this.title = "修改活动管理";
-        } else {
-          this.$modal.msgError("当前用户无法修改该活动");
-        }
-      }).catch(error => {
-        // 错误处理，比如活动获取失败的情况
-        this.$modal.msgError(error.message || "获取活动信息失败");
+
 
       });
     },
@@ -611,13 +615,14 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           this.form.activityUserList = this.activityUserList;
+
           this.photo.activityId = this.form.activityId;
           this.photo.fileName = "头像"+this.form.activityName;
           this.photo.uploadBy = this.$store.state.user.id;
           if (this.form.activityId != null) {
             updateFiles(this.photo);
             for(let i=0;i<this.activityUserList.length;i++){
-              this.activityList[i].userPosition = this.activityUserList[i].deptId;
+              this.form.activityUserList[i].userPosition = this.activityUserList[i].userPosition;
             }
             updateActivity(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
@@ -626,7 +631,7 @@ export default {
               for(let i=0;i<this.activityUserList.length;i++){
                 const userform = {
                   userId: this.activityUserList[i].userId,
-                  deptId : this.activityUserList[i].deptId,
+                  deptId : this.activityUserList[i].userPosition,
                 }
                 updateUserDeptid(userform);
               }
@@ -649,6 +654,7 @@ export default {
           }
         }
       });
+      this.reset()
     },
     /** 申请按钮操作 */
     handleApply: function (row){
