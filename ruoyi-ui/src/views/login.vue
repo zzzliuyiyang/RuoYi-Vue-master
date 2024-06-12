@@ -52,24 +52,70 @@
         <div style="float: right;" v-if="register">
           <router-link class="link-type" :to="'/register'">立即注册</router-link>
         </div>
+        <div style="float: left ;">
+          <button type="button" class="link-type" @click="forgetPassword">忘记密码</button>
+        </div>
+      </el-form-item>
+      <!--  第三方应用登录 -->
+      <el-form-item style="width:100%;">
+        <div class="oauth-login" style="display:flex">
+          <div class="oauth-login-item" @click="doSocialLogin('gitee')">
+            <svg-icon icon-class="gitee" style="height:1.2em" />
+            <span>Gitee</span>
+          </div>
+          <div class="oauth-login-item" @click="doSocialLogin('github')">
+            <svg-icon icon-class="github" style="height:1.2em" />
+            <span>Github</span>
+          </div>
+          <div class="oauth-login-item">
+            <svg-icon icon-class="weixin" style="height:1.2em" />
+            <span>Weixin</span>
+          </div>
+          <div class="oauth-login-item">
+            <svg-icon icon-class="qq" style="height:1.2em" />
+            <span>QQ</span>
+          </div>
+        </div>
       </el-form-item>
     </el-form>
     <!--  底部  -->
     <div class="el-login-footer">
       <span>Copyright © 2018-2024 ruoyi.vip All Rights Reserved.</span>
     </div>
+
+    <!-- 找回密码对话框 -->
+    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+      <el-form ref="form" :model="form"  label-width="80px">
+        <el-form-item label="账号" prop="activityId">
+          <el-input v-model="form.userName" placeholder="请输入用户id" />
+        </el-form-item>
+        <el-form-item label="新密码" prop="newPassword">
+          <el-input v-model="form.password" placeholder="请输入新密码" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitForm">确 定</el-button>
+        <el-button @click="cancel">取 消</el-button>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 
 <script>
 import { getCodeImg } from "@/api/login";
+import { authBinding } from "@/api/system/auth";
 import Cookies from "js-cookie";
 import { encrypt, decrypt } from '@/utils/jsencrypt'
+import {resetPwdNo, updateUser} from "@/api/system/user";
 
 export default {
   name: "Login",
   data() {
     return {
+      title: "找回密码",
+      form: {},
+      open : false,
       codeUrl: "",
       loginForm: {
         username: "admin",
@@ -108,6 +154,19 @@ export default {
     this.getCookie();
   },
   methods: {
+    forgetPassword(){
+      this.open = true;
+    },
+    submitForm(){
+      resetPwdNo(this.form.userName, this.form.password)
+        .then(res => {
+          this.$message.success('密码修改成功');
+        })
+        this.open = false;
+    },
+    cancel(){
+      this.open = false;
+    },
     getCode() {
       getCodeImg().then(res => {
         this.captchaEnabled = res.captchaEnabled === undefined ? true : res.captchaEnabled;
@@ -132,9 +191,9 @@ export default {
         if (valid) {
           this.loading = true;
           if (this.loginForm.rememberMe) {
-            //Cookies.set("username", this.loginForm.username, { expires: 30 });
-            //Cookies.set("password", encrypt(this.loginForm.password), { expires: 30 });
-            //Cookies.set('rememberMe', this.loginForm.rememberMe, { expires: 30 });
+            Cookies.set("username", this.loginForm.username, { expires: 30 });
+            Cookies.set("password", encrypt(this.loginForm.password), { expires: 30 });
+            Cookies.set('rememberMe', this.loginForm.rememberMe, { expires: 30 });
           } else {
             Cookies.remove("username");
             Cookies.remove("password");
@@ -149,6 +208,11 @@ export default {
             }
           });
         }
+      });
+    },
+    doSocialLogin(source) {
+      authBinding(source).then(res => {
+        top.location.href = res.msg;
       });
     }
   }
@@ -215,5 +279,23 @@ export default {
 }
 .login-code-img {
   height: 38px;
+}
+.oauth-login {
+  display: flex;
+  align-items: center;
+  cursor:pointer;
+}
+.oauth-login-item {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+.oauth-login-item img {
+  height: 25px;
+  width: 25px;
+}
+.oauth-login-item span:hover {
+  text-decoration: underline red;
+  color: red;
 }
 </style>

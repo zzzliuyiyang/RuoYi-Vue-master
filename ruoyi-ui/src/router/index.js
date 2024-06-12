@@ -42,8 +42,18 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/findPassword',
+    component: () => import('@/views/findPassword'),
+    hidden: true
+  },
+  {
     path: '/login',
     component: () => import('@/views/login'),
+    hidden: true
+  },
+  {
+    path: '/social-login',
+    component: () => import('@/views/socialLogin'),
     hidden: true
   },
   {

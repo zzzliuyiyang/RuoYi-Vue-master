@@ -50,3 +50,11 @@ export function delDept(deptId) {
     method: 'delete'
   })
 }
+
+//根据父级id获取子级所有部门
+export function getDeptByParentId(parentId) {
+  return request({
+    url: '/system/dept/depts/' + parentId,
+    method: 'get'
+  })
+}
