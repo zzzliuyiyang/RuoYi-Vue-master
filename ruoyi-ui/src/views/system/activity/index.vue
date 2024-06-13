@@ -544,6 +544,7 @@ export default {
       this.resetPhoto();
       this.open = true;
       this.form.createdTime = new Date();
+      this.form.userId = this.$store.state.user.id;
       this.title = "添加活动管理";
     },
     /** 报销按钮操作 */
@@ -592,7 +593,13 @@ export default {
           });
           this.activityUserList = response.data.activityUserList;
           for(let i=0;i<this.activityUserList.length;i++){
-            this.activityUserList[i].userPosition = response.data.activityUserList[i].userPosition.toNumber;
+            if(response.data.activityUserList[i].userPosition){
+              this.activityUserList[i].userPosition = response.data.activityUserList[i].userPosition.toNumber;
+            }
+            else {
+              this.activityUserList[i].userPosition = 0;
+            }
+
           }
           console.log(this.form.userId)
           console.log(this.$store.state.user.id)
@@ -655,6 +662,7 @@ export default {
         }
       });
       this.reset()
+      this.open = false;
     },
     /** 申请按钮操作 */
     handleApply: function (row){
@@ -727,6 +735,7 @@ export default {
     handleActivityUserSelectionChange(selection) {
       this.checkedActivityUser = selection.map(item => item.index)
     },
+
     /** 导出按钮操作 */
     handleExport() {
       this.download('system/activity/export', {
