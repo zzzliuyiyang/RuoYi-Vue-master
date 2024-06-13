@@ -298,6 +298,7 @@ export default {
           const applyUser={
             activityId:row.activityId,
             userId:row.userId,
+            userPosition:0,
           }
           addApplyUser(applyUser);
         }
